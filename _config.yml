@@ -20,9 +20,9 @@ minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "dark", "dirt", "
 locale                   : "en-US"
 title                    : "민트촉촉"
 title_separator          : "-"
-subtitle                 : "START SOMEWHERE" # site tagline that appears below site title in masthead
+subtitle                 : "Do What You Like Like What You Do" # site tagline that appears below site title in masthead
 name                     : "MINT Kang"
-description              : "START SOMEWHERE"
+description              : "Do What You Like Like What You Do"
 url                      : "https://authentic75.github.io/" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  :  "" # the subpath of your site, e.g.
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -95,9 +95,9 @@ analytics:
 
 # Site Author
 author:
-  name             : "MINT kang"
+  name             : "MINT Kang"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Do What You Like Like What You Do"
+  bio              : "START SOMEWHERE"
   location         : "내 마음속"
   email            :
   links:
