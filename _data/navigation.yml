@@ -6,6 +6,11 @@ main:
     url: "/about/" # 클릭시 이동할 URL
   - title: "Category"
     url: /categories/
+  - title: "Year"
+    url: /year-archive/
+  - title: "Tags"
+    url: /tags/
+
 
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
