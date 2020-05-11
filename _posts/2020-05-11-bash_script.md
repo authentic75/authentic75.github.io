@@ -85,6 +85,7 @@ set ABC=”local Variable3”
 unset XYZ
 export XYZ="test2"  
 export -n ABC  
+위의 네가지 명령어를 사용해보자
 {: .notice}
 ```console
 [root@ns1 ~]# set ABC=”local Variable3”
@@ -97,19 +98,27 @@ export -n ABC
 [root@ns1 ~]# ABC="test1"
 [root@ns1 ~]# export XYZ="test2"
 [root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
+```
+```
 ABC=test1
 XYZ=test2
 _=XYZ
-
+```
+```console
 [root@ns1 ~]# export ABC
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수만 출력
+```
+```
 ABC=test1
 XYZ=test2
-
+```
+```console
 [root@ns1 ~]# export -n ABC
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수만 출력
+```
+```
 XYZ=test2			#ABC 삭제됨
-
+```
 [root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
 ABC=test1
 XYZ=test2
@@ -139,3 +148,10 @@ echo "사용자 이름: " $USER
 echo "홈 디렉토리: " $HOME
 exit 0
 ```
+```
+사용자 이름:  root
+홈 디렉토리:  /root
+```
+환경변수를 이용하여 user name과 home 경로를 출력해봤다  
+"#!/bin/sh"는  bash shell 스크립트임을 알리는 선언문이다
+{: .notice}
