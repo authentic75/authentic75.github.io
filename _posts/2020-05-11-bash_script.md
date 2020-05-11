@@ -51,25 +51,30 @@ read_time: false # read_time을 출력할지 여부 1min read 같은것!
   
 **지역변수(로컬변수), 쉘 변수**  
 **전역변수(글로벌변수), 환경 변수**  
+login(로그인쉘) > bash(서브쉘) > ksh(서브쉘)
+Local > 사라짐 > 사라짐  
+Global > 남아있다 > 남아있다
 {: .notice}
 ```console 
 [root@ns1 ~]# ABC=”Local Variable”
 [root@ns1 ~]# export XYZ=”Global Variable” #Export 사용하면 전역 변수로 사용 할 수 있다.
 [root@ns1 ~]# echo $ABC
 [root@ns1 ~]# echo $XYZ
-[root@ns1 ~]# /bin/ksh 	
-
+```
+```console 
+[root@ns1 ~]# /bin/ksh
+# pstree | tail -n 10 #bash아래 ksh가 fork됨
+# ABC=”Local Variable2” 생성
+# echo $ABC
 #Ksh을 실행하여 지역변수와 전역변수 테스트
-#Ksh로 다시 들어가서 $ABC를 부르면 호출이 안된다.
-#하지만 글로별 변수인 XYZ는 사용 가능하다.
-
-[root@ns1 ~]# ABC=”Local Variable2” 생성
-[root@ns1 ~]# echo $ABC
-
-[root@ns1 ~]# /bin/tcsh	#tcsh을 실행하여 다시 지역변수와 전역변수를 출력해본다
-[root@ns1 ~]# echo $XYZ
-[root@ns1 ~]# echo $ABC	#XYZ는 출력가능하지만 ABC는 호출이 안된다
-[root@ns1 ~]# ABC=”Local Variable3”
+#Ksh로 다시 들어가서 $ABC를 부르면 호출이 안된다
+#하지만 글로별 변수인 XYZ는 사용 가능하다
+```
+```console 
+# /bin/tcsh	#tcsh을 실행하여 다시 지역변수와 전역변수를 출력해본다
+# echo $XYZ
+# echo $ABC	#XYZ는 출력가능하지만 ABC는 호출이 안된다
+# ABC=”Local Variable3”
 ```
 ---
 #### Set과 Env
@@ -79,33 +84,36 @@ read_time: false # read_time을 출력할지 여부 1min read 같은것!
 {: .notice}
 ```console
 [root@ns1 ~]# set ABC=”local Variable3”
-[root@ns1 ~]# echo $ABC
-[root@ns1 ~]# echo $XYZ
+[root@ns1 ~]# echo $ABC //지역
+[root@ns1 ~]# echo $XYZ //전역
 
 [root@ns1 ~]# unset XYZ #환경변수에서 지워진다 (set에서도 env에서도 전부 지워짐)
 [root@ns1 ~]# export -n ABC #전역변수에서만 제거 가능하다
 
 [root@ns1 ~]# ABC="test1"
 [root@ns1 ~]# export XYZ="test2"
-[root@ns1 ~]# set | grep "ABC\|XYZ"
+[root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
 ABC=test1
 XYZ=test2
 _=XYZ
 
 [root@ns1 ~]# export ABC
-[root@ns1 ~]# env | grep "ABC\|XYZ"
+[root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수만 출력
 ABC=test1
 XYZ=test2
+
 [root@ns1 ~]# export -n ABC
-[root@ns1 ~]# env | grep "ABC\|XYZ"
-XYZ=test2
-[root@ns1 ~]# set | grep "ABC\|XYZ"
+[root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수만 출력
+XYZ=test2							#ABC 삭제됨
+
+[root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
 ABC=test1
 XYZ=test2
 
 [root@ns1 ~]# unset XYZ
-[root@ns1 ~]# set | grep "ABC\|XYZ"
+[root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
 ABC=test1
-_=XYZ
-[root@ns1 ~]# env | grep "ABC\|XYZ"
+_=XYZ								#삭제됨
+
+[root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수 출력
 ```
