@@ -37,7 +37,7 @@ read_time: false # read_time을 출력할지 여부 1min read 같은것!
 ---
 * 셸은 여러가지 환경 변수를 값을 갖는데, 설정된 환경 변수는 echo $환경변수이름 형식으로 명령을 실행하면 확인할 수 있다.  
 * $HOME $PS1 $PWD $LANG $HOSTNAME  .. 이러한 환경변수를 사용하여 명령어를 더 쉽게 실행 할 수 있도록 한다.  
-*env 명령을 사용하면 환경변수가 어떤것들이 있는지 전부 볼 수 있다.  
+* env 명령을 사용하면 환경변수가 어떤것들이 있는지 전부 볼 수 있다.  
 {: .notice}
 ```console
 [root@ns1 ~]# env | grep HISTSIZE #HISTSIZE가 뭔지 알아보자
@@ -50,7 +50,7 @@ read_time: false # read_time을 출력할지 여부 1min read 같은것!
   
 **지역변수(로컬변수), 쉘 변수**  
 **전역변수(글로벌변수), 환경 변수**  
-login(로그인쉘) > bash(서브쉘) > ksh(서브쉘)
+login(로그인쉘) > bash(서브쉘) > ksh(서브쉘)  
 Local > 사라짐 > 사라짐  
 Global > 남아있다 > 남아있다
 {: .notice}
@@ -81,10 +81,10 @@ Global > 남아있다 > 남아있다
 **set**은 지역, 전역변수를 모두 볼 수있다.  
 **env**는 전역변수만 볼 수있다.
 {: .notice}
-set ABC=”local Variable3”
-unset XYZ
-export XYZ="test2"  
-export -n ABC  
+set ABC=”local Variable3”  
+unset XYZ  
+export XYZ="test2"    
+export -n ABC    
 위의 네가지 명령어를 사용해보자
 {: .notice}
 ```console
@@ -119,15 +119,22 @@ XYZ=test2
 ```
 XYZ=test2			#ABC 삭제됨
 ```
+```console
 [root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
+```
+```
 ABC=test1
 XYZ=test2
-
+```
+```console
 [root@ns1 ~]# unset XYZ
 [root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
+```
+```
 ABC=test1
 _=XYZ				#삭제됨
-
+```
+```console
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수 출력
 ```
 ---
