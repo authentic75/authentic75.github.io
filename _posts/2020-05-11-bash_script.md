@@ -87,6 +87,7 @@ export XYZ="test2"
 export -n ABC    
 위의 네가지 명령어를 사용해보자
 {: .notice}
+예제1
 ```console
 [root@ns1 ~]# set ABC=”local Variable3”
 [root@ns1 ~]# echo $ABC //지역
@@ -104,6 +105,7 @@ ABC=test1
 XYZ=test2
 _=XYZ
 ```
+예제2
 ```console
 [root@ns1 ~]# export ABC
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수만 출력
@@ -112,6 +114,7 @@ _=XYZ
 ABC=test1
 XYZ=test2
 ```
+예제3
 ```console
 [root@ns1 ~]# export -n ABC
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수만 출력
@@ -119,6 +122,7 @@ XYZ=test2
 ```
 XYZ=test2			#ABC 삭제됨
 ```
+예제4
 ```console
 [root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
 ```
@@ -126,6 +130,7 @@ XYZ=test2			#ABC 삭제됨
 ABC=test1
 XYZ=test2
 ```
+예제5
 ```console
 [root@ns1 ~]# unset XYZ
 [root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
@@ -134,6 +139,7 @@ XYZ=test2
 ABC=test1
 _=XYZ				#삭제됨
 ```
+예제6
 ```console
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수 출력
 ```
