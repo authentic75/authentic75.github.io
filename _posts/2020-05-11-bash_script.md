@@ -368,3 +368,43 @@ exit0
 ```
 실행 결과는 알아서 유추해보자
 {: .notice}
+---
+#### if 문
+---
+```bash
+#!/bin/bash
+If [ “woo” = “woo” ]
+then
+    echo “참입니다”
+fi
+exit 0
+```
+```bash
+#!/bin/sh
+read text
+if [ $text = "woo" ]
+then
+        echo "일치합니다"
+else
+        echo "일치하지 않습니다"
+fi
+echo "프로그램을 종료합니다"
+exit 0
+```
+띄어 쓰기를 조심해야한다.
+조건, 단어 사이에 꼭 공백이 있어야한다.
+{: .notice}
+```bash
+#!/bin/sh
+read text
+if [ $text > 10 ]
+then
+        echo "10보다 크다"
+else
+        echo "10보다 작다"
+fi
+echo "프로그램을 종료합니다"
+exit 0 
+```
+script 에서는 부등호 사용이 안된다. -gt로 10 수정하자
+{: .notice}
