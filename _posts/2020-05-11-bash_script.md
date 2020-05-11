@@ -25,7 +25,7 @@ read_time: false # read_time을 출력할지 여부 1min read 같은것!
 [root@ns1 ~]# jobs #job control 기능
 [root@ns1 ~]# fg % 1 #job control 기능
 ```
-그 외,  
+그 외,
 * 명령문 처리 기능  
 * 자동완성 기능 (Tab)  
 * 프롬프트 제어 기능  
