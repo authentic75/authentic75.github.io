@@ -249,4 +249,15 @@ drwxr-xr-x 2 root root 4.0K  5월  6 12:24 dirA dirB
 drwxr-xr-x 2 root root 4.0K  5월  6 12:24 dirC dirD
 ```
 두개의 디렉토리가 생성되는 것이 아니라 이름에 공백이 들어감
+공백문자 하나하나에 \를 일일이 입력해야 하므로 불편하다.
 {: .notice}
+```console
+[root@ns1 test]# echo "\$ABC를 출력하려면, \\\$ABC를 표기하면 됩니다."
+#이스케이프 문자를 넣어줍니다.
+$ABC를 출력하려면, \$ABC를 표기하면 됩니다.
+```
+```console
+[root@ns1 test]# echo '$ABC를 출력하려면, \$ABC를 표기하면 됩니다.'
+$ABC를 출력하려면, \$ABC를 표기하면 됩니다.
+#홀 따옴표를 사용하여 raw 스트링을 출력할 수 있습니다.
+```
