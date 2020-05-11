@@ -232,7 +232,7 @@ sh나 bash를 통해서는 실행할 수 있지만 *.sh로는 실행 불가
 환경변수 PATH에 현재 경로를 추가해주면 된다!
 {: .notice}
 ---
-### 변수의 기본
+### 변수와 문자열의 출력
 ---
 변수=문자열 ( =의 양옆에 공백이 들어가면 안된다)  
 변수=”문 자 열” (공백이 있는경우 “ “ 로 묶어야한다  
@@ -261,3 +261,39 @@ $ABC를 출력하려면, \$ABC를 표기하면 됩니다.
 $ABC를 출력하려면, \$ABC를 표기하면 됩니다.
 #홀 따옴표를 사용하여 raw 스트링을 출력할 수 있습니다.
 ```
+---
+### 쉘 스크립트 작성
+---
+```bash
+#!/bin/bash
+myvar="Hi Woo"
+echo $myvar
+echo "$myvar"
+echo '$myvar'
+echo \$myvar
+read myvar
+echo '$myvar' = $myvar
+exit 0
+```
+```
+Hi Woo
+Hi Woo
+$myvar
+$myvar
+TEST	#사용자 입력
+$myvar = TEST
+```
+홑 따옴표(`)로 연산 결과를 출력해보자.
+{: .notice}
+```console
+[root@ns1 test]# A=`expr 1 + 2`
+[root@ns1 test]# echo $A
+3
+[root@ns1 test]# A=$(expr 1 + 2)
+[root@ns1 test]# echo $A
+3
+```
+Bash 스크립트는 운영체제 종속적인 언어라 윈도우에서는 사용이 안된다.  
+하지만 JAVA나 Python 은 운영체제에 독립적인 언어다.  
+#yum install python 나중에 받게 될 것.  
+{: .notice}
