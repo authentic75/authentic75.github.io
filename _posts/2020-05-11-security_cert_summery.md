@@ -38,13 +38,13 @@ read_time: false
 ---
 #### CPU 스케줄링
 ---
-선점형: 우선 순위가 변경된다.  
+**선점형: 우선 순위가 변경된다.**  
 RR(Round Robin): Time slice 단위로 CPU 점유, 할당량 초과시 레디 큐로 이동  
 SRT(Shortest Rest Task): 남는 작업이 짧은 프로세스에서 CPU 점유  
 Multi-level Queue: RR 방식 + 우선 순위  
 Multi-level Feedback Queue: Time Slice가 끝나면 등급을 내린다. (하이브리드)  
 {: .notice--info}
-비선점형: 우선 순위가 한번 정해지면 변경 안된다  
+**비선점형: 우선 순위가 한번 정해지면 변경 안된다**  
 우선 순위 큐, FCFS(FIFO), SJF(Shortest Job First), HRN(Highest Respond-ratio Next)
 {: .notice--info}
 *RAID (1, 5가 출제되었다)
@@ -63,13 +63,13 @@ Shell Shock: 보안 취약점, 빈 함수/환경변수 호출 시 root 권한 �
 ---
 `Boot Stage`  
 1단계 부팅  
--BIOS: Boot sequence, MBR 읽는다  
--MBR: Sector 1, 512KB, Boot loader 실행 (취약점: 3.20 MBR 파괴 사건)  
+BIOS: Boot sequence, MBR 읽는다  
+MBR: Sector 1, 512KB, Boot loader 실행 (취약점: 3.20 MBR 파괴 사건)  
 {: .notice}
 2단계 부팅  
--GRUB(MBR 이름이다) & LILO: /boot, kernel image(OS) 압축 풀고 올린다.  
--Init Process: Process ID 1, fork(프로세스 복제) -> 세션리더 Bash  
--Run level 실행: 3 (multi user, multi task, network)  
+GRUB(MBR 이름이다) & LILO: /boot, kernel image(OS) 압축 풀고 올린다.  
+Init Process: Process ID 1, fork(프로세스 복제) -> 세션리더 Bash  
+Run level 실행: 3 (multi user, multi task, network)  
 **5: xwindow , 6: reboot /etc/rc.d/init.d에 들어있다.**
 {: .notice}
 
@@ -77,8 +77,7 @@ Shell Shock: 보안 취약점, 빈 함수/환경변수 호출 시 root 권한 �
 -권한: Owner, Group, Other User  
 -권한 리스트: Read, Write, Execute  
 -명령어: chmod  
--디폴트 권한: umask = 0022 – 666(파일) = 644  
-0022-777(디렉토리)=755  
+-디폴트 권한: umask = 0022 – 666(파일) = 644, 0022-777(디렉토리)=755  
 **디렉토리는 실행권한이 있어야 이동이 가능하기 때문이다.**  
 FTP와 연관 문제 또는 일반 권한 문제 출제됨  
 {: .notice}
