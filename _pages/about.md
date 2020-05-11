@@ -2,7 +2,9 @@
 title: "About Me"
 last_modified_at: 2020-05-08T16:20:02-05:00
 ---
-  
+---
+### About Me
+---
 gallery:
   - url: #/assets/images/unsplash-gallery-image-2.jpg
     image_path: #/assets/images/unsplash-gallery-image-2-th.jpg
