@@ -181,7 +181,7 @@ exit 0
 #### 여러가지 실행 방법
 ---
 ```console
-[root@ns1 ~]# name.sh
+[root@ns1 ~]# name.sh	#같은 경로에 있을때만 가능
 [root@ns1 ~]# bash name.sh
 [root@ns1 ~]# sh name.sh
 ```
@@ -192,3 +192,24 @@ exit 0
 사용자 이름:  root
 홈 디렉토리:  /root
 ```
+그렇다면, chmod로 x 권한을 없애면 어떻게 될까?
+{: .notice}
+```console
+[root@ns1 ~]# chmod a-x /bin/name.sh
+[root@ns1 ~]# sh name.sh
+```
+```console
+[root@ns1 ~]# bash name.sh
+```
+```
+사용자 이름:  root
+홈 디렉토리:  /root
+```
+```console
+[root@ns1 ~]# name.sh
+```
+```
+-bash: /bin/name.sh: 허가 거부됨
+```
+sh나 bash를 통해서는 실행할 수 있지만 *.sh로는 실행 불가
+{: .notice}
