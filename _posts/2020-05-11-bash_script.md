@@ -212,4 +212,21 @@ exit 0
 -bash: /bin/name.sh: 허가 거부됨
 ```
 sh나 bash를 통해서는 실행할 수 있지만 *.sh로는 실행 불가
+**경로 상관없이 *.sh를 실행하고 싶다면?**  
+{: .notice}
+```console
+[root@ns1 /]# mv /bin/name.sh /root/name.sh
+[root@ns1 /]# /root/name.sh
+```
+현재 디렉토리로 옮겨오거나
+{: .notice}
+```console
+[root@ns1 /]# PATH=$PATH:/root
+[root@ns1 /]# name.sh
+```
+```
+사용자 이름:  root
+홈 디렉토리:  /root
+```
+환경변수 PATH에 현재 경로를 추가해주면 된다!
 {: .notice}
