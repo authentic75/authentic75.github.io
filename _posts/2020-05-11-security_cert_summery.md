@@ -102,9 +102,59 @@ FTP와 연관 문제 또는 일반 권한 문제 출제됨
 포렌식 절차  
 준비>획득>이송>분석>증거 분석서 작성  
 {: .notice}
+
 ---
 ### 과목2 네트워크 보안
 ---
+TCP/IP  
+공격법  
+장비: Fire wall, IDS(snort 라는 도구의 Rule, Action 종류 등 필기/실기), End-Point (NAC로 출제), NAT 솔루션  
+TCP/IP에서 봐야할 것  
+netstate 커맨드: TCP state  
+netstate -e: 통계 정보  
+HTTP, TCP, UDP 헤더 읽을 줄 알아야 한다.  
+{: .notice--info}
+
+*TCP (신뢰성)
+	-3-way handshaking
+	-세션 값 받음 (취약점: 세션하이재킹 hand Shaking 우회)
+	-seq, ack 주고 받음(비동기), Go Back N (ARQ), Check sum(무결성 검사)
+*DDos (Packet Header 보고 알 수 있다)
+	-TCP SYN Flooding: TCP half open 이용, Syn에 대한 Ack 안준다)
+	-DrDos: TCP half open 이용, 반사 공격의 특징(SRC) = IP변조하여 보냄
+	-smurf: *.*.*.255 ICMP Echo Request(SRC) = source IP 변조
+	-Slow HTTP GET(POST) Flooding: Content_Length = 5000 (임의의 큰 값)
+					 그리고 1Byte씩 전송
+
+
+*공격기법/보안장비(솔루션)
+	-Sniffing 가장 기본적
+		Normal 모드: 목적지 주소가 수신자의 주소와 같은 것만 탐지
+		무차별 모드: 같은 Segment (네트워크) 내 모든 패킷 탐지
+	#ifconfig etho0 promisc		무차별 모드
+	#ifconfig etho0 -promisc	보통 모드로
+	MAC 주소는 Sniffing 가능 하지만 데이터 링크 계층 Data는 불가능
+	-tcpdump, tshark 커맨드 문제, 패킷 해석
+
+	-보안 솔루션
+		Firewall(Packet 필터링, 블랙 리스트 IP 차단, Access-list)
+			Screening: Router 패킷 필터
+			Dual Home: 내부/외부 망 분리
+			Screened Host: Screening + Dual Home
+			Screened subnet: Screening + Dual + Screened Host 전부 사용
+		Web Firewall – HTTP 대상
+
+		IDS(침입 탐지)
+			HIDS(호스트)/NIDS(네트워크)
+이상탐지(정상 외 모두 공격), 오용탐지(Signature, Rule 공격 인식)
+			Time interval(일정 데이터), Real Time(패킷 몇 개), Active IDS(IPS)
+			*snort Rule, yara Rule (첨부파일 검사)
+*TMS(위협 감지 시스템)라고 출제 되기도함
+IPS
+		SSO(자동로그인, 운영 간단, 비용절감), EAM, IAM
+		ESM, SIEM(관제 시스템, SIEM은 event/bigdata 활용)
+		NAC(End Point 보안 기술)
+	*IDS 절차 출제
 
 ---
 ### 과목3 어플리케이션 보안
