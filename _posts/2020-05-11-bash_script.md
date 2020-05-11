@@ -33,3 +33,6 @@ read_time: false # read_time을 출력할지 여부 1min read 같은것!
 * 명령 편집 기능  
 * 환경 변수 기능
 {: .notice}
+---
+### 환경 변수
+---
