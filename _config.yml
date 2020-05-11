@@ -123,8 +123,8 @@ author:
 
       
 #Site header
-header                   :
-    image: "/assets/images/toy-car.jpg"
+#header                   :
+#    image: "/assets/images/toy-car.jpg"
     
 # Site Footer
 footer:
