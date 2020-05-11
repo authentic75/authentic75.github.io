@@ -259,7 +259,8 @@ $ABC를 출력하려면, \$ABC를 표기하면 됩니다.
 ```console
 [root@ns1 test]# echo '$ABC를 출력하려면, \$ABC를 표기하면 됩니다.'
 $ABC를 출력하려면, \$ABC를 표기하면 됩니다.
-#홀 따옴표를 사용하여 raw 스트링을 출력할 수 있습니다.
+#홀 따옴표(')를 사용하여 raw 스트링을 출력할 수 있습니다.
+**홀 따옴표('), 홑 따옴표(`)
 ```
 ---
 ### 쉘 스크립트 작성
@@ -296,4 +297,31 @@ $myvar = TEST
 Bash 스크립트는 운영체제 종속적인 언어라 윈도우에서는 사용이 안된다.  
 하지만 JAVA나 Python 은 운영체제에 독립적인 언어다.  
 #yum install python 나중에 받게 될 것.  
+{: .notice}
+```bash
+#!/bin/bash
+num1=100
+num2=$num1+200
+echo \$num1 = $num1
+echo \$num2 = $num2
+num3=`expr $num1 + 200`
+echo \$num3 = $num3
+num4=$( expr \( $num1 + 200 \) / 10 \* 2 )
+echo \$num4 = $num4
+exit 0
+```
+코드를 실행해보자
+{: .notice}
+```
+$num1 = 100
+$num2 = 100+200
+$num3 = 300
+$num4 = 60
+```
+**find 명령어**  
+앞으로 자주 사용하게 될 명령어. 꼭 기억해두자.  
+find / -type f -print -or -type d -print  
+find / \(-type f -print -or -type d \) -and -print  
+{: .notice}
+**Read 명령어를 이용해 봅시다**
 {: .notice}
