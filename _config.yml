@@ -253,7 +253,6 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
-permalink: /about/
 # https://github.com/jekyll/jekyll-archives
 # jekyll-archives:
 #   enabled:
