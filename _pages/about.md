@@ -1,6 +1,7 @@
 ---
 title: "About Me"
-last_modified_at: 2020-05-08T16:20:02-05:00
+permalink: /about/
+layout: single
 ---
 ---
 ### About Me
