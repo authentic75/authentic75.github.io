@@ -153,8 +153,6 @@ _=XYZ				#삭제됨
 ```
 -rw-r--r-- 1 root root 0  5월  6 11:48 /bin/name.sh
 ```
-필수! sh 작성 후에는 꼭 x 권한을 주자
-{: .notice}
 ```console
 [root@ns1 ~]# chmod a+x /bin/name.sh
 [root@ns1 ~]# ls -lh /bin/name.sh
@@ -162,6 +160,8 @@ _=XYZ				#삭제됨
 ```
 -rwxr-xr-x 1 root root 0  5월  6 11:48 /bin/name.sh
 ```
+필수! sh 작성 후에는 꼭 x 권한을 주자
+{: .notice}
 ```bash
 #!/bin/sh
 echo "사용자 이름: " $USER
