@@ -11,10 +11,10 @@ gallery:
     image_path: /assets/images/skate.jpg
     alt: "skate"
     title: "skate"
-  - url: /assets/images/ENFP.jpg
-    image_path: /assets/ENFP.jpg
-    alt: "ENFP"
-    title: "ENFP"
+  - url: /assets/images/sparkler.jpg
+    image_path: /assets/sparkler.jpg
+    alt: "sparkler"
+    title: "sparkler"
 ---
 
 {% include gallery caption="This is a sample gallery with **Markdown support**." %}
