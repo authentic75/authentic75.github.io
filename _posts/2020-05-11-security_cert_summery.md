@@ -61,7 +61,7 @@ Shell Shock: 보안 취약점, 빈 함수/환경변수 호출 시 root 권한 �
 ---
 #### Linux 파일 시스템 Inode
 ---
-1.Boot Stage  
+`Boot Stage`  
 1단계 부팅  
 -BIOS: Boot sequence, MBR 읽는다  
 -MBR: Sector 1, 512KB, Boot loader 실행 (취약점: 3.20 MBR 파괴 사건)  
@@ -73,7 +73,7 @@ Shell Shock: 보안 취약점, 빈 함수/환경변수 호출 시 root 권한 �
 **5: xwindow , 6: reboot /etc/rc.d/init.d에 들어있다.**
 {: .notice}
 
-2.리눅스 권한관리  
+`리눅스 권한관리`  
 -권한: Owner, Group, Other User  
 -권한 리스트: Read, Write, Execute  
 -명령어: chmod  
