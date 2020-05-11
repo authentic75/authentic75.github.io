@@ -56,9 +56,12 @@ env 명령을 사용하면 환경변수가 어떤것들이 있는지 전부 볼 
 [root@ns1 ~]# export XYZ=”Global Variable” #Export 사용하면 전역 변수로 사용 할 수 있다.
 [root@ns1 ~]# echo $ABC
 [root@ns1 ~]# echo $XYZ
-[root@ns1 ~]# /bin/ksh 	#Ksh을 실행하여 지역변수와 전역변수 테스트
-						#Ksh로 다시 들어가서 $ABC를 부르면 호출이 안된다.
-						#하지만 글로별 변수인 XYZ는 사용 가능하다.
+[root@ns1 ~]# /bin/ksh 	
+
+#Ksh을 실행하여 지역변수와 전역변수 테스트
+#Ksh로 다시 들어가서 $ABC를 부르면 호출이 안된다.
+#하지만 글로별 변수인 XYZ는 사용 가능하다.
+
 [root@ns1 ~]# ABC=”Local Variable2” 생성
 [root@ns1 ~]# echo $ABC
 
