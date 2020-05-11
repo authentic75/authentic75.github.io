@@ -29,7 +29,7 @@ read_time: false
 모든 프로그램이 실행이 되면 메모리에 올라간다 -> 프로세스가 됨  
 우리가 쓰는 운영체제는 Multi Task, Multi Programming 형태, 여러 프로세스 실행
 {: .notice}
-**CPU 상태 전이 (State)**
+`CPU 상태 전이 (State)`
 1. dispatch: 차례가 되면 CPU 점유 (Running)
 2. Block: CPU에서 나와 I/O 처리
 3. Wake Up: I/O를 끝내면 다시 레디 큐로 이동
