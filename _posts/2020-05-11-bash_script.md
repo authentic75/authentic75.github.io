@@ -231,3 +231,22 @@ sh나 bash를 통해서는 실행할 수 있지만 *.sh로는 실행 불가
 ```
 환경변수 PATH에 현재 경로를 추가해주면 된다!
 {: .notice}
+---
+### 변수의 기본
+---
+변수=문자열 ( =의 양옆에 공백이 들어가면 안된다)  
+변수=”문 자 열” (공백이 있는경우 “ “ 로 묶어야한다  
+또는 변수=문\ 자\ 열 (\를 문자열 처리를 위해 공백 앞에 써준다)  
+변수=7+5 (7+5라는 문자열이 저장된다)  
+{: .notice}
+```console
+[root@ns1 test]# mkdir "dirA dirB"
+[root@ns1 test]# mkdir dirC\ dirD
+[root@ns1 test]# ls -lh
+```
+```
+drwxr-xr-x 2 root root 4.0K  5월  6 12:24 dirA dirB
+drwxr-xr-x 2 root root 4.0K  5월  6 12:24 dirC dirD
+```
+두개의 디렉토리가 생성되는 것이 아니라 이름에 공백이 들어감
+{: .notice}
