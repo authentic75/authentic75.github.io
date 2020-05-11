@@ -12,7 +12,7 @@ gallery:
     alt: "skate"
     title: "skate"
   - url: /assets/images/sparkler.jpg
-    image_path: /assets/sparkler.jpg
+    image_path: /assets/images/sparkler.jpg
     alt: "sparkler"
     title: "sparkler"
 ---
