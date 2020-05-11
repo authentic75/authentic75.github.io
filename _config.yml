@@ -123,8 +123,8 @@ author:
 
       
 #Site header
-#header                   :
-#    image: "/assets/images/toy-car.jpg"
+header                   :
+    teaser: "/assets/images/toy-car.jpg"
     
 # Site Footer
 footer:
@@ -253,6 +253,7 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+permalink: /about/
 # https://github.com/jekyll/jekyll-archives
 # jekyll-archives:
 #   enabled:
