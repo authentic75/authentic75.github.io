@@ -18,14 +18,13 @@ read_time: false # read_time을 출력할지 여부 1min read 같은것!
 ### bash의 기본
 ---
 **bash의 특징**  
-{: .notice}
 ```console
 [root@ns1 ~]# alias lls=”ls -lh”   #명령어에 별칭을 붙여줄 수 있다. 명령어 단축기능
 [root@ns1 ~]# history # ! , !!, !-3  히스토리 기능
 [root@ns1 ~]# jobs #job control 기능
 [root@ns1 ~]# fg % 1 #job control 기능
 ```
-그 외,
+* 그 외,
 * 명령문 처리 기능  
 * 자동완성 기능 (Tab)  
 * 프롬프트 제어 기능  
@@ -82,6 +81,11 @@ Global > 남아있다 > 남아있다
 **set**은 지역, 전역변수를 모두 볼 수있다.  
 **env**는 전역변수만 볼 수있다.
 {: .notice}
+set ABC=”local Variable3”
+unset XYZ
+export XYZ="test2"  
+export -n ABC  
+{: .notice}
 ```console
 [root@ns1 ~]# set ABC=”local Variable3”
 [root@ns1 ~]# echo $ABC //지역
@@ -104,7 +108,7 @@ XYZ=test2
 
 [root@ns1 ~]# export -n ABC
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수만 출력
-XYZ=test2							#ABC 삭제됨
+XYZ=test2			#ABC 삭제됨
 
 [root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
 ABC=test1
@@ -113,7 +117,7 @@ XYZ=test2
 [root@ns1 ~]# unset XYZ
 [root@ns1 ~]# set | grep "ABC\|XYZ" #지역, 전역변수 출력  
 ABC=test1
-_=XYZ								#삭제됨
+_=XYZ				#삭제됨
 
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수 출력
 ```
