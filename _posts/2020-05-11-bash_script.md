@@ -185,6 +185,9 @@ exit 0
 [root@ns1 ~]# bash name.sh
 [root@ns1 ~]# sh name.sh
 ```
+위와 같이 3가지 방법으로 실행 할 수 있다.
+{: .notice}
+결과
 ```
 사용자 이름:  root
 홈 디렉토리:  /root
