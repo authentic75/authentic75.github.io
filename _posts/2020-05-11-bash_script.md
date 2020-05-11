@@ -76,7 +76,7 @@ Global > 남아있다 > 남아있다
 # ABC=”Local Variable3”
 ```
 ---
-#### 지역변수와 전역변수
+#### set과 env 명령어
 ---
 **set**은 지역, 전역변수를 모두 볼 수있다.  
 **env**는 전역변수만 볼 수있다.
@@ -120,4 +120,16 @@ ABC=test1
 _=XYZ				#삭제됨
 
 [root@ns1 ~]# env | grep "ABC\|XYZ" #전역변수 출력
+```
+---
+### 쉘 스크립트
+---
+```console
+[root@ns1 ~]# touch /bin/name.sh
+[root@ns1 ~]# ls -lh /bin/name.sh
+-rw-r--r-- 1 root root 0  5월  6 11:48 /bin/name.sh
+#수정 할 수 있게 usere group other에게 x 권한을 주자
+[root@ns1 ~]# chmod a+x /bin/name.sh
+[root@ns1 ~]# ls -lh /bin/name.sh
+-rwxr-xr-x 1 root root 0  5월  6 11:48 /bin/name.sh
 ```
