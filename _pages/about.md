@@ -2,7 +2,6 @@
 title: "About Me"
 permalink: /about/
 layout: single
----
 gallery:
   - url: /assets/images/cherryblossom.jpg
     image_path: /assets/images/cherryblossom.jpg
@@ -16,3 +15,4 @@ gallery:
     image_path: /assets/ENFP.jpg
     alt: "ENFP"
     title: "ENFP"
+---
