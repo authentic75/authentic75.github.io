@@ -128,8 +128,14 @@ _=XYZ				#삭제됨
 [root@ns1 ~]# touch /bin/name.sh
 [root@ns1 ~]# ls -lh /bin/name.sh
 -rw-r--r-- 1 root root 0  5월  6 11:48 /bin/name.sh
-#수정 할 수 있게 usere group other에게 x 권한을 주자
+#필수! sh 작성 후에는 꼭 x 권한을 주자
 [root@ns1 ~]# chmod a+x /bin/name.sh
 [root@ns1 ~]# ls -lh /bin/name.sh
 -rwxr-xr-x 1 root root 0  5월  6 11:48 /bin/name.sh
+```
+```bash
+#!/bin/sh
+echo "사용자 이름: " $USER
+echo "홈 디렉토리: " $HOME
+exit 0
 ```
