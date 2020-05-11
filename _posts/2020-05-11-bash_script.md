@@ -205,13 +205,14 @@ exit 0
 사용자 이름:  root
 홈 디렉토리:  /root
 ```
+sh나 bash를 통해서는 실행할 수 있지만 *.sh로는 실행 불가
+{: .notice}
 ```console
 [root@ns1 ~]# name.sh
 ```
 ```
 -bash: /bin/name.sh: 허가 거부됨
 ```
-sh나 bash를 통해서는 실행할 수 있지만 *.sh로는 실행 불가
 **경로 상관없이 *.sh를 실행하고 싶다면?**  
 {: .notice}
 ```console
