@@ -143,10 +143,17 @@ _=XYZ				#삭제됨
 ```console
 [root@ns1 ~]# touch /bin/name.sh
 [root@ns1 ~]# ls -lh /bin/name.sh
+```
+```
 -rw-r--r-- 1 root root 0  5월  6 11:48 /bin/name.sh
-#필수! sh 작성 후에는 꼭 x 권한을 주자
+```
+필수! sh 작성 후에는 꼭 x 권한을 주자
+{: .notice}
+```console
 [root@ns1 ~]# chmod a+x /bin/name.sh
 [root@ns1 ~]# ls -lh /bin/name.sh
+```
+```
 -rwxr-xr-x 1 root root 0  5월  6 11:48 /bin/name.sh
 ```
 ```bash
@@ -160,5 +167,19 @@ exit 0
 홈 디렉토리:  /root
 ```
 환경변수를 이용하여 user name과 home 경로를 출력해봤다  
-"#!/bin/sh"는  bash shell 스크립트임을 알리는 선언문이다
+"#!/bin/sh"는  bash shell 스크립트임을 알리는 선언문이다  
+**Echo** 명령어 화면에 출력하는 명령어  
+**Exit 0** 호출후 제대로 실행되었는지 알기 위해 반환
 {: .notice}
+---
+#### 여러가지 실행 방법
+---
+```console
+[root@ns1 ~]# name.sh
+[root@ns1 ~]# bash name.sh
+[root@ns1 ~]# sh name.sh
+```
+```
+사용자 이름:  root
+홈 디렉토리:  /root
+```
