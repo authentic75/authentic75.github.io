@@ -318,10 +318,30 @@ $num2 = 100+200
 $num3 = 300
 $num4 = 60
 ```
-**find 명령어**  
+---
+#### find 명령어
+---
 앞으로 자주 사용하게 될 명령어. 꼭 기억해두자.  
 find / -type f -print -or -type d -print  
 find / \(-type f -print -or -type d \) -and -print  
 {: .notice}
-**Read 명령어를 이용해 봅시다**
+---
+#### Read 명령어
+---
+```bash
+#!/bin/bash
+Read num1
+Read num2
+Result=`expr $num1 + $num2`
+Echo “결과는 $result 입니다.”
+```
+파라매터 2개를 입력하여 실행합니다.
 {: .notice}
+```
+10
+20
+결과는 30입니다.
+```
+---
+#### 파라매터 활용
+---
