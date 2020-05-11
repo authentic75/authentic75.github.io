@@ -25,7 +25,7 @@ read_time: false
 ---
 #### 프로세스 State
 ---
-`CPU 스케줄링 = Process State`  
+`CPU 스케줄링 = Process State`    
 모든 프로그램이 실행이 되면 메모리에 올라간다 -> 프로세스가 됨  
 우리가 쓰는 운영체제는 Multi Task, Multi Programming 형태, 여러 프로세스 실행
 {: .notice}
@@ -38,14 +38,14 @@ read_time: false
 ---
 #### CPU 스케줄링
 ---
-**선점형: 우선 순위가 변경된다.**  
-* RR(Round Robin): Time slice 단위로 CPU 점유, 할당량 초과시 레디 큐로 이동  
-* SRT(Shortest Rest Task): 남는 작업이 짧은 프로세스에서 CPU 점유  
-* Multi-level Queue: RR 방식 + 우선 순위  
-* Multi-level Feedback Queue: Time Slice가 끝나면 등급을 내린다. (하이브리드)  
+선점형: 우선 순위가 변경된다.  
+RR(Round Robin): Time slice 단위로 CPU 점유, 할당량 초과시 레디 큐로 이동  
+SRT(Shortest Rest Task): 남는 작업이 짧은 프로세스에서 CPU 점유  
+Multi-level Queue: RR 방식 + 우선 순위  
+Multi-level Feedback Queue: Time Slice가 끝나면 등급을 내린다. (하이브리드)  
 {: .notice}
-**비선점형: 우선 순위가 한번 정해지면 변경 안된다.**  
-* 우선 순위 큐, FCFS(FIFO), SJF(Shortest Job First), HRN(Highest Respond-ratio Next)
+비선점형: 우선 순위가 한번 정해지면 변경 안된다  
+우선 순위 큐, FCFS(FIFO), SJF(Shortest Job First), HRN(Highest Respond-ratio Next)
 {: .notice}
 *RAID (1, 5가 출제되었다)
 {: .notice}
