@@ -235,11 +235,11 @@ Ex) /24, /22 꼴로 나타냄
 * Land Attack  
 * HTTP Get Flooding  
 * 등등  
+
 ---
 ### 포트 스캐닝
 ---
-**Port Half Open**  
-{: .notice}
+
 **NMAP 포트 스캐닝**
 * TCP connection() Scan: 3-way handshaking 수립, 쉽게 탐지  
 * TCP SYN Scan: SYN/ACK 받으면 OPEN, RST/ACK 받으면 Close, Stealth Scanning  
