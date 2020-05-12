@@ -183,8 +183,10 @@ ResultSet rs = stmt.executeQuery();
 에러로그  
 * /var/log/httpd/error_log: 에러로그 파일 기록  
 * syslog: 에러 발생 시 로그를 syslog에 기록  
+{: .notice}
 ```
 #Local7.warn /var/log/httpd.warn.log #에러단계를 warn으로 설정
 ```
 * 에이전트로그  
 * 참조로그  
+{: .notice}
