@@ -69,8 +69,9 @@ MBR: Sector 1, 512KB, Boot loader 실행 (취약점: 3.20 MBR 파괴 사건)
 **2단계 부팅**  
 GRUB(MBR 이름이다) & LILO: /boot, kernel image(OS) 압축 풀고 올린다.  
 Init Process: Process ID 1, fork(프로세스 복제) -> 세션리더 Bash  
-Run level 실행: 3 (multi user, multi task, network)  
-**5: xwindow , 6: reboot /etc/rc.d/init.d에 들어있다.**
+**Run level 실행:**  
+3: (multi user, multi task, network) 5: xwindow , 6: reboot  
+/etc/rc.d/init.d에 들어있다
 {: .notice}
 
 **리눅스 권한관리**   
