@@ -4,7 +4,7 @@ last_modified_at: 2020-05-11T16:20:02-05:00
 categories:
   - Security
 tags:
-  - Security
+  - 정보보안기사
   - 보안
   - 해킹
 toc: true 
