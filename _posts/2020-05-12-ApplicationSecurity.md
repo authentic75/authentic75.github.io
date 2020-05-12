@@ -1,6 +1,6 @@
 ---
 title: "정보보안기사: 어플리케이션 보안"
-last_modified_at: 2020-05-11T16:20:02-05:00
+last_modified_at: 2020-05-12T16:20:02-05:00
 categories:
   - Security
 tags:
@@ -101,8 +101,90 @@ ResultSet rs = stmt.executeQuery();
 ---
 ### 개발 보안 입력 값 검증 및 표현
 ---
-보안기능  
-에러코드  
-캡슐화  
-API 5형  
+* 보안기능  
+* 에러코드  
+* 캡슐화  
+* API 5형  
 {: .notice}
+
+---
+### E-Mail 보안(PGP, PEM, S/MIME)
+---
+* PGP (Pretty Good Privacy): MIME 객체에 암호화와 전자서명 기능을 추가한 암호화 프로토콜이다.
+	* 전자서명: DSS/SHA, RSA/SHA
+	* 메시지 암호화: CAST-128, 3DES 1회용 
+	* 세션키 생성: Difiie-Helman 혹은 RSA
+	* 세그멘테이션(메시지 최대 사이즈 제한)
+* PEM(Privacy Enhanced Mail): 중앙집중화된 키 인증 방식으로 높은 보안성 (군사, 은행)
+* S/MIME: 표준 보안 메일 규약
+	* 송/수신자 인증, 메시지 무결성
+	* 첨부파일포함
+	* 메일 전체를 암호화한다
+	* 인터넷 MIME 메시지에 전자서명과 함께 암호화를 더함
+	* RSA 암호 사용
+	* CA로부터 공개키를 보증하는 인증서를 받아야한다
+	* S/MIMEv3 (DSS, DES, SHA-1)
+{: .notice}
+---
+#### Sendmail 보안
+---
+* 운영모드: /usr/sbin/sendmail 로 실행
+	* bd: 데몬모드
+	* bt: test 모드
+	* bp (print), -bv (view), -bs (SMTP 실행), -bi (초기화)
+* 접근 파일 포맷 (/etc/mail/access)
+* 메일주소	 (REJECT | DISCARD | OK | RELAY)
+{: .notice}
+---
+#### Spam Mail 차단 방법
+---
+* RBL (Real Time Blocking List): RBL 서버에 특정 IP 등록 후 차단
+* SPF (Sender Policy Framework): SPF 레코드를 DNS에 등록
+{: .notice}
+
+---
+#### 웹서버 보안
+---
+* Httpd 프로세스 중 하나만 root로 실행 나머지는 apache가 실행(fork)
+* Apache 웹 서버 설정 파일: /etc/httpd/conf/httpd.conf
+{: .notice}
+
+보안설정  
+* 주요 디렉토리 및 파일 접근 권한  
+{: .notice}
+```consle
+# chown0.bin conf logs
+# chgrp0.bin conf logs
+# chmod 755.bin conf logs
+# chmod 511 /usr/local/httpd/bin/httpd
+```
+
+불필요한 파일 삭제  
+* /var/www/manual 및 /var/www/cgi.bin 삭제
+* Directory Listing
+	* Index.html이 없거나 Listing을 보여주는 옵션이 설정되었는지 확인
+* 심볼릭 링크에 접근하여 Root 권한 획득
+	* 우선순위 결정 (index.cgi>index.html>index.htm 순서
+* Server Tokens 최소한의 정보만 보이도록 설정
+* Server Signature on으로 설정된 경우 아파치 버전, 이름 노출
+* 클라이언트 이름, IP 등을 이용해 접근 제어 수행
+{: .notice}
+
+---
+#### 웹 로그
+---
+접속로그
+* /var/log/httpd/access_log: 서버에서 발생하는 로그 및 CGI 같은 스크립트 정보 기록
+{: .notice}
+```
+#TransferLog /var/log/access.log  #지시어를 사용하여 로그 위치를 설정
+#Isof -p 1350(포트번호)로 조회 가능
+```
+에러로그  
+* /var/log/httpd/error_log: 에러로그 파일 기록  
+* syslog: 에러 발생 시 로그를 syslog에 기록  
+```
+#Local7.warn /var/log/httpd.warn.log #에러단계를 warn으로 설정
+```
+* 에이전트로그  
+* 참조로그  
