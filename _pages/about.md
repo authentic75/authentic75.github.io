@@ -2,6 +2,9 @@
 title: "About Me"
 permalink: /about/
 layout: single
+header:
+  image: /assets/images/toy-car2.jpg
+  overlay_filter: 0.5
 gallery:
   - url: /assets/images/cherryblossom.jpg
     image_path: /assets/images/cherryblossom.jpg
