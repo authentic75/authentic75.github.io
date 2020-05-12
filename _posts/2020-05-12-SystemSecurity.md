@@ -12,30 +12,6 @@ toc_sticky: true
 author_profile: true 
 read_time: false 
 ---
-a  
-{: .notice}
-b   
-{: .notice--info}
-c   
-{: .notice--warning}
-
-`Table1`
-
-| A        | B         | C          |  
-| --------- | ---------- | ----------- |  
-| a1 | b1| c1 |  
-| a2 | b2 | c2 |  
-| a3 | b3 | c3 |  
-
-`Table2`
-
-| A        | B         |
-| --------- | ---------- |
-| a1 | b1 |
-| a2 | b2 |
-| a3 | b3 |
-
-
 ---
 ### 운영체제
 ---
@@ -328,8 +304,21 @@ HARDWARE: 시스템 하드웨어 디스크립션과 모든 하드웨어의 장�
 COMPONENTS: 설치된 컴포넌트와 관련된 정보 관리  
 BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 XP의 Boot_ini가 없어지고 대체됨  
 {: .notice--info}
-
-
+---
+### ASLR(동적주소)
+---
+**ASLR(Address Space Layout Randomization)**  
+실행파일이 메모리에 로드될 때 동일한 메모리 주소를 가지면 공격자에게 취약한 문제점이 발생된다  
+악성코드 적재가 더 수월해진다  
+따라서, 윈도우 Vista 부터는 메모리 주소를 항상 동적으로 할당한다  
+`ASLR 해제`
+```
+sysctl -w kernel.randomize_va_space=0
+```
+`ASLR 설정`
+```
+sysctl -w kernel.randomize_va_space=1
+``
 
 
 
