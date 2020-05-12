@@ -178,6 +178,9 @@ CC인증(국제 표준 인증, 상호 인증)
 SDLC (폭포수), 원형을 이용한 ~(Proto type)  
 빈출: 개발 보안, DRM, Water Marking, OTP, IPSEC, FTP(항상 나옴)
 {: .notice--info}
+---
+#### FTP와 xferlog
+---
 **FTP**(명령 21번 포트, Active 데이터 전송 20번 포트, Passive 1024 이상 서버가 랜덤 지정)  
 /etc/ftpusers: 파일에 적용된 사용자 접근제한 (root가 기본적으로 등록)  
 /etc/hosts.deny: 특정 IP의 접근 제한  
@@ -204,6 +207,25 @@ tftp (UDP 이용), sftp(암호화)
 TCP 기반 (3way handshaking)
 wget으로 여러 파일 동시에 다운 가능하다.
 {: .notice}
+bounce Attack 포트 스캐닝: 가짜 메일을 보내서 익명의 ftp 서버 경유한다(Nmap -b)
+{: .notice}
+---
+#### 웹서버와 access.log
+---
+**웹서버 (80)**  
+디렉토리 리스팅: index.* 파일 없을 때 해당 경로의 모든 파일 디렉토리 노출  
+서버에 대한 정보: 서버 토큰, 서버 signature  
+웹서버 로그 파일: access.log
+{: .notice}
+```
+127.0.0.1 - frank[10/Oct/2000:13:55:36-0700]"GET/apache_pb.gif HTTP/1.0"200 2326  
+```
+요청IP/신원/user id/요청을 마친 시간/요청 데이터/상태 코드/헤더를 제외한 크기
+{: .notice--warning}
+신원: identd가 제공할 클라이언트의 신원 (내부 네트웍 아니면 사용 x)  
+Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것  
+상태 코드: 2xx(요청 성공), 4xx(클라이언트 오류), 5xx(서버 오류)  
+{: .notice--warning}
 ---
 ### 과목4 정보보안일반
 ---
