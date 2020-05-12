@@ -25,7 +25,7 @@ read_time: false
 * **/etc/hosts.allow**: 특정 IP의 접근 허용  
 * **xperlog**:  FTP log 파일, 필드 의미 알아 둘 것! t업로드 o는 다운로드  
 	* cat /var/log/xferlog   
-	
+{: .notice} 	
 ```console
 Mon May 31 07:48:23 2010 1 x.x.x.x 0 /home/byoungguk/1 b _ o r byoungguk ftp 0 * c
 Mon May 31 07:48:25 2010 1 x.x.x.x 0 /home/byoungguk/2 b _ o r byoungguk ftp 0 * c
@@ -133,7 +133,7 @@ ResultSet rs = stmt.executeQuery();
 	* bt: test 모드
 	* bp (print), -bv (view), -bs (SMTP 실행), -bi (초기화)
 * 접근 파일 포맷 (/etc/mail/access)
-* 메일주소	 (REJECT | DISCARD | OK | RELAY)
+* 메일주소	(REJECT, DISCARD, OK, RELAY)
 {: .notice}
 ---
 #### Spam Mail 차단 방법
@@ -145,12 +145,10 @@ ResultSet rs = stmt.executeQuery();
 ---
 #### 웹서버 보안
 ---
-* Httpd 프로세스 중 하나만 root로 실행 나머지는 apache가 실행(fork)
-* Apache 웹 서버 설정 파일: /etc/httpd/conf/httpd.conf
-{: .notice}
-
+* Httpd 프로세스 중 하나만 root로 실행 나머지는 apache가 실행(fork)  
+* Apache 웹 서버 설정 파일: /etc/httpd/conf/httpd.conf  
 보안설정  
-* 주요 디렉토리 및 파일 접근 권한  
+* 주요 디렉토리 및 파일 접근 권한    
 {: .notice}
 ```console
 # chown0.bin conf logs
@@ -180,7 +178,7 @@ ResultSet rs = stmt.executeQuery();
 #TransferLog /var/log/access.log  #지시어를 사용하여 로그 위치를 설정
 #Isof -p 1350(포트번호)로 조회 가능
 ```
-에러로그  
+에러로그
 * /var/log/httpd/error_log: 에러로그 파일 기록  
 * syslog: 에러 발생 시 로그를 syslog에 기록  
 {: .notice}
