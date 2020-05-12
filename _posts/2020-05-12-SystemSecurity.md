@@ -284,13 +284,30 @@ WinNuke
 ---
 ### 윈도우 프로세스
 ---
-**윈도우 인증 프로세스**
+**윈도우 인증 프로세스**  
+Winlogon: 윈도우 로그인 프로세스  
+GNA(msgina.dll): Winlogon이 이것을 로딩하여 사용자가 입력한 계정과 암호를 LSA에 전달
+LSA(lsas.exe): 계정과 암호를 검증하기 위해서 NTLM(암호화)모듈을 로딩하고 계정을 검증  
+SRM이 작성한 감사로그를 기록  
+SAM: 사용자 계정정보(해시값)에 저장  
+리눅스의 /etc/shadow 파일과 같은 역할 수행  
+SRM: 사용자에게 고유 SID를 부여하고 SID에 권한을 부여하고
+{: .notice}
+**윈도우 운영체제 프로세스**  
+winint.exe: 윈도우 시작 프로그램    
+services.exe: 윈도우 서비스  
+lsm.exe: Local Session Manager   
+시스템 관리 작업, 주요 함수 실행, 호스트 컴퓨터와 서버의 연결을 관리  
+lsass.exe: Local Security Authority Subsystem Service  
+사용자 로그인 검사, 비밀번호 변경, 액세스 토큰 생성  
+Window Security Log 작성  
+svchost.exe: 서비스를 관리하기 위한 프로세스  
+conhost.exe: 키보드, 마우스 입력 허용, 문자 출력, 콘솔 API등 셸의 기본 기능을 수행  
+{: .notice}
 
-
-
-
-
-
+공유폴더 삭제  
+#net share test /delete  
+{: .notice--warning}
 
 
 
