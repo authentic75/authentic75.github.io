@@ -343,14 +343,14 @@ SSL VPN
 {: .notice}
 
 IPSEC VPN  
-* 터널모드: 중계 장비가 패킷 전체를 암호화  
-* 전송모드: 패킷 출발지에서 암호화, 목적지에서 복호화, End to End   
+* **터널모드**: 중계 장비가 패킷 전체를 암호화  
+* **전송모드**: 패킷 출발지에서 암호화, 목적지에서 복호화, End to End   
   
-* ISAKMP: Security Association 설정, SA관리와 키교환  
-* IKE: 키교환 담장, UDP로 전달  
+* **ISAKMP**: Security Association 설정, SA관리와 키교환  
+* **IKE**: 키교환 담장, UDP로 전달  
   
-* AH: 데이터 무결성 (IP 패킷 인증, MAC 기반), 순서번호 제공, MD5, SHA-1 사용, 인증값 검증  
-* ESP: 전송자료를 암호화하여 전송, 수신자가 받은 자료를 복호화, 선택적 인증, 무결성, 기밀성, AH와 다르게 암호화 제공(DES, 3-DES), Transport 계층 까지 암호화 할 경우 Transprot 모드 사용, 전체 패킷 암호화할 경우 터널 모드 사용   
+* **AH**: 데이터 무결성 (IP 패킷 인증, MAC 기반), 순서번호 제공, MD5, SHA-1 사용, 인증값 검증  
+* **ESP**: 전송자료를 암호화하여 전송, 수신자가 받은 자료를 복호화, 선택적 인증, 무결성, 기밀성, AH와 다르게 암호화 제공(DES, 3-DES), Transport 계층 까지 암호화 할 경우 Transprot 모드 사용, 전체 패킷 암호화할 경우 터널 모드 사용   
 {: .notice}
 
 MPLS VPN  
@@ -359,12 +359,12 @@ MPLS VPN
 * 각각의 라우터는 라우팅 테이블과 동시에 Label 테이블을 학습  
 용어  
 * VPLS(Virtual Private Lan Service)는 MPLS 기반 터널링 기술 사용한다  
-* Label : 일반 패켓 헤더에 덧붙여진 추가 정보. MPLS에서는 Label에 저장된 값을 이용하여 스위칭을 실시한다.  
-* Label Switching : 데이터 전송이 아닌 데이터에 Label를 추가하고 여기에 포함된 값을 이용하여 Layer 2 기반에서 바로 스위칭 하는 방법을 말한다. 
-* LER(Label Edge Router) : 사용자 및 가입자 네트워크가 연결된 라우터를 뜻한다. LER는 사용자 및 가입자 네트워크에서 들어오는 일반 패켓에 Label를 추가하여 MPLS 패켓으로 전환하는 역할을 맡고 있다.  
-* LSR(Label Switch Router) : MPLS Provider 네트워크의 백본에 연결되어 있는 라우터를 뜻한다. LER로부터 전달받은 MPLS 패켓에서 Label 정보를 확인하여 자신의 LFIB에서 순차적으로 검사한다.  
-* LSP(Label Switch Path) : MPLS를 구성한 라우터와 라우터 상호간에 생기는 경로를 뜻한다. MPLS 패켓은 바로 LSP 경로를 이용하여 전송된다.  
-* LDP(Label Dynamic Protocol) : MPLS를 구성한 라우터와 라우터 상호간에 LSP를 동적으로 생성하는 프로토콜을 뜻한다. 또한, 설정된 회선의 대역폭 사용률에 따라 자동으로 생성할 수 있다.  
+* **Label** : 일반 패켓 헤더에 덧붙여진 추가 정보. MPLS에서는 Label에 저장된 값을 이용하여 스위칭을 실시한다.  
+* **Label Switching** : 데이터 전송이 아닌 데이터에 Label를 추가하고 여기에 포함된 값을 이용하여 Layer 2 기반에서 바로 스위칭 하는 방법을 말한다. 
+* **LER(Label Edge Router)** : 사용자 및 가입자 네트워크가 연결된 라우터를 뜻한다. LER는 사용자 및 가입자 네트워크에서 들어오는 일반 패켓에 Label를 추가하여 MPLS 패켓으로 전환하는 역할을 맡고 있다.  
+* **LSR(Label Switch Router)** : MPLS Provider 네트워크의 백본에 연결되어 있는 라우터를 뜻한다. LER로부터 전달받은 MPLS 패켓에서 Label 정보를 확인하여 자신의 LFIB에서 순차적으로 검사한다.  
+* **LSP(Label Switch Path)** : MPLS를 구성한 라우터와 라우터 상호간에 생기는 경로를 뜻한다. MPLS 패켓은 바로 LSP 경로를 이용하여 전송된다.  
+* **LDP(Label Dynamic Protocol)** : MPLS를 구성한 라우터와 라우터 상호간에 LSP를 동적으로 생성하는 프로토콜을 뜻한다. 또한, 설정된 회선의 대역폭 사용률에 따라 자동으로 생성할 수 있다.  
 {: .notice}
 ---
 ### NAC
