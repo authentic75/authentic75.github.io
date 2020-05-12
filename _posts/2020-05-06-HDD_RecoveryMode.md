@@ -135,12 +135,18 @@ UUID명: 네트워크상에 유일한 이름으로 부여되기 때문에 어디
 덤프는 부팅시 fsck 후 마운트를 진행하는 옵션으로 ext3 이상에서 주로 사용한다.  
 순서는 fsck 진행하는 장치만 설정하고, / 에 마운트되는 장치만 순서를 1로 설정한다. 나머지 모두 2로 설정한다.  
 {: .notice} 
+---
+#### 자세한 내용은 다음 포스트에..
+---
+```console
+[root@ns1 ~]# mount | grep sdc
 
+[root@ns1 ~]# df -h /dev/sdc1
 
+[root@ns1 ~]# blkid
 
-
-
-
+[root@ns1 ~]# mount -o remount /mydata2
+```
 
 
 
