@@ -308,6 +308,17 @@ $password = 'this is an password';
 $hash = sha1($salt.$password);
 ```
 ---
+#### 유닉스 시스템
+---
+유닉스에서의 권한은 소유자와 그룹(다른 사용자)로 분류된다.  
+home 디렉터리 소유자와 그룹은 rw권한을 가진다.  
+{: .notice}
+/user/home rw- rw-  
+  
+/etc/group  
+Security:504:user1,user2,user3
+{: .notice--info}
+---
 ### 윈도우 프로세스
 ---
 **윈도우 인증 프로세스**  
