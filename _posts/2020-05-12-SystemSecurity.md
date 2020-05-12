@@ -19,22 +19,18 @@ read_time: false
 {: .notice--info}
 {: .notice--warning}
 ## Table1
-| Button Type   | Example | Class | Kramdown |
-| ------        | ------- | ----- | ------- |
-| Default       | [Text](#link){: .btn} | `.btn` | `[Text](#link){: .btn}` |
-| Primary       | [Text](#link){: .btn .btn--primary} | `.btn .btn--primary` | `[Text](#link){: .btn .btn--primary}` |
-| Success       | [Text](#link){: .btn .btn--success} | `.btn .btn--success` | `[Text](#link){: .btn .btn--success}` |
-| Warning       | [Text](#link){: .btn .btn--warning} | `.btn .btn--warning` | `[Text](#link){: .btn .btn--warning}` |
-| Danger        | [Text](#link){: .btn .btn--danger} | `.btn .btn--danger` | `[Text](#link){: .btn .btn--danger}` |
-| Info          | [Text](#link){: .btn .btn--info} | `.btn .btn--info` | `[Text](#link){: .btn .btn--info}` |
-| Inverse       | [Text](#link){: .btn .btn--inverse} | `.btn .btn--inverse` | `[Text](#link){: .btn .btn--inverse}` |
-| Light Outline | [Text](#link){: .btn .btn--light-outline} | `.btn .btn--light-outline` | `[Text](#link){: .btn .btn--light-outline}` |
+|A        |B         |C          |
+|---------|----------|-----------|
+| a1 | b1| c1 |
+| a2 | b2 | c2 |
+| a3 | b3 | c3 |
+
 ## Table2
-| Notice Type | Class              |
-| ----------- | -----              |
-| Default     | `.notice`          |
-| Primary     | `.notice--primary` |
-| Info        | `.notice--info`    |
-| Warning     | `.notice--warning` |
-| Success     | `.notice--success` |
-| Danger      | `.notice--danger`  |
+
+|A        |B         |
+|---------|----------|
+| a1 | b1 |
+| a2 | b2 |
+| a3 | b3 |
+
+
