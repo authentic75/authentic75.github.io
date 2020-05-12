@@ -77,6 +77,11 @@ SQL
 * DCL: grant, revoke
 {: .notice}
 
+```
+username: ' having 1=1--
+username: ' group by users.id having 1=1--
+username: ' union select sum(username) from users--
+```
 ---
 ### 크로스 사이트 스크립트
 ---
