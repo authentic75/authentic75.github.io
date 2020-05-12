@@ -116,11 +116,11 @@ SMTP도 TCP 기반 프로토콜이라 **3way hand shaking** 과정을 거친다.
 ### 라우팅 프로토콜
 ---
 **라우팅 프로토콜 종류**  
-Distance Vector: Hop Count를 정보로 최단 경로를 결정, 메모리 부담  
-RIP, IGRP  
-Link State: Link 변화 발생 시 Hop Count 및 Bandwidth, Delay 등 다양한 Link 정보를 가지고 경로 설정, Traffic 유발    
+**Distance Vector**: Hop Count를 정보로 최단 경로를 결정, 메모리 부담  
+RIP, IGRP,  EIGRP 
+**Link State**: Link 변화 발생 시 Hop Count 및 Bandwidth, Delay 등 다양한 Link 정보를 가지고 경로 설정, Traffic 유발    
 OSPF, EIGRP  
-Path Vector: (하이브리드) 정책기반으로 라우팅 정보 업데이트  
+**Path Vector**: (하이브리드) 정책기반으로 라우팅 정보 업데이트  
 BGP  
 {: .notice--info}
 ---
@@ -151,6 +151,48 @@ Supernetting 라우터 메모리 절약, 성능 향상 및 대역폭 절약
 ---
 #### EIGRP
 ---
+Hybrid, Link State 라우팅 프로토콜처럼 동작하는 Distance Vector 라우팅 프로토콜, Link State의 특징: 부분적 라우팅 정보 업데이트와 네이버 발견등의 장점이 있다.  
+{: .notice}
+**DUAL(Diffusing Update Algorithm)**  
+빠른 수렴을 수행  
+주기적 라우팅 정보 갱신을 하지 않아 적은 대역폭을 소요  
+Protocol Dependent Module을 통해 다양한 라우팅 프로토콜을 지원  
+RTP(Reliable Transport Protocol)을 사용하여 효과적인 신뢰성  
+(필요한 경우만 Ack 가능, Hello와 Ack패킷이 이에 해당)  
+특히 OSPF에 대비 쉬운 설정이 가능  
+Unequal cost 부하 분산을 지원  
+매트릭 값이 다른 다수개의 경로를 동시에 사용(대역폭의 확장)  
+{: .notice}
+
+**용어**
+**Neighbor Table**: 인접(Adjacent) 라우터들의 정보가 저장된다  
+**Topology Table**: 도달 가능한 모든 경로에 대한 정보가 있다. 인접 라우터에게서 수신한 네트워크와 그 네트워크의 메트릭 정보를 저장  
+**Routing Table**: 최적의 경로를 선택하여 Successor로 선택한다  
+**Successor**: 라우팅 루프를 갖지 않고 특정 목적지에 대해 가장 우선하는 경로  
+**Feasible Successor(FS)**: 현재 Successor를 경유하는 라우트의 FD보다 작은 RD를 가지는(RD<FD) 넥스트 홉 라우터를 발한다. 백업경로로서 Topology Table에 존재, Successor에 문제 발생 시 Successor의 역할을 수행한다  
+**Feasible Distance(FD)**: 현재 라우터에서 특정 목적지 네트워크까지의 최적 메트릭  
+**Reported Distance(RD)**: 넥스트 홉 라우터에서 목적지 네트워크까지의 메트릭값. Advertised Distance(AD)라고도 한다. EIGRP 라우터들은 넥스트 홉 라우터가 알려주는 RD값을 토폴로지 테이블에 저장한다.  
+**Autonomous System(AS)**: 특정 단체에 속해있는 모든 라우터들의 집합을 의미한다  
+{: .notice}
+**EIGRP의 다섯가지 패킷 종류**
+**Hello**: 이웃(Neighbor)을 구성, 유지, 발견하는데 사용하며, 멀티캐스트(224.0.0.10)를 사용한다. 인접 라우터에게 주기적으로 헬로 패킷을 전송하고, 헬로 주기의 3배에 해당하는 기간동안에 헬로 페킷을 받지 못하면 인접 라우터에 문제가 발생했다 간주하고 관계를 해제하는데, 이 시간을 홀드시간(Hold time)이라고 한다. 이더넷에서의 헬로주기는 5초이고, 홀드시간은 이의 3배인인 15초이다.  
+**Update**: 라우터에 부분적인 라우팅 정보 변화가 생겼을 경우 이를 전달하는데 사용된다. 경로가 발견되거나 갱신이 끝나을 때 또는 인접라우터와 이웃관계가 구성되면 자신의 토폴로지 테이블에 있는 최적 경로를 업데이트 패킷을 이용하여 네이버에게 전달한다. 유니캐스트 혹은 멀티캐스트(224.0.0.10)를 이용하여 보내진다.   
+**Query**: 라우팅 정보를 요청할때 사용되는 유니/멀티캐스트 패킷이다. 자신의 라우팅 테이블에 있는 경로가 다운되거나 메트릭값이 증가하고, 토폴로지 테이블에 대체 경로(Feasible Successor)를 발견하지 못하면 이웃(Neighbor)한 라우터에게 이 패킷을 보내어 정보를 요청한다.   
+**Reply**: 이 패킷은 Queries 패킷에 대한 응답시 사용되며, Query패킷에 대해 유니캐스트를 사용한다.  
+**Acknowledgement**: 이 패킷은 위에 설명한 패킷 종류 이외의 패킷에 대해 확인의 의미로 사용된다.  
+EIGRP 라우터간 이웃 관계를 맺는 절차는, 상대방에게서 헬로 패킷만 수신하면 바로 상대방을 이웃이라 간주하고, 이웃에게 라우팅 정보를 전송한다. 그러나 상대 라우터가 현재 라우터에게서 헬로 패킷을 수신하기 전이면 상대 라우터는 현재 라우터를 이웃으로 간주하지 않고 라우팅 정보도 전송하지 않는다.  
+{: .notice}
+**메트릭 요소(vector metric)**  
+Bandwidth(대역폭): EIGRP 프로토콜에서 사용되는 메트릭 요소 중 하나로, 링크의 수용 가능한 능력을 말하며, 기본 단위는 Kilobit이다. 대역폭은 동적으로 인식하지 않고 정적으로 인식한다. 즉, 관리자가 실제로 1544Kbps의 대역폭을 1000Kbps로 라우터의 인터페이스에서 설정할 수 있다. - Bandwidth(EIGRP)=10,000,000/해당 Bandwidth(Kbps) * 256  
+Delay(지연): 메트릭 요소 중 하나로, 네트워크상에서 패킷이 시작점에서 최종 목적지까지 도달하는데 걸리는 시간을 말한다. 기본 단위는 microsecond이다. - Delay(EIGRP) = Delay/10(usec) * 256  
+Reliablilty(신뢰성): 네트워크 상에서 각 링크의 장애율, 즉 , 시작점과 도착점 사이의 신뢰성을 의미하며, 1부터 255사이의 값을 선택할 수 있다.  
+Load(부하): 네트워크 상에서 해당 링크가 어느 정도 활용되고 있는지를 나타낸다. 1부터 255 사이의 값을 선택할 수 있다.  
+Maximum Transmission Unit(MTU, 최대 전송 단위) : 목적지까지 가는 각 인터페이스의 MTU중에서 가장 작은 최대 전송 단위이다.  
+{: .notice}
+**Diffusing Update Algorithm(DUAL)과 Finite State Machine(FSM)**  
+EIGRP는 Diffusing Update Algorithm(DUAL)을 이용하여 매 순간 라우트 계산을 통해 루프를 방지한다. DUAL 알고리즘은 모든 라우터들이 동일 시간에 토폴로지 변화를 동기화 할 수 있게 한다. 그리고 토폴로지 변화에 영향을 받지 않는 라우터들은 라우터 재계산에 참여하지 않는다.  
+출처: https://raptor-hw.net/xe/know/17234
+{: .notice}
 
 ---
 #### BGP
@@ -168,7 +210,7 @@ EBGP(External BGP): 서로 다른 AS에서 동작
 ---
 #### CIDR
 ---
-Classes Inter Domail Routing  
+Classes Inter Domain Routing  
 기존 클래스 마스크보다 더 적은 마스크 사용하여 요약  
 (IPv4 주소 공간을 더 효율적으로 사용)  
 -> 불필요한 라우팅 업데이트 트래픽 감소  
