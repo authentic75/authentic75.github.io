@@ -21,6 +21,7 @@ read_time: false
 {: .notice--info}
 {: .notice--warning}
 ## Table1
+
 | A        | B         | C          |
 | --------- | ---------- | ----------- |
 | a1 | b1| c1 |
