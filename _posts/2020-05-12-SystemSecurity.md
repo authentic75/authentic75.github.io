@@ -306,7 +306,7 @@ PAM은 요청한 서비스의 설정 파일확인
 $salt = "this is a salt";
 $password = 'this is an password';
 $hash = sha1($salt.$password);
-``
+```
 ---
 ### 윈도우 프로세스
 ---
