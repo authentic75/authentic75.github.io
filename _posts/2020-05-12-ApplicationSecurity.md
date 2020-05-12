@@ -20,10 +20,10 @@ read_time: false
 ### FTP
 ---
 * 명령 21번 포트, Active 데이터 전송 20번 포트, Passive 1024 이상 서버가 랜덤 지정  
-* /etc/ftpusers: 파일에 적용된 사용자 접근제한 (root가 기본적으로 등록)  
-* /etc/hosts.deny: 특정 IP의 접근 제한  
-* /etc/hosts.allow: 특정 IP의 접근 허용  
-* xperlog:  FTP log 파일, 필드 의미 알아 둘 것! t업로드 o는 다운로드  
+* **/etc/ftpusers**: 파일에 적용된 사용자 접근제한 (root가 기본적으로 등록)  
+* **/etc/hosts.deny**: 특정 IP의 접근 제한  
+* **/etc/hosts.allow**: 특정 IP의 접근 허용  
+* **xperlog**:  FTP log 파일, 필드 의미 알아 둘 것! t업로드 o는 다운로드  
 	* cat /var/log/xferlog   
 	
 ```console
@@ -33,13 +33,13 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/byoungguk/3 b _ i r byoungguk ftp 0 *
 ```
 시간/전송(초)/접속 ip/크기/파일이름/전송/액션/direction/access/유저/서비스/인증/상태
 {: .notice} 
-* *전송 형태*: a(ASCII), b(binary)
-* *액션 Flag*: C(압축), U(압축x), T(tar), _(아무 액션이 없다)
-* *Direction*: 전송의 지시 o(outgoing), i(incoming), d(delete)
-* *Access-mode*: a(anonymous), g(guest passwd 소유), r(real 인증 가능한 local user)
-* *Service-name*: 보통은 FTP
-* *Authentication-method*: 0(none), 1(authenticated)
-* *Completion-status*: 전송상태 나타냄, c(완전한 전송), i(불완전한 전송)
+* **전송 형태**: a(ASCII), b(binary)
+* **액션 Flag**: C(압축), U(압축x), T(tar), _(아무 액션이 없다)
+* **Direction**: 전송의 지시 o(outgoing), i(incoming), d(delete)
+* **Access-mode**: a(anonymous), g(guest passwd 소유), r(real 인증 가능한 local user)
+* **Service-name**: 보통은 FTP
+* **Authentication-method**: 0(none), 1(authenticated)
+* **Completion-status**: 전송상태 나타냄, c(완전한 전송), i(불완전한 전송)
 {: .notice--warning} 
 * tftp (UDP 이용), sftp(암호화)
 * TCP 기반 (3way handshaking)
@@ -49,9 +49,9 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/byoungguk/3 b _ i r byoungguk ftp 0 *
 ---
 ### 웹서버 (80)
 ---
-* *디렉토리 리스팅*: index.* 파일 없을 때 해당 경로의 모든 파일 디렉토리 노출
-* *서버에 대한 정보*: 서버 토큰, 서버 signature
-* *웹서버 로그 파일*: access.log
+* **디렉토리 리스팅**: index.* 파일 없을 때 해당 경로의 모든 파일 디렉토리 노출
+* **서버에 대한 정보**: 서버 토큰, 서버 signature
+* **웹서버 로그 파일**: access.log
 {: .notice} 
 ```
 211.36.215.78 -  manager [22/Jun/2000:23:09:09 +0900] "GET / HTTP/1.1" 200 5  
