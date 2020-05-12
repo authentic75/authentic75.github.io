@@ -186,23 +186,100 @@ C-LOOK(Circular look):
 명령줄 분석, 와일드 카드, 히스토리 문자, 특수문자 분석  
 {: .notice}
 
-**전역 설정 파일**
-.bash_profile: 사용자 홈 디렉터리에 있는 파일, 개별적인 셸 환경 설정  
-.bashrc: 사용자 정의변수, 함수 alias 정의
-.bash_logout: 사용자가 로그아웃할 때 실행되는 파일을 정의  
-
 **커널 종류/모드**
 사용자 모드:  
 커널 모드: 시스템 콜에 의한 요청 처리  
 마이크로 커널: 핵심기능만 포함, 아날로그 연속 입력을 디지털로 변환  
 모놀리식 커널: 커널이 만든 기능을 포함하고 있는 커널 아키텍쳐  
+{: .notice}
+---
+#### 리눅스 파일 시스템
+---
+부트 블록: 파일 시스템으로부터 리눅스 커널 적재
+슈퍼 블록: 블록 리스트, 다음 블록 인덱스, 
+inode 목록, 빈 inode 수와 목록, 빈블록과 inode 목록에 대한 lock 필드
+슈퍼 블록들이 수정되었는지에 대한 flag, 파일시스템이름, 파일 시스템 디스크이름  
+아이노드: 파일이나 디렉터리에 대한 모든 정보를 가지고 있는 구조  
+데이터 블록: 삭제 데이터가 저장되어 있는 파일 형태  
+{: .notice}
+---
+#### 리눅스 로그 및 파일
+---
+**전역 설정 파일**
+.bash_profile: 사용자 홈 디렉터리에 있는 파일, 개별적인 셸 환경 설정  
+.bashrc: 사용자 정의변수, 함수 alias 정의
+.bash_logout: 사용자가 로그아웃할 때 실행되는 파일을 정의  
+{: .notice}
+utmp 파일은 /var/run/utmp에 존재한다 **w 또는 who로 실행 가능**  
+{: .notice}
+```console
+[root@ns2 run]# stat utmp
+  File: utmp
+  Size: 1536            Blocks: 8          IO Block: 4096   일반 파일
+Device: 17h/23d Inode: 13099       Links: 1
+Access: (0664/-rw-rw-r--)  Uid: (    0/    root)   Gid: (   22/    utmp)
+Context: system_u:object_r:initrc_var_run_t:s0
+Access: 2020-05-12 13:13:08.785992118 +0900
+Modify: 2020-05-12 13:13:08.785992118 +0900
+Change: 2020-05-12 13:13:08.785992118 +0900
+ Birth: -
+```
+wtmp 파일은 로그인과 로그아웃 정보 **last 명령으로 실행 가능**  
+{: .notice}
+wtmp가 기록하고 있는 정보  
+사용자 로그인 및 로그아웃 정보  
+시스템 관련 정보  
+시스템 종료 및 부팅 정보  
+재부팅 정보  
+telnet 및 ftp 등을 통한 로그인 정보  
+{: .notice--warning}
+btmp 파일은 리눅스 로그인시 실패한 정보 **lastb로 실행가능**  
+{: .notice}
+syslog는 리눅스 운영체제에 대한 로그를 기록하는 데몬 프로세스로 syslogd에 의해서 기록된다  
+/etc/syslogd.conf 파일 참고
+{: .notice}
+---
+#### 리눅스 명령어
+---
+`find 명령어로 악성코드 탐지`  
+```console
+#find / -name *.php (root Shell 찾기)
+#find . -name “[A-Z]*”
+#find /var/www -name “[a-z][a-z][0-9]*”
+#find . -name “* *” -exec rm -f { }\;
 
+#find / -perm +6000 2>/dev/null
+#find /var/www -mtime -20
+#find / -user root | more
+#find / -nouser -o -nogroup 2>/dev/null
+```
 
+`tripwire 파일 무결성 검사`  
+```console
+#tripwire –init	해시 값을 저장한 데이터베이스를 초기화
+#tripwire –check 무결성 검사를 실행
+```
 
-
-
-
-
+`iptables 패킷 필터링`  
+체인 종류: INPUT, FORWARD, OUTPUT  
+옵션: -A 추가 -N 새로운체인 -X 체인제거 -P 정책변경 -L 규칙상태보기 -F 모든규칙제거  
+-Z 체인내의 모든 규칙의 패킷과 바이트의 카운트를 0으로 초기화  
+-D 규칙을 삭제 -R 새로운 규칙으로 대체 -I 가장 처음에 규칙 추가 -E 체인이름 변경  
+제어 옵션: -s 출발지 -d 목적지 - -sport 출발 포트 - -dport 목적지 포트 -p 프로토콜  
+-i 들어오는 인터페이스 -o 나가는 인터페이스 -f fragment패킷 -j 규칙에 해당하는 패킷을 어떻게 할지 명시  
+{: .notice}
+```console
+#iptables -A INPUT -s 127.0.0.1 -p icmp -j DROP
+#iptables -A FORWARD -p udp -m udp - -dport 53 -j DROP
+#iptables -I INPUT -p tcp - -dport 21 -j ACCEPT
+```
+`패스워드 크래킹 도구`  
+Johan the ripper  
+L0phtcrack  
+Pwdump  
+DDos 도구  
+WinNuke  
+{: .notice--info}
 
 
 
