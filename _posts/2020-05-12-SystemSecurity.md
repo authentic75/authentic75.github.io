@@ -260,7 +260,7 @@ syslog는 리눅스 운영체제에 대한 로그를 기록하는 데몬 프로�
 #tripwire –check 무결성 검사를 실행
 ```
 
-`iptables 패킷 필터링`  
+**iptables 패킷 필터링**  
 체인 종류: INPUT, FORWARD, OUTPUT  
 옵션: -A 추가 -N 새로운체인 -X 체인제거 -P 정책변경 -L 규칙상태보기 -F 모든규칙제거  
 -Z 체인내의 모든 규칙의 패킷과 바이트의 카운트를 0으로 초기화  
@@ -273,7 +273,7 @@ syslog는 리눅스 운영체제에 대한 로그를 기록하는 데몬 프로�
 #iptables -A FORWARD -p udp -m udp - -dport 53 -j DROP
 #iptables -I INPUT -p tcp - -dport 21 -j ACCEPT
 ```
-`패스워드 크래킹 도구`  
+**패스워드 크래킹 도구**  
 Johan the ripper  
 L0phtcrack  
 Pwdump  
@@ -281,8 +281,10 @@ DDos 도구
 WinNuke  
 {: .notice--info}
 
-
-
+---
+### 윈도우 프로세스
+---
+**윈도우 인증 프로세스**
 
 
 
