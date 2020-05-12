@@ -385,7 +385,10 @@ Agentless 방식
 ---
 ### ESM/SIEM
 ---
-
+SIEM
+{: .notice}
+ESM
+{: .notice}
 ---
 ### IAM
 ---
