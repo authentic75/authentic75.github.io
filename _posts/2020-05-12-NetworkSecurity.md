@@ -92,10 +92,10 @@ POP3(Post Office Protocol): 메일을 전송받을 때 사용되는 프로토콜
 IMAP(Internet Mail Access Protocol): 메일을 전송받을 때 사용되는 프로토콜  
 {: .notice}
 ---
-### SMTP
+### SMTP 동작
 ---
-SMTP도 TCP 기반 프로토콜이라 3way hand shaking 과정을 거친다.  
-1. TCP 3 way handshakig  
+SMTP도 TCP 기반 프로토콜이라 **3way hand shaking** 과정을 거친다.  
+1. TCP
 2. 220, Ready  
 3. **EHLO(세션초기화, 확정 목록 요청)**  
 4. 250, OK  
@@ -103,7 +103,7 @@ SMTP도 TCP 기반 프로토콜이라 3way hand shaking 과정을 거친다.
 6. QUIT  
 7. 221, Good bye  
 {: .notice--info}  
-메일 전송  
+**메일 전송**  
 1. **MAIL FROM(보내는이 알림)**  
 2. 250, OK
 3. **RCPT TO(받는이 주소 지정)**  
