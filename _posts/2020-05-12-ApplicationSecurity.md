@@ -157,7 +157,7 @@ ResultSet rs = stmt.executeQuery();
 # chmod 511 /usr/local/httpd/bin/httpd
 ```
 
-불필요한 파일 삭제  
+`불필요한 파일 삭제`  
 * /var/www/manual 및 /var/www/cgi.bin 삭제
 * Directory Listing
 	* Index.html이 없거나 Listing을 보여주는 옵션이 설정되었는지 확인
@@ -171,7 +171,7 @@ ResultSet rs = stmt.executeQuery();
 ---
 #### 웹 로그
 ---
-접속로그
+`접속로그`
 * /var/log/httpd/access_log: 서버에서 발생하는 로그 및 CGI 같은 스크립트 정보 기록
 {: .notice}
 ```
@@ -184,7 +184,7 @@ Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것
 상태 코드: 2xx(요청 성공), 4xx(클라이언트 오류), 5xx(서버 오류)  
 {: .notice--warning}
 
-에러로그
+`에러로그`
 * /var/log/httpd/error_log: 에러로그 파일 기록  
 * syslog: 에러 발생 시 로그를 syslog에 기록  
 {: .notice}
@@ -261,13 +261,40 @@ xp_cmdshell 보안 취약점: EXEC xp_cmdshell ‘ping ~~~’ 형태로 윈도�
 기밀성, 무결성, 부인봉쇄 지원, SSL에 비해 상대적으로 느리다.
 {: .notice--info}
 
-SET 구성요소
+`SET 구성요소`
 * 구매자: 전자상 거래를 수행, 전자지갑 얻음(SET 인증서포함)
 * 판매자: SET 이용하여 상품판매
 * 발급기관: 사용자 계좌가 있는 기관, 신용카드 발생, 사용자에게 인증서 발행
 * 지불처리은행: 상점의 계좌가 있는 기관, 신용카드 인가 여부, 지불 Gateway 운영, 상인에게 인증서 발행
 * 인증기관: SET에 참여하는 사용자, 상점, PG의 정장성을 보증하는 기관
 {: .notice}
+
+`사용 기술`
+* 대칭키, 공개키, 전자서명, 해시함수, 전자봉투, 공개키인증(X.509), 이중서명  
+* 알고리즘: DES, RSA, SHA-1  
+{: .notice}
+`SET 이중서명`
+* 주문정보와 지불정보를 각각 해시, 두개의 해시 다이제스트를 하나로 합치는 연접과정 후 다시 해시진행, 해시 다이제스트를 송신자의 개인키로 암호화  
+* 사기 방지, 기존의 신용카드 기반을 그대로 활용
+* 암호 프로토콜 복잡, RSA 속도 저하, 카드 소지자에게 전자지갑 SW 요구  
+{: .notice}
+
+---
+### SSL
+---
+
+SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
+{: .notice--info}
+
+* 응용계층과 전송계층 사이에 독립적인 프로토콜 계층을 만들어서 동작
+* 응용계층의 프로토콜들은 외부로 보내는 데이터를 TCP가 아닌 SSL에 보내게 되고 SSL은 받은 데이터를 암호화하여 TCP에 보내어 외부 인터넷으로 전달
+* TCP로부터 받은 데이터를 복호화하여 응용계층에 전달하게 되는데, 이 과정에서 Application은 SSL을 TCP로 인식하고, TCP는 SSL을 Application으로 인식하기 때문에, Application과 TCP사이의 데이터 전달 방식은 기존 전달 방식을 그대로 사용
+* RSA 공개키 알고리즘, X.509 인증, 443 포트 사용
+* 전송~어플리케이션 계층에서 동작 (http, ftp, telnet, mail)
+* 기밀성, 무결성, 인증 세가지 보장
+{: .notice}
+
+'SSL 프로토콜 구조'
 
 
 
