@@ -342,20 +342,21 @@ Warm: 중요 업무만
 Cold: 복구x  
 최신정보유지: Mirror /Fail over: 장애 시 Session을 넘겨주는 것  
 {: .notice}
-*CC/ISO 15408 인증 (다른 나라에서도 인정됨)
-4가지 요소
-PP 보호 프로파일: 제품기능
-ST 보안목표명세서: 보증, 좀더 세부적
-TOE: 시스템, 제품(평가 대상)
-EAL: 평가 등급
-
-인증
-*Identification, authentication, authorization 차이: ID, 정당한 사용자, 권한
-지식에 의한 인증, 소유에 의한 인증, 생체인증, 행위에 의한 인증
-
+---
+#### 인증
+---
+CC/ISO 15408 인증 (다른 나라에서도 인정됨)  
+**4가지 요소**  
+PP 보호 프로파일: 제품기능  
+ST 보안목표명세서: 보증, 좀더 세부적  
+TOE: 시스템, 제품(평가 대상)  
+EAL: 평가 등급  
+{: .notice}
+Identification, authentication, authorization 차이: ID, 정당한 사용자, 권한  
+지식에 의한 인증, 소유에 의한 인증, 생체인증, 행위에 의한 인증  
+{: .notice}
 *ISMS
 BS7799(영국) -> ISO 17799 -> 27001 -> ISMS(우리나라 KISA)
-
 ---
 ### 과목5 정보보안관리 및 법률
 ---
