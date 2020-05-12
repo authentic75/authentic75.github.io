@@ -298,6 +298,16 @@ PAM은 요청한 서비스의 설정 파일확인
 서비스는 인증 결과 내용을 토대로 서비스 진행 또는 거부  
 {: .notice}
 ---
+#### 패스워드 암호화
+---
+해시함수로 패스워드 암호화시 임의로 추가되는 값은?
+{: .notice}
+```
+$salt = "this is a salt";
+$password = 'this is an password';
+$hash = sha1($salt.$password);
+``
+---
 ### 윈도우 프로세스
 ---
 **윈도우 인증 프로세스**  
