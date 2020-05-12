@@ -5,8 +5,6 @@ categories:
   - Security
 tags:
   - 정보보안기사
-  - 보안
-  - 해킹
 toc: true 
 toc_label: "My Table of Contents"
 toc_icon: "cog"
