@@ -178,9 +178,6 @@ ResultSet rs = stmt.executeQuery();
 #TransferLog /var/log/access.log  #지시어를 사용하여 로그 위치를 설정
 #Isof -p 1350(포트번호)로 조회 가능
 ```
-```
-127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
-```
 요청IP/신원/user id/요청을 마친 시간/요청 데이터/상태 코드/헤더를 제외한 크기  
 신원: identd가 제공할 클라이언트의 신원 (내부 네트웍 아니면 사용 x)  
 Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것  
@@ -197,3 +194,72 @@ Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것
 * 에이전트로그  
 * 참조로그  
 {: .notice}
+
+---
+#### DNS 보안
+---
+
+|   영   역   |   도  메  인   |       
+| ---------- | ------------ |
+| Root domain | COM, ORG, KR |
+| Top level | GOOGLE, FreeBDS, NE|
+| Second level | WWW, FTP(GOOGLE), WWW, KR(FREEBSD), NOBREAK(NE) |
+| Third of Subdomains |WWW, FTP(KR), WWW(NOBREAK) |
+| Subdomains | (*원래는 트리구조)  |
+
+* Root domain(.): 모든 도메인의 근본이 되는 최상 level Domain  
+* Top Level Domain: com, org, kr 등의 국가, 지역
+* Second Level: 사용자가 도메인명을 신청해서 등록할 수 있는 영역  
+{: .notice--warning}
+
+1. Recursive Query
+2. Iterative Queries
+3. Response from Root Name Server
+4. Query to Top Level Name Server  
+5. Response from Top Level Name Server 
+6. Query to Second-level Name Server
+7. Response from Second-level Name Server  
+8. DNS Client Get IP
+{: .notice}
+
+```console
+#dnsspoof 도구로 DNS Spoofing을 할 수 있다.
+#dnsspoof -I eth0 -f dns.host
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
