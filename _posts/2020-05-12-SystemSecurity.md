@@ -280,7 +280,23 @@ Pwdump
 DDos 도구  
 WinNuke  
 {: .notice--info}
-
+---
+#### 유닉스 PAM 인증
+---
+PAM(Pluggable Authentication Module)은 리눅스 연결 인증 모듈로 서비스 접속과 관련하여 인증을 지원한다.  
+{: .notice}
+**인증과정**    
+/etc/pam.d/* 서비스 인증 설정 파일  
+/lib/security/* PAM 인증 파일  
+/etc/security/* PAM 인증 파일의 설정파일  
+{: .notice}
+**인증 순서**  
+사용자 서비스 접근  
+서비스는 PAM에게 인증을 요청  
+PAM은 요청한 서비스의 설정 파일확인  
+서비스는 설정 파일 안에 있는 절차에 맞게 인증 수행  
+서비스는 인증 결과 내용을 토대로 서비스 진행 또는 거부  
+{: .notice}
 ---
 ### 윈도우 프로세스
 ---
