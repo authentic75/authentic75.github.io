@@ -240,11 +240,20 @@ Ex) /24, /22 꼴로 나타냄
 ---
 **Port Half Open**  
 {: .notice}
+**NMAP 포트 스캐닝**
 * TCP connection() Scan: 3-way handshaking 수립, 쉽게 탐지  
 * TCP SYN Scan: SYN/ACK 받으면 OPEN, RST/ACK 받으면 Close, Stealth Scanning  
 * TCP FIN Scan:  RST 받으면 Close 
 * TCP Null: 모든 플래그 지운다, RST 받으면 Close  
 * TCP X-MAS Tree Scan: FIN, URG, PSH 패킷 전송, RST 받으면 Close  
+{: .notice}
+**NMAP 옵션**
+SCAN Type (-s*)  
+-sS TCP SYN SCAN -sT TCP Connection SCAN -sU UDP SCAN  
+-sF TCP FIN SCAN -sN TCP Null SCAN -sA TCP ACK SCAN  
+{: .notice}
+Port Option (-p)  
+-p [번호/프로그램이름/포트범위/T:tcp/U:udp]
 {: .notice}
 ---
 ### 스니핑 공격
