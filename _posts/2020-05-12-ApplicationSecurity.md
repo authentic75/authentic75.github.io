@@ -178,6 +178,15 @@ ResultSet rs = stmt.executeQuery();
 #TransferLog /var/log/access.log  #지시어를 사용하여 로그 위치를 설정
 #Isof -p 1350(포트번호)로 조회 가능
 ```
+```
+127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
+```
+요청IP/신원/user id/요청을 마친 시간/요청 데이터/상태 코드/헤더를 제외한 크기  
+신원: identd가 제공할 클라이언트의 신원 (내부 네트웍 아니면 사용 x)  
+Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것  
+상태 코드: 2xx(요청 성공), 4xx(클라이언트 오류), 5xx(서버 오류)  
+{: .notice--warning}
+
 에러로그
 * /var/log/httpd/error_log: 에러로그 파일 기록  
 * syslog: 에러 발생 시 로그를 syslog에 기록  
