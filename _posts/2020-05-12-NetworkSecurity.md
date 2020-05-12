@@ -305,7 +305,16 @@ tcpdump 옵션
 ---
 ### 스푸핑
 ---
+`arpspoof`  
+```console
+# arpspoof -i eth0 -t 110.15.241.121 110.15.241.1
+# -i 인터페이스 -t 타겟과 게이트웨이  -s 감시
+```
 **snort: Rule과 동일한 패킷을 탐지하는 침입 탐지 시스템**  
+```console
+# snort -c /etc/snort/rules/test.rules
+# vi /etc/snort/rules/test.rules
+```
 ---
 ### VLAN
 ---
