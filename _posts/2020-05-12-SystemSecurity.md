@@ -21,7 +21,7 @@ read_time: false
 {: .notice--info}
 {: .notice--warning}
 
-## Table1
+`Table1`
 
 | A        | B         | C          |  
 | --------- | ---------- | ----------- |  
@@ -29,7 +29,7 @@ read_time: false
 | a2 | b2 | c2 |  
 | a3 | b3 | c3 |  
 
-## Table2
+`Table2`
 
 | A        | B         |
 | --------- | ---------- |
