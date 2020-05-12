@@ -2,9 +2,9 @@
 title: "정보보안기사: 요약"
 last_modified_at: 2020-05-11T16:20:02-05:00
 categories:
-  - 정보보안기사
+  - Security
 tags:
-  - 정보보안기사
+  - Security
   - 보안
   - 해킹
 toc: true 
