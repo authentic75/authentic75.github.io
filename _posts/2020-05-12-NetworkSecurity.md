@@ -469,10 +469,11 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 {: .notice}
 
 ---
-### 도구들
+### 도구명
 ---
-
-세션하이재킹도구들
+Spoofing 도구
+* sort
+세션하이재킹 도구
 * Hunt
 * Arpspool
 * IP Watcher
