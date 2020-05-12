@@ -108,7 +108,7 @@ ASLR 동적주소 (실기 출제)
 ### 과목2 네트워크 보안
 ---
 **장비**:  
-Fire wall
+Fire wall  
 IDS(snort 라는 도구의 Rule, Action 종류 등 필기/실기)  
 NAC(End-Point)  
 NAT 솔루션
@@ -174,7 +174,36 @@ NAC(End Point 보안 기술)
 ---
 ### 과목3 어플리케이션 보안
 ---
-
+CC인증(국제 표준 인증, 상호 인증)  
+SDLC (폭포수), 원형을 이용한 ~(Proto type)  
+빈출: 개발 보안, DRM, Water Marking, OTP, IPSEC, FTP(항상 나옴)
+{: .notice--info}
+**FTP**(명령 21번 포트, Active 데이터 전송 20번 포트, Passive 1024 이상 서버가 랜덤 지정)  
+/etc/ftpusers: 파일에 적용된 사용자 접근제한 (root가 기본적으로 등록)  
+/etc/hosts.deny: 특정 IP의 접근 제한  
+/etc/hosts.allow: 특정 IP의 접근 허용  
+**xperlog**:  FTP log 파일, 필드 의미 알아 둘 것! t업로드 o는 다운로드  
+{: .notice}
+```
+cat /var/log/xferlog  
+Mon May 31 07:48:23 2010 1 x.x.x.x 0 /home/byoungguk/1 b _ o r byoungguk ftp 0 * c
+Mon May 31 07:48:25 2010 1 x.x.x.x 0 /home/byoungguk/2 b _ o r byoungguk ftp 0 * c
+Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/byoungguk/3 b _ i r byoungguk ftp 0 * c
+```
+시간/전송(초)/접속 ip/크기/파일이름/전송/액션/direction/access/유저/서비스/인증/상태
+{: .notice--warning}
+전송 형태: a(ASCII), b(binary)
+액션 Flag: C(압축), U(압축x), T(tar), _(아무 액션이 없다)
+Direction: 전송의 지시 o(outgoing), i(incoming), d(delete)
+Access-mode: a(anonymous), g(guest passwd 소유), r(real 인증 가능한 local user)
+Service-name: 보통은 FTP
+Authentication-method: 0(none), 1(authenticated)
+Completion-status: 전송상태 나타냄, c(완전한 전송), i(불완전한 전송)
+{: .notice--warning}
+tftp (UDP 이용), sftp(암호화)
+TCP 기반 (3way handshaking)
+wget으로 여러 파일 동시에 다운 가능하다.
+{: .notice}
 ---
 ### 과목4 정보보안일반
 ---
