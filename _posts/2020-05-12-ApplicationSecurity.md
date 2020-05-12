@@ -76,26 +76,28 @@ SQL
 * DML: insert, delete, update, select
 * DCL: grant, revoke
 {: .notice}
- 
- 
- 
- 
- 
- 
- 
- 
- 
-*크로스 사이트 스크립트
-	-Stored: 게시판에 직접 게시
-	-reflective: 메일로 보내서 클릭하면 공격
-java, PHP: prepare statement
+
+---
+### 크로스 사이트 스크립트
+---
+* Stored: 게시판에 직접 게시
+* reflective: 메일로 보내서 클릭하면 공격
+* 블라인드 injection도 있다(참, 거짓을 이용하여 일일이 대입)
+{: .notice}
+
+**java, PHP: prepare statement**  
+```java
 PreparedStatement stmt = conn.prepareStatement("select count(*) from member where userid=? and password=?");
 stmt.setString(1, userid);
 stmt.setString(2, password); 
 ResultSet rs = stmt.executeQuery();
-블라인드 injection도 있다(참, 거짓을 이용하여 일일이 대입)
-*개발 보안 입력 값 검증 및 표현
-	보안기능
-	에러코드
-	캡슐화
-	API 5형
+```
+
+---
+### 개발 보안 입력 값 검증 및 표현
+---
+보안기능  
+에러코드  
+캡슐화  
+API 5형  
+{: .notice}
