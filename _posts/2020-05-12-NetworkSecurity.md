@@ -13,7 +13,10 @@ author_profile: true
 read_time: false 
 ---
 ---
-### HTTP1.1
+### HTTP
+---
+---
+#### HTTP1.1 헤더
 ---
 HTTP/1.0과 1.1 Entity 차이  
 entity-hader의 헤더 필드가 다수 추가되었다.  
@@ -25,11 +28,55 @@ Content-Type
 Expires  
 Last-Modified  
 {: .notice}
-**HTTP/1.1에서는 위 필드에 더해 다음과 같은 것들이 추가되었다.**
-Content-Base
-Content-Language
-Content-Location
-Content-MD5
-Content-Range
-ETag
+**HTTP/1.1에서는 위 필드에 더해 다음과 같은 것들이 추가되었다.**  
+Content-Base  
+Content-Language  
+Content-Location  
+Content-MD5  
+Content-Range  
+ETag  
 {: .notice}
+---
+#### HTTP1.1 특징
+---
+성능의 향상과 요구되는 시간의 최소화  
+persistent connection  
+pipeline  
+데이터의 압축  
+proxy server와 cache의 사용  
+{: .notice}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
