@@ -226,20 +226,63 @@ RIPv2 부터 CIDR 지원
 Ex) /24, /22 꼴로 나타냄  
 {: .notice--info}
 
+---
+### DDos
+---
+* TCP SYN Flooding  
+* ICMP Flooding  
+* Tear Drop (Ping of death)  
+* Land Attack  
+* HTTP Get Flooding  
+* 등등  
+---
+### 포트 스캐닝
+---
+**Port Half Open**  
+{: .notice}
+* TCP connection() Scan: 3-way handshaking 수립, 쉽게 탐지  
+* TCP SYN Scan: SYN/ACK 받으면 OPEN, RST/ACK 받으면 Close, Stealth Scanning  
+* TCP FIN Scan:  RST 받으면 Close 
+* TCP Null: 모든 플래그 지운다, RST 받으면 Close  
+* TCP X-MAS Tree Scan: FIN, URG, PSH 패킷 전송, RST 받으면 Close  
+{: .notice}
+---
+### 스니핑 공격
+---
 
 
+---
+### 세션하이재킹
+---
 
+---
+### 스푸핑
+---
 
+---
+### VLAN
+---
 
+---
+### VPN
+---
 
+---
+### NAC
+---
 
+---
+### ESM/SIEM
+---
 
+---
+### IAM
+---
 
+---
+### DLP
+---
 
-
-
-
-
-
-
-
+---
+### 도구들
+---
