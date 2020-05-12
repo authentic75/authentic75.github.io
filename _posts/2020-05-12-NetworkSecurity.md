@@ -282,11 +282,30 @@ tcpdump 옵션
 ---
 ### 세션하이재킹
 ---
-
+* TCP 시퀀스 넘버가 잘못되면 이를 바로잡기 위한 작업을 하는데, TCP 세션 하이재킹은 서버와 클라이언트에 각각 잘못된 시퀀스 넘버를 위조해서 연결된 세션에 잠시 혼란을 준 뒤 자신이 끼어들어 가는 방식이다  
+* 세션, 텔넷, FTP 등 TCP 를 이용한 거의 모든 세션의 갈취  
+* 인증 문제 해결을 위한 일회용 패스워드, 토큰 기반 인증을 이용한 세션도 갈취  
+{: .notice}
+세션하이재킹도구들  
+* Hunt: 네트워크상의 감시, 가로채기  
+* Arpspool: 공격자의 주소로 속이는 행위  
+* IP Watcher: 네트워크상의 연결, 감시 및 세션 가로채기  
+* Ferret: 세션 정보를 가로채는 도구  
+* Hamster: Proxy 서버 상태로 만들어 주는 도구  
+* Paroc: 웹 Proxy 서버로서 쓸 수 있는 도구  
+* Can & Abel: 스푸핑과 스캐닝 등 다양한 기능이 있는 도구  
+* WireSharl  
+{: .notice--warning}
+대책  
+* 재전송 증가 탐지  
+* ACK Strom 탐지  
+* 암호화방식  
+* 지속적 인증  
+{: .notice}
 ---
 ### 스푸핑
 ---
-
+**snort: Rule과 동일한 패킷을 탐지하는 침입 탐지 시스템**  
 ---
 ### VLAN
 ---
@@ -314,3 +333,13 @@ tcpdump 옵션
 ---
 ### 도구들
 ---
+세션하이재킹도구들
+* Hunt
+* Arpspool
+* IP Watcher
+* Ferret
+* Hamster
+* Paroc
+* Can & Abel
+* WireSharl
+{: .notice--warning}
