@@ -152,7 +152,7 @@ ResultSet rs = stmt.executeQuery();
 보안설정  
 * 주요 디렉토리 및 파일 접근 권한  
 {: .notice}
-```consle
+```console
 # chown0.bin conf logs
 # chgrp0.bin conf logs
 # chmod 755.bin conf logs
