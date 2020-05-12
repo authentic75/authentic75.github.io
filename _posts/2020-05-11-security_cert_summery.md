@@ -107,13 +107,18 @@ ASLR 동적주소 (실기 출제)
 ---
 ### 과목2 네트워크 보안
 ---
-TCP/IP  
-공격법  
-**장비**: Fire wall, IDS(snort 라는 도구의 Rule, Action 종류 등 필기/실기), End-Point (NAC로 출제), NAT 솔루션  
-TCP/IP에서 봐야할 것  
+**장비**:  
+Fire wall
+IDS(snort 라는 도구의 Rule, Action 종류 등 필기/실기)  
+NAC(End-Point)  
+NAT 솔루션
+{: .notice--info}
+**TCP/IP**:  
 netstate 커맨드: TCP state  
 netstate -e: 통계 정보  
 HTTP, TCP, UDP 헤더 읽을 줄 알아야 한다.  
+{: .notice--info}
+공격법  
 {: .notice--info}
 ---
 #### TCP (신뢰성)
