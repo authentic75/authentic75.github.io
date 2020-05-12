@@ -65,11 +65,11 @@ c
 ---
 ### DMA
 ---
-**DMA(Direct Memory Access)**
+**DMA(Direct Memory Access)**  
 CPU의 개입 없이 I/O 장치와 기억장치 사이의 데이터 전송  
 CPU의 간섭을 배제하고 메모리와 주변장치를 직접 관리하며 속도가 빠르다  
 {: .notice}
-**DMA 동작 방식**
+**DMA 동작 방식**  
 Cycle Stealing: DMA제어기와 CPU가 BUS를 공유, CPU가 BUS를 사용하지 않는 사이클에만 접근,  
 CPU보다 높은 우선순위 가진다.
 Burst Mode: DMA 제어기가 BUS를 점유하며, 동작 완료 후 BUS의 점유를 해제한다.
