@@ -258,8 +258,27 @@ Port Option (-p)
 ---
 ### 스니핑 공격
 ---
-
-
+무차별 모드 실행
+```console
+# ifconfig eth0 promisc	#무차별 모드
+# tcpdump -i eth0			#스니핑 시작
+```
+tcpdump 옵션
+```
+# tcpdump [ -AdDefIKlLnNOpqRStuUvxX ][ -B buffer_size ][ -c count ][ -C file_size ][ -G rotate_seconds ][ -F file ][ -i interface ][ -m module ][ -M secret ][ -r file ][ -s snaplen ][ -T type ][ -w file ][ -W filecount ][ -E spi@ipaddr algo:secret,... ][ -y datalinktype ][ -z postrotate-command ][ -Z user ]
+```
+예시
+```console
+# tcpdump -i eth0				=> 인터페이스 eth0 을 보여줌
+# tcpdump -w tcpdump.log		=> 결과를 파일로 저장, txt 가 아닌 bin 형식으로 저장됨
+# tcpdump -r tcpdump.log		=> 저장한 파일을 읽음
+# tcpdump -i eth0 -c 10			=> 카운터 10개만 보여줌
+# tcpdump -i eth0 tcp port 80		=> tcp 80 포트로 통신하는 패킷 보여줌
+# tcpdump -i eth0 tcp port 80		=> tcp 80 포트로 통신하는 패킷 보여줌
+# tcpdump -i eth0 src 192.168.0.1	=> source ip 가 이것인 패킷 보여줌
+# tcpdump -i eth0 dst 192.168.0.1	=> dest ip 가 이것인 패킷 보여줌
+```
+`출처: https://moyaria.tistory.com/`
 ---
 ### 세션하이재킹
 ---
