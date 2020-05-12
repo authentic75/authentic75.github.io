@@ -367,6 +367,21 @@ MPLS VPN
 * **LDP(Label Dynamic Protocol)** : MPLS를 구성한 라우터와 라우터 상호간에 LSP를 동적으로 생성하는 프로토콜을 뜻한다. 또한, 설정된 회선의 대역폭 사용률에 따라 자동으로 생성할 수 있다.  
 {: .notice}
 ---
+### DNS
+---
+* 사용자는 도메인으로 접속하게 되면 도메인 안에 네임서버 도메인과 IP가 지정되어 있습니다
+* 이러한 네임서버에서는 1차부터 4차까지 무작위로 네임서버의 접근하여 사용자가 접속한 도메인의 레코드 정보를 찾게 됩니다
+{: .notice}
+
+레코드
+* SOA (Start Of Authority) 레코드: 도메인의 모든 정보와 권한을 의미합니다. 
+* NS (Name Server) 레코드: 도메인의 네임서버를 지정하는 레코드 입니다.  
+* A (Address Mapping Records) 레코드: 별명(별칭)을 지정해주는 레코드이고 도메인 위임으로도 합니다.  
+* CNAME (Canonical NAME) 레코드: 별명(별칭)을 지정해주는 레코드이고 도메인 위임이라고도 합니다.   
+* MX (Mail eXchanger) 레코드: 메일서버의 연동시 메일의 소유를 확인하는 레코드로 쓰입니다  
+* SPF (Sender Policy Framework) 레코드: 레코드 TXT 레코드에 안에서 사용되며, 메일 스푸핑을 방지하는데 사용되는 레코드 입니다.   
+{: .notice}
+---
 ### nslookup
 ---
 * 해당 HostName의 해당 IP를 알려주는 명령  
