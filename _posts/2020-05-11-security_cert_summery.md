@@ -270,11 +270,33 @@ username : 'union select password,1,1,1 from users where username = 'admin'--
 ```
 공격 8 transact-SQL  
 select 문으로 직접 쿼리문 전송  
+블라인드 injection도 있다 (참, 거짓을 이용하여 일일이 대입)
 {: .notice}
 ```
 공격 9 shutdown
 username : '; shutdown--
 ```
+---
+#### 크로스 사이트 스크립트
+---
+Stored: 게시판에 직접 게시  
+reflective: 메일로 보내서 클릭하면 공격
+{: .notice}
+```java
+java, PHP: prepare statement
+PreparedStatement stmt = conn.prepareStatement("select count(*) from member where userid=? and password=?");
+stmt.setString(1, userid);
+stmt.setString(2, password); 
+ResultSet rs = stmt.executeQuery();
+```
+---
+#### 개발 보안 입력 값 검증 및 표현
+---
+보안기능  
+에러코드  
+캡슐화  
+API 5형  
+{: .notice}
 ---
 ### 과목4 정보보안일반
 ---
