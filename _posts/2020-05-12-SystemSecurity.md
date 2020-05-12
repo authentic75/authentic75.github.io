@@ -60,10 +60,10 @@ Burst Mode: DMA 제어기가 BUS를 점유하며, 동작 완료 후 BUS의 점�
 
 |    종  류        | 상세 내용         | 유  형       |  
 | ---------- | -------------- | --------- |  
-| 할당 기법 | 프로세스에게 할당되는 메모리 블록의 단위 결정 | 고정 할당, 가변 할당, Paging, Segmentation |  
-| 호출 기법 | 보조기억장치에서 주기억장치로 적재할 시점 결정 | Demand Fetch, Pre Fetch |  
-| 배치 기법 | 요구된 페이지를 주기억장치의 어느 곳에 적재할지 결정 | First fit, Best fit, Next fit, Worst fit |  
-| 교체 기법 | 주기억장치 공간 부족 시 교체 대상 결정 | Random, FIFO, LRU, LFU, NUR, SCR, Optimal |  
+| 할당  기법 | 프로세스에게 할당되는 메모리 블록의 단위 결정 | 고정 할당, 가변 할당, Paging, Segmentation |  
+| 호출  기법 | 보조기억장치에서 주기억장치로 적재할 시점 결정 | Demand Fetch, Pre Fetch |  
+| 배치  기법 | 요구된 페이지를 주기억장치의 어느 곳에 적재할지 결정 | First fit, Best fit, Next fit, Worst fit |  
+| 교체  기법 | 주기억장치 공간 부족 시 교체 대상 결정 | Random, FIFO, LRU, LFU, NUR, SCR, Optimal |  
 
 `이때 메모리에 프로그램을 올리면서 빈공간 생성됨`  
   
@@ -113,8 +113,8 @@ Data(.data) 초기화된 변수
 
 |    구  분       | Thread          | Process         |  
 | ---------- | --------------- | ------------ |  
-| 상호통신 | Library Call, 요청 Thread만 Blocking | System Call, Call 종료시까지 전체 자원 Blocking |  
-| 처리방식 | CPU를 이용하는 기본작업, 단위로 구분 | 자원 할당을 위한 기본 구분 단위 |  
+| 상호  통신 | Library Call, 요청 Thread만 Blocking | System Call, Call 종료시까지 전체 자원 Blocking |  
+| 처리  방식 | CPU를 이용하는 기본작업, 단위로 구분 | 자원 할당을 위한 기본 구분 단위 |  
 | 부하 | 프로세스보다 부하 발생 적음 | Context Switching으로 인한 부하 발생, 프로세스 자원 할당 시 부하 발생 |  
 
 ---
@@ -332,6 +332,7 @@ BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 X
 실행파일이 메모리에 로드될 때 동일한 메모리 주소를 가지면 공격자에게 취약한 문제점이 발생된다  
 악성코드 적재가 더 수월해진다  
 따라서, 윈도우 Vista 부터는 메모리 주소를 항상 동적으로 할당한다  
+{: .notice}
 `ASLR 해제`
 ```
 sysctl -w kernel.randomize_va_space=0
@@ -339,7 +340,7 @@ sysctl -w kernel.randomize_va_space=0
 `ASLR 설정`
 ```
 sysctl -w kernel.randomize_va_space=1
-``
+```
 
 
 
