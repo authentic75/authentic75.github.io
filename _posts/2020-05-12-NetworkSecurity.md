@@ -83,6 +83,12 @@ ETag
 * proxy server와 cache의 사용  
 {: .notice}
 ---
+### 쿠키
+---
+쿠키에 대한 보안을 수행하기 위해서 HTTP ONLY 옵션, 암호화 쿠키를 사용한다  
+HTTP ONLY 옵션은 HTTP Request 요청시에만 쿠키를 전송하는 옵션이다  
+{: .notice}
+---
 ### SMTP
 ---
 * MUA(Mail User Agent): 메일을 작성하여 보내는 프로그램  
@@ -235,7 +241,7 @@ Ex) /24, /22 꼴로 나타냄
 * Land Attack  
 * HTTP Get Flooding  
 * 등등  
-
+{: .notice--info}
 ---
 ### 포트 스캐닝
 ---
@@ -303,6 +309,16 @@ tcpdump 옵션
 * 지속적 인증  
 {: .notice}
 ---
+#### 세션하이재킹 순서
+---
+1. 클라이언트와 서버는 연결된 상태, 스니핑 진행 중  
+2. 공격시점에 비동기화 상태중 세션이 끊어지지 않는 시퀀스 넘버 범위에서 RST 패킷 생성 후 서버로 전송  
+서버는 클라이언트가 연결을 끊은 줄 알고 잠시 Close, 클라이언트는 유지  
+3. 공격자는 A_Client_My_Seq를 생성하여 서버에 보냄  
+4. 서버는 새로운 연결인 A_Client_My_Seq를 받아들이고, Server_MY_Seq를 재생성하여 공격자에게 보낸 후 Syn_Receive 상태가됨  
+5. 정상 연결 처럼 시퀀스 넘버 교환, Establish 상태가 됨
+{: .notice--info}
+---
 ### 스푸핑
 ---
 `arpspoof`  
@@ -340,7 +356,7 @@ SSL VPN
 * 무결성: MAC 기업을 사용하여 데이터 변조 여부 확인  
 * 기밀성: 대칭키 암호  
 * 부인봉쇄: 부가적인 SW로 응용계층에서 전자서명 허용  
-{: .notice}
+{: .notice--info}
 
 IPSEC VPN  
 * **터널모드**: 중계 장비가 패킷 전체를 암호화  
@@ -351,7 +367,7 @@ IPSEC VPN
   
 * **AH**: 데이터 무결성 (IP 패킷 인증, MAC 기반), 순서번호 제공, MD5, SHA-1 사용, 인증값 검증  
 * **ESP**: 전송자료를 암호화하여 전송, 수신자가 받은 자료를 복호화, 선택적 인증, 무결성, 기밀성, AH와 다르게 암호화 제공(DES, 3-DES), Transport 계층 까지 암호화 할 경우 Transprot 모드 사용, 전체 패킷 암호화할 경우 터널 모드 사용   
-{: .notice}
+{: .notice--info}
 
 MPLS VPN  
 * 기존의 IP Routing 데이터 전송 방식과 다르게, 데이터의 목적지 IP 주소를 확인하는 대신 ‘Label’사용  
@@ -380,7 +396,7 @@ MPLS VPN
 * CNAME (Canonical NAME) 레코드: 별명(별칭)을 지정해주는 레코드이고 도메인 위임이라고도 합니다.   
 * MX (Mail eXchanger) 레코드: 메일서버의 연동시 메일의 소유를 확인하는 레코드로 쓰입니다  
 * SPF (Sender Policy Framework) 레코드: 레코드 TXT 레코드에 안에서 사용되며, 메일 스푸핑을 방지하는데 사용되는 레코드 입니다.   
-{: .notice}
+{: .notice--warning}
 ---
 ### nslookup
 ---
@@ -436,13 +452,22 @@ AWS Identity and Access Management(IAM)
 * AWS 리소스에 대한 액세스를 안전하게 제어할 수 있는 웹 서비스   
 * IAM을 사용하여 리소스를 사용하도록 인증(로그인) 및 권한 부여(권한 있음)된 대상을 제어  
 * AWS 계정을 처음 생성할 때는 해당 계정의 모든 AWS 서비스 및 리소스에 대한 완전한 액세스 권한이 있는 SSO(Single Sign-In) ID로 시작합 (루트 사용자)  
-{: .notice}
+{: .notice--info}
 ---
 #### DLP
 ---
 DLP(Data Loss Prevention, 데이터 손실 방지)
 * 기업 구성원, 프로세스, 기술의 결합을 통해 고객 또는 직원 기록 등의 개인 신원확인 정보(PII), 재무제표, 마케팅 계획과 같은 기업 정보, 제품 계획, 소스 코드와 같은 지적 재산(IP)을 포함하는 기밀 정보 등이 기업 밖으로 유출되는 것을 방지하는 솔루션   
 {: .notice}
+---
+---
+#### BYOD 보안
+---
+VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하여 사용하는 가상화 솔루션이다  
+데스크톱 환경을 중앙으로 통합함  
+기사에서 잘 안나오는 문제다  
+{: .notice}
+
 ---
 ### 도구들
 ---
