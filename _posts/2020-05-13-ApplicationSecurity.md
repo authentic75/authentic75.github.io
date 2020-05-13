@@ -329,7 +329,10 @@ SSL에서 사용하는 알고리즘
 * 암호 알고리즘 : RC4, RC5, IDEA, DES, 3DES, Fortezza
 * Hash 함수 : MD5, SHA-1
 {: .notice}
-
+Open SSL (SSL 오픈 라이브러리)  
+취약점: 하트블리드  
+웬브라우저가 요청을 했을 때 데이터 길이를 검증하지 않아 메모리에 저장되어있는 평문이 노출되는 현상    
+{: .notice}
 
 
 
