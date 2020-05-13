@@ -27,9 +27,9 @@ read_time: false
 	* cat /var/log/xferlog   
 {: .notice} 	
 ```console
-Mon May 31 07:48:23 2010 1 x.x.x.x 0 /home/byoungguk/1 b _ o r byoungguk ftp 0 * c
-Mon May 31 07:48:25 2010 1 x.x.x.x 0 /home/byoungguk/2 b _ o r byoungguk ftp 0 * c
-Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/byoungguk/3 b _ i r byoungguk ftp 0 * c
+Mon May 31 07:48:23 2010 1 x.x.x.x 0 /home/mint/1 b _ o r mint ftp 0 * c
+Mon May 31 07:48:25 2010 1 x.x.x.x 0 /home/mint/2 b _ o r mint ftp 0 * c
+Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/mint/3 b _ i r mint ftp 0 * c
 ```
 시간/전송(초)/접속 ip/크기/파일이름/전송/액션/direction/access/유저/서비스/인증/상태
 {: .notice} 
