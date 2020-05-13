@@ -368,12 +368,53 @@ VLAN (Virtual LAN)
 * 프로토콜 기반 VLAN 같은 프로토콜을 가진 호스트 간에만 통신이 되도록 함  
 {: .notice}
 
+
 ---
-### DNS
+### DNS 보안
 ---
+
 * 사용자는 도메인으로 접속하게 되면 도메인 안에 네임서버 도메인과 IP가 지정되어 있습니다
 * 이러한 네임서버에서는 1차부터 4차까지 무작위로 네임서버의 접근하여 사용자가 접속한 도메인의 레코드 정보를 찾게 됩니다
 {: .notice}
+
+|   영   역   |   도  메  인   |       
+| ---------- | ------------ |
+| Root domain | COM, ORG, KR |
+| Top level | GOOGLE, FreeBDS, NE|
+| Second level | WWW, FTP(GOOGLE), WWW, KR(FREEBSD), NOBREAK(NE) |
+| Third of Subdomains |WWW, FTP(KR), WWW(NOBREAK) |
+| Subdomains | (*원래는 트리구조)  |
+
+* Root domain(.): 모든 도메인의 근본이 되는 최상 level Domain  
+* Top Level Domain: com, org, kr 등의 국가, 지역
+* Second Level: 사용자가 도메인명을 신청해서 등록할 수 있는 영역  
+{: .notice--warning}
+
+1. Recursive Query
+2. Iterative Queries
+3. Response from Root Name Server
+4. Query to Top Level Name Server  
+5. Response from Top Level Name Server 
+6. Query to Second-level Name Server
+7. Response from Second-level Name Server  
+8. DNS Client Get IP
+{: .notice}
+
+```console
+#dnsspoof 도구로 DNS Spoofing을 할 수 있다.
+#dnsspoof -I eth0 -f dns.host
+```
+
+* **DNSSEC**: DNS 캐시 포이즈닝과 DNS의 보안 취약점을 보완하기 위해 등장,
+DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서명 값 검증. DNS 위/변조 방지   
+* DNS SEC은 DNS 인증 기능을 추가하여 인증된 메세지에 대해서만 DNS가 동작하는 것으로 위의 지문에서는 파밍과 관련된다.  
+{: .notice--info}
+
+* DNS UDP 53번 포트에 무한 도메인 질의를 수행하면 DNS는 무한 질의의 결과값을 전송하여 네트워크 및 DNS 서버에 부하를 발생시킨다.  
+* ARP spoofing Attack으로 외부의 DNS 서버로 보내는 쿼리를 DNS 서버로 가기 전에 가로채어 공격한다  
+* Master DNS와 Slave DNS 간의 Zone Transfer 정보를 변조하여 Slave DNS의 DNS Cache 값을 변조한다
+* arpspoof 도구를 이용하여 arp cache를 변조 하는것을 poisoning 이라고 부른다.
+{: .notice--info}
 
 레코드
 * SOA (Start Of Authority) 레코드: 도메인의 모든 정보와 권한을 의미합니다. 
