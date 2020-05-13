@@ -295,10 +295,30 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 {: .notice}
 
 'SSL 프로토콜 구조'
+* 응용계층
+	* HTTP
+	* FTP
+	* Telnet
+	* SMTP
+*SSL/TLS
+	* Change chiper Spec Protocol
+	* Hand Shake Protocol
+	* Alert Protocol
+	* Application Protocol
+* Record Protocol
+* 전송계층(TCP)
+* 네트워크계층(IP)
+{: .notice--info}
 
+* Record Protocol: 데이터 압축, TCP 패킷으로 변환, 메세지 인증
+* Change chiper Spec Protocol: 암호화 알고리즘, 보안 정책 조율
+* Hand Shake Protocol: 알고리즘 결정, 키분배, 서버/클라이언트 인증
+* Alert Protocol: Warning 또는 Fatal 로 수행 중 발생하는 오류 메세지
+{: .notice--warning}
 
-
-
+`SSL에서의 HandShaking(443 포트)`
+* Client가 ClientHello 보냄(통신의 시작 알림)
+* ServerHello로 지원가능한 알고리즘 선정 및 전달
 
 
 
