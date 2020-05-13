@@ -236,6 +236,12 @@ Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것
 DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서명 값 검증. DNS 위/변조 방지   
 {: .notice--info}
 
+* DNS UDP 53번 포트에 무한 도메인 질의를 수행하면 DNS는 무한 질의의 결과값을 전송하여 네트워크 및 DNS 서버에 부하를 발생시킨다.  
+* ARP spoofing Attack으로 외부의 DNS 서버로 보내는 쿼리를 DNS 서버로 가기 전에 가로채어 공격한다  
+* Master DNS와 Slave DNS 간의 Zone Transfer 정보를 변조하여 Slave DNS의 DNS Cache 값을 변조한다
+* arpspoof 도구를 이용하여 arp cache를 변조 하는것을 poisoning 이라고 부른다.
+
+
 ---
 ### 데이터 베이스 보안
 ---
