@@ -270,10 +270,10 @@ xp_cmdshell 보안 취약점: EXEC xp_cmdshell ‘ping ~~~’ 형태로 윈도�
 {: .notice}
 
 ---
-### SET(Secure Electronic Transaction)
+### SET(Secure Electronic Transaction) 
 ---
-
-기밀성, 무결성, 부인봉쇄 지원, SSL에 비해 상대적으로 느리다.
+* 프로토콜
+* 기밀성, 무결성, 부인봉쇄 지원, SSL에 비해 상대적으로 느리다.
 {: .notice--info}
 
 `SET 구성요소`
@@ -295,7 +295,7 @@ xp_cmdshell 보안 취약점: EXEC xp_cmdshell ‘ping ~~~’ 형태로 윈도�
 {: .notice}
 
 ---
-### SSL
+### SSL 전송구간 암호화
 ---
 
 SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
@@ -389,7 +389,13 @@ IPSEC을 적용하기 위해서는 운영체제의 수정이 필요하다
 * XKMS: 공개키 관리를 위한 매커니즘
 * SAML: Security Token 형태, 인증에 필요한 권한 명세
 {: .notice}
-
+---
+### ebXML 프레임워크
+---
+* (e-business Extensible Markup Language)
+* UN/CEFACT와 OASIS에서 표준화한 기업간의 전자상거래 프레임워크  
+	* 구성요소: 비즈니스 프로세스, 핵심 컴포넌트, 등록 저장소, 거래 당사자, 전송/교환 및 패키징
+{: .notice}
 ---
 ### 전자문서
 ---
@@ -397,8 +403,6 @@ IPSEC을 적용하기 위해서는 운영체제의 수정이 필요하다
 * EDI(Electronic Document Inerchange): 기업간의 전자상거래시 전자문서를 교환하기 위한 문서화 표준, UN/EDFACT 표준 준수  
 * XML/EDI: XML 문서를 인터넷으로 활용해서 전자문서를 교환하는 개방형 표준
 * XMI(eXtensible Markup Interchange): W3C에서 제안한 것으로 웹에서 구조화된 문서를 교환하기 위한 웹 표준  
-* ebXML(e-business Extensible Markup Language): UN/CEFACT와 OASIS에서 표준화한 기업간의 전자상거래 프레임워크  
-	* 구성요소: 비즈니스 프로세스, 핵심 컴포넌트, 등록 저장소, 거래 당사자, 전송/교환 및 패키징
 {: .notice}
 
 ---
