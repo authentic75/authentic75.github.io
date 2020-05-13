@@ -233,7 +233,7 @@ Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것
 #dnsspoof -I eth0 -f dns.host
 ```
 
-**DNSSEC**: DNS 캐시 포이즈닝과 DNS의 보안 취약점을 보완하기 위해 등장, 
+* **DNSSEC**: DNS 캐시 포이즈닝과 DNS의 보안 취약점을 보완하기 위해 등장,
 DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서명 값 검증. DNS 위/변조 방지   
 * DNS SEC은 DNS 인증 기능을 추가하여 인증된 메세지에 대해서만 DNS가 동작하는 것으로 위의 지문에서는 파밍과 관련된다.  
 {: .notice--info}
@@ -308,7 +308,7 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 * 기밀성, 무결성, 인증 세가지 보장
 {: .notice}
 
-'SSL 프로토콜 구조 (세션 계층과 응용 계층 사이에 있다)'
+`SSL 프로토콜 구조 (세션 계층과 응용 계층 사이에 있다)`
 * 응용계층
 	* HTTP
 	* FTP
@@ -338,7 +338,7 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 * Server에서 다시 ChangechiperSpec(암호화 통신 준비완료), Finished 를 전송한다
 {: .notice--info}
 
-SSL에서 사용하는 알고리즘
+`SSL에서 사용하는 알고리즘`
 * 전자서명, 키 교환 알고리즘 : RSA, DH/DHE-DSS/RSA, DH, Fortezza
 * 암호 알고리즘 : RC4, RC5, IDEA, DES, 3DES, Fortezza
 * Hash 함수 : MD5, SHA-1
