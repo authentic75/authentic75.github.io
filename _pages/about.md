@@ -20,4 +20,4 @@ gallery:
     title: "sparkler"
 ---
 
-{% include gallery caption="This is a sample gallery" %}
+{% include gallery caption="세상에 도전하고 싶은 일 하고싶은 일이 참 많습니다." %}
