@@ -83,6 +83,17 @@ ETag
 * proxy server와 cache의 사용  
 {: .notice}
 ---
+#### httpd.conf
+---
+* Order Deny, Allow / Deny from all
+* Allow from 211.1.1.1
+* indexes: 디렉터리 리스팅 차단
+* FollowSymLinks: 심볼링크 차단
+* ServerToken: 최소한 정보 노출
+* Server Signature: Apache 정보노출
+* indexes: 디렉터리 리스팅 차단
+{: .notice--info}
+---
 ### 쿠키
 ---
 쿠키에 대한 보안을 수행하기 위해서 HTTP ONLY 옵션, 암호화 쿠키를 사용한다  
@@ -117,6 +128,22 @@ SMTP도 TCP 기반 프로토콜이라 **3way hand shaking** 과정을 거친다.
 5. Data 전송  
 6. 마침표 전송  
 7. 250, OK  
+{: .notice--info}
+
+---
+### 전자우편 보안
+---
+* 프로토콜
+	*SMTP(25, 메일발송) , POP3(110, 메일 읽기, MBOX삭제), IMAP/IMAP4(143, 메일읽기, MBOX 삭제 안함)
+* 보안기법
+	* PGP: 분산키 관리, RSA, IDEA, MD5 사용
+	* PEM: 중앙집중 키 관리, DES-CBC, MD5
+	* S/MIME: RSA 개발, 서명 기능
+* 스팸차단
+	* RBL: KISA에 IP 등록
+	* SPF: DNS에 발신 IP 등록
+	* Spamassasin: 점수 기반
+	* Inflex: 첨부파일 필터링
 {: .notice--info}
 ---
 ### 라우팅 프로토콜
@@ -340,8 +367,35 @@ VLAN (Virtual LAN)
 * 네트워크 주소기반 VLAN은 주소별로 VLAN을 구성하여 같은 네트워크에 속한 호스트 간에만 통신이 되도록 하는 방법  
 * 프로토콜 기반 VLAN 같은 프로토콜을 가진 호스트 간에만 통신이 되도록 함  
 {: .notice}
+
 ---
-### VPN
+### DNS
+---
+* 사용자는 도메인으로 접속하게 되면 도메인 안에 네임서버 도메인과 IP가 지정되어 있습니다
+* 이러한 네임서버에서는 1차부터 4차까지 무작위로 네임서버의 접근하여 사용자가 접속한 도메인의 레코드 정보를 찾게 됩니다
+{: .notice}
+
+레코드
+* SOA (Start Of Authority) 레코드: 도메인의 모든 정보와 권한을 의미합니다. 
+* NS (Name Server) 레코드: 도메인의 네임서버를 지정하는 레코드 입니다.  
+* A (Address Mapping Records) 레코드: 별명(별칭)을 지정해주는 레코드이고 도메인 위임으로도 합니다.  
+* CNAME (Canonical NAME) 레코드: 별명(별칭)을 지정해주는 레코드이고 도메인 위임이라고도 합니다.   
+* MX (Mail eXchanger) 레코드: 메일서버의 연동시 메일의 소유를 확인하는 레코드로 쓰입니다  
+* SPF (Sender Policy Framework) 레코드: 레코드 TXT 레코드에 안에서 사용되며, 메일 스푸핑을 방지하는데 사용되는 레코드 입니다.   
+{: .notice--warning}
+---
+### nslookup
+---
+* 해당 HostName의 해당 IP를 알려주는 명령  
+* DNS 레코드를 확인 할 수 있는 대화식 프로그램. 윈도우와 리눅스 모두 사용 가능   
+* ANY옵션은 호스트관련 모든 레코드 정보를 확인 한다  
+* DNS에 대해서만 서비스한다  
+{: .notice}
+---
+### 보안 솔루션
+---
+---
+#### VPN
 ---
 VPN (Virtual Private Network)  
 * 공중망을 이용하여 사설망과 같은 효과를 얻는 프로토콜  
@@ -382,32 +436,6 @@ MPLS VPN
 * **LSP(Label Switch Path)** : MPLS를 구성한 라우터와 라우터 상호간에 생기는 경로를 뜻한다. MPLS 패켓은 바로 LSP 경로를 이용하여 전송된다.  
 * **LDP(Label Dynamic Protocol)** : MPLS를 구성한 라우터와 라우터 상호간에 LSP를 동적으로 생성하는 프로토콜을 뜻한다. 또한, 설정된 회선의 대역폭 사용률에 따라 자동으로 생성할 수 있다.  
 {: .notice}
----
-### DNS
----
-* 사용자는 도메인으로 접속하게 되면 도메인 안에 네임서버 도메인과 IP가 지정되어 있습니다
-* 이러한 네임서버에서는 1차부터 4차까지 무작위로 네임서버의 접근하여 사용자가 접속한 도메인의 레코드 정보를 찾게 됩니다
-{: .notice}
-
-레코드
-* SOA (Start Of Authority) 레코드: 도메인의 모든 정보와 권한을 의미합니다. 
-* NS (Name Server) 레코드: 도메인의 네임서버를 지정하는 레코드 입니다.  
-* A (Address Mapping Records) 레코드: 별명(별칭)을 지정해주는 레코드이고 도메인 위임으로도 합니다.  
-* CNAME (Canonical NAME) 레코드: 별명(별칭)을 지정해주는 레코드이고 도메인 위임이라고도 합니다.   
-* MX (Mail eXchanger) 레코드: 메일서버의 연동시 메일의 소유를 확인하는 레코드로 쓰입니다  
-* SPF (Sender Policy Framework) 레코드: 레코드 TXT 레코드에 안에서 사용되며, 메일 스푸핑을 방지하는데 사용되는 레코드 입니다.   
-{: .notice--warning}
----
-### nslookup
----
-* 해당 HostName의 해당 IP를 알려주는 명령  
-* DNS 레코드를 확인 할 수 있는 대화식 프로그램. 윈도우와 리눅스 모두 사용 가능   
-* ANY옵션은 호스트관련 모든 레코드 정보를 확인 한다  
-* DNS에 대해서만 서비스한다  
-{: .notice}
----
-### 보안 솔루션
----
 ---
 #### NAC
 ---
