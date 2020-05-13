@@ -319,7 +319,7 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 `SSL에서의 HandShaking(443 포트)`
 * Client가 ClientHello 보냄(통신의 시작 알림)
 * ServerHello로 지원가능한 알고리즘 선정 및 전달
-
+{: .notice}
 
 
 
