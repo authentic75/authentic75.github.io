@@ -411,6 +411,69 @@ IPSEC을 적용하기 위해서는 운영체제의 수정이 필요하다
 {: .notice}
 
 
+---
+### DRM
+---
+`Digital Rights Management`
+* 디지털 콘텐츠 보고 목적
+* 워터마킹: 디지털 콘텐츠 추적 기술, 원저작자 정보 삽입
+* 핑거프린트: 구매자 정보도 함께 삽입(Dual Watermarking), 불법 유통시 출처 증명
+{: .notice}
+
+---
+### DRM
+---
+`WAP(Wireless Application Protocol)`
+
+* WAE(Wireless Application Environment)
+Application이 동작할 수있는 기본적인 Application layer이다.  
+응용 프로그램 별 마크업 언어를 정의한다.
+{: .notice}
+* WSP(Wireless Session Protocol)
+Connection-Oriented 와 Connection-less의 두가지 Session 서비스를 WAE에 제공한다.  
+HTTP를 가진 요청을 전송할 수 있게 한다.(게이트웨이가 WML요청을 일반 HTTP로 변환후 전송)
+{: .notice}
+* WTP(Wireless Transaction Protocol)
+데이터 그램 서비스 위에서 동작하며,Transaction-Oriented서비스를 제공한다.  
+무선 세계에 적합한 트랜잭션 지원(신뢰할 수 있는 요청/응답)을 제공
+{: .notice}
+* WTLS(Wireless Transport Layer Security)
+TLS의 무선 Version으로 데이터 무결성/기밀성/인증 기능을 제공한다.  
+공개키 암호화 기반 보안 메커니즘 제공
+{: .notice}
+* WDP(Wireless Datagram Protocol)
+전송 계층에 해당하며 Connection-less,Unreliable한 데이터그램 서비스를 제공(UDP와 동일한 개념)한다.   
+포트 번호(출발지와 독착지)저장으로 데이터 전송을 할수 있게 한다.
+{: .notice}
+
+---
+### RFID 보호 기법
+---
+* Kill Tag
+* Faraday
+* 방해전파
+* Blocker Tag
+* 재 암호화 방법
+{: .notice}
+
+---
+### 윈도우 Active Directory
+---
+Windows 2000 Server 부터 생긴 기능. 거대 기업 네트워크 환경을 관리  
+룰 및 정책을 정의 할 수 있는 방법 제공 (스키마 사용)  
+그 외, 확장 기능(파티션 , 세션), LDAP 프로토콜 사용, ACL 제공, 복제 (백업) 정보 생성  
+{: .notice}
+
+---
+### 전자투표 시스템 방식
+---
+* PESV: 지정된 장소 (Place)
+* REV: 다양한 기술, 원격 (Remote)
+* PL: 전자 입찰
+* 키오스크
+{: .notice}
+
+
 
 
 
