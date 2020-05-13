@@ -82,6 +82,11 @@ username: ' having 1=1--
 username: ' group by users.id having 1=1--
 username: ' union select sum(username) from users--
 ```
+
+* Blind: 참과 거짓 구분 (일일이 대입)
+* Mass: 한번의 공격으로 대량의 DB값이 변조되어 해당 홈페이지에 치명적인 악영향을 미치는 것이 목적. js, swf, exe 파일 형식을 이용 또는 Cookie
+{: .notice}
+
 ---
 ### 크로스 사이트 스크립트
 ---
@@ -365,12 +370,45 @@ IPSEC을 적용하기 위해서는 운영체제의 수정이 필요하다
 ---
 ### XML 보안
 ---
-	
 
+* XML: 전자 서명: 문서 단위 
+* XML: 암호화: 암호화 복호화
+* XACML: 접근 정책
+* XKMS: 공개키 관리를 위한 매커니즘
+* SAML: Security Token 형태, 인증에 필요한 권한 명세
+{: .notice}
 
+---
+### 전자문서
+---
 
+* EDI(Electronic Document Inerchange): 기업간의 전자상거래시 전자문서를 교환하기 위한 문서화 표준, UN/EDFACT 표준 준수  
+* XML/EDI: XML 문서를 인터넷으로 활용해서 전자문서를 교환하는 개방형 표준
+* XMI(eXtensible Markup Interchange): W3C에서 제안한 것으로 웹에서 구조화된 문서를 교환하기 위한 웹 표준  
+* ebXML(e-business Extensible Markup Language): UN/CEFACT와 OASIS에서 표준화한 기업간의 전자상거래 프레임워크  
+	* 구성요소: 비즈니스 프로세스, 핵심 컴포넌트, 등록 저장소, 거래 당사자, 전송/교환 및 패키징
+{: .notice}
 
+---
+### 소프트웨어 개발 보안(약점)
+---
+1. 분석
+	* 보안 항목 요구사항 식별
+		* 암호화해야 할 중요 정보
+		* 중요 기능에 대한 분류(시스템 리부팅)
+	* 보안 요구 항목 20개 목록화하여 제공하여 지원
+2. 설계 단계
+	* 위협 모델링: 보안 전문가, 개발 전문가 필요
+	* MS 등에서 전문 방법론(도구) 제공
+	* 분석/설계 20개, 구현 54개의 위협원이 반영될 수 있게 설계
+3. 구현 단계
+	* 표준 코딩, SW 개발 보안 가이드 준수
+	* 개발 가이드 제공
+	* 소스코드 보안 약점 진단
+{: .notice}
 
+보안 약점: 입력데이터 검증 및 표현, 보안 기능, 시간 및 상태, 에러처리, 코드 오류, 캡슐화, API 오용
+{: .notice}
 
 
 
