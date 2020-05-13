@@ -421,7 +421,7 @@ IPSEC을 적용하기 위해서는 운영체제의 수정이 필요하다
 {: .notice}
 
 ---
-### DRM
+### WAP
 ---
 `WAP(Wireless Application Protocol)`
 
