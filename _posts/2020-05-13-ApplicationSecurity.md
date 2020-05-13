@@ -57,6 +57,7 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/byoungguk/3 b _ i r byoungguk ftp 0 *
 211.36.215.78 -  manager [22/Jun/2000:23:09:09 +0900] "GET / HTTP/1.1" 200 5  
 ```
 요청IP/신원/user id/요청을 마친 시간/요청 데이터/상태 코드/헤더를 제외한 크기  
+{: .notice--warning} 
 * 신원: identd가 제공할 클라이언트의 신원 (내부 네트웍 아니면 사용 x)
 * Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것
 * 상태 코드: 2xx(요청 성공), 4xx(클라이언트 오류), 5xx(서버 오류)
