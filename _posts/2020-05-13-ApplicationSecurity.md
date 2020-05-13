@@ -318,7 +318,16 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 
 `SSL에서의 HandShaking(443 포트)`
 * Client가 ClientHello 보냄(통신의 시작 알림)
-* ServerHello로 지원가능한 알고리즘 선정 및 전달
+* Server는 ServerHello로 지원가능한 알고리즘 선정 및 전달
+* 그와 동시에 ServerKeyExchange(공개키)와 ServerHelloDone(전달완료) 메세지 전달
+* Client에서는 ClientKeyExchange(비밀키 암호화), ChangechiperSpec(암호화 통신 준비완료), Finished 전달
+* Server에서 다시 ChangechiperSpec(암호화 통신 준비완료), Finished 를 전송한다
+{: .notice--info}
+
+SSL에서 사용하는 알고리즘
+* 전자서명, 키 교환 알고리즘 : RSA, DH/DHE-DSS/RSA, DH, Fortezza
+* 암호 알고리즘 : RC4, RC5, IDEA, DES, 3DES, Fortezza
+* Hash 함수 : MD5, SHA-1
 {: .notice}
 
 
