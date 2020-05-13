@@ -338,6 +338,8 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 * Client에서는 ClientKeyExchange(비밀키 암호화), ChangechiperSpec(암호화 통신 준비완료), Finished 전달
 * Server에서 다시 ChangechiperSpec(암호화 통신 준비완료), Finished 를 전송한다
 {: .notice--info}
+협의된 알고리즘 이후부터 사용하겠다고 알리는 신호
+{: .notice--info}
 
 `SSL에서 사용하는 알고리즘`
 * 전자서명, 키 교환 알고리즘 : RSA, DH/DHE-DSS/RSA, DH, Fortezza
