@@ -342,7 +342,7 @@ svchost.exe: 서비스를 관리하기 위한 프로세스
 conhost.exe: 키보드, 마우스 입력 허용, 문자 출력, 콘솔 API등 셸의 기본 기능을 수행  
 {: .notice}
 
-공유폴더 삭제  
+**공유폴더 삭제**  
 #net share test /delete  
 {: .notice--warning}
 
@@ -365,6 +365,39 @@ HARDWARE: 시스템 하드웨어 디스크립션과 모든 하드웨어의 장�
 COMPONENTS: 설치된 컴포넌트와 관련된 정보 관리  
 BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 XP의 Boot_ini가 없어지고 대체됨  
 {: .notice--info}
+
+* 윈도우 설정 정보는 %SystemRoot%\System32\Config에 저장
+	* SMA 사용자 그룹 계정 정보
+	* Security 보안 및 권한 관련 정보
+	* ntuser.dat 사용자 설정 정보
+
+---
+#### 레지스트리 통한 보안
+---
+* HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\AutoShareServer
+	* 윈도우 서버 기본 공유 제거
+* HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\NullSession
+* HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\restrictanonymous
+* HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Current\Vision\Run
+	*악성코드 감염이 의심될때 윈도우 부팅시 자동 실행을 수행하는 레지스트리
+{: .notice--info}	
+
+1. 공유목적 관리폴더 (제거해야 할 것)
+	* C$, D$
+	* ADMIN $
+	* IPC$
+	* PRINT$
+	* FAX$
+	* net share 명령어를 통해 모든 공유폴더를 확인
+2. Null Session 접근 제어
+	* HKLM\SYSTEM\CurrentControlSet\Control\Lsa > restrictanonymous 
+3. Autologon 비활성화
+	* HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WInlogon
+4. 서비스 거부 공격 예방
+	* HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
+	* 출처: https://www.ahnlab.com/kr/site/securityinfo/secunews/secuNewsView.do?curPage=81&seq=11818
+{: .notice--info}
+
 ---
 ### 이벤트 뷰어
 ---
