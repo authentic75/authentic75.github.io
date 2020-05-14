@@ -28,5 +28,6 @@ gallery:
 * 2016 KNU CSE Master
 * 2018 국제학술대회 우수논문상 수상
 * 2018 Postech
-* 2019 Photronics
+* 2019 Photronics(~2020)
+* 2020 Coming soon
 {: .notice}
