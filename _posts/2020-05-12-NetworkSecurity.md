@@ -387,7 +387,6 @@ VLAN (Virtual LAN)
 * 프로토콜 기반 VLAN 같은 프로토콜을 가진 호스트 간에만 통신이 되도록 함  
 {: .notice}
 
-
 ---
 ### DNS 보안
 ---
@@ -567,7 +566,7 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 {: .notice}
 
 ---
-### 도구명
+### 도구명 및 용어
 ---
 `Spoofing 도구`  
 * sort
@@ -583,6 +582,14 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * Paroc
 * Can & Abel
 * WireSharl
+{: .notice--warning}
+
+* Email 공격유형
+	* Active Contents
+	* 트로이 목마: 증식 x 
+	* 버퍼 오버플로
+
+* DNS 싱크홀: 봇에 감염된 PC가 공격자와 연결을 시도할때 싱크홀 서버에 연결하여 공격자에게 공격당하지 않게 하는것.
 {: .notice--warning}
 
 * TCP Wrapper TCP 래퍼 (TCP Wrapper)는 호스트 기반 네트워킹 ACL 시스템으로서, 리눅스 또는 BSD 같은 운영 체제의 인터넷 프로토콜 서버에서 네트워크 접근을 필터링하기 위해 사용된다.
