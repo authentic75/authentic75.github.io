@@ -262,11 +262,17 @@ Ex) /24, /22 꼴로 나타냄
 ---
 ### DDos
 ---
-* TCP SYN Flooding  
-* ICMP Flooding  
-* Tear Drop (Ping of death)  
-* Land Attack  
+* Syn Flooding : Half Open  
+* Get Flooding: Half Open x  
+* TCP SYN Flooding:    
+* ICMP Flooding:    
+* Tear Drop (Ping of death): ICMP 사용하여 패킷 분할 유도 Half Open x  
+* smurf: ICMP 사용, ICMP Flooding, Half Open x  
+* Land Attack    
 * HTTP Get Flooding  
+* UDP Flooding
+	* 대응방법: 외부 유입(inbound) Broadcast 차단, DDos 대응 솔루션, chrgen 또는 **echo 서비스 중단** 
+*Switch Jamming: 유도된 MAC주소를 네트워크에 지속적으로 흘리고 스위치 허브 주소를 오버플로 시킴
 * 등등  
 {: .notice--info}
 ---
@@ -300,15 +306,18 @@ Port Option (-p)
 ### 스니핑 공격
 ---
 무차별 모드 실행
+{: .notice}
 ```console
 # ifconfig eth0 promisc	#무차별 모드
 # tcpdump -i eth0			#스니핑 시작
 ```
 tcpdump 옵션
+{: .notice}
 ```
 # tcpdump [ -AdDefIKlLnNOpqRStuUvxX ][ -B buffer_size ][ -c count ][ -C file_size ][ -G rotate_seconds ][ -F file ][ -i interface ][ -m module ][ -M secret ][ -r file ][ -s snaplen ][ -T type ][ -w file ][ -W filecount ][ -E spi@ipaddr algo:secret,... ][ -y datalinktype ][ -z postrotate-command ][ -Z user ]
 ```
 예시
+{: .notice}
 ```console
 # tcpdump -i eth0				=> 인터페이스 eth0 을 보여줌
 # tcpdump -w tcpdump.log		=> 결과를 파일로 저장, txt 가 아닌 bin 형식으로 저장됨
@@ -445,6 +454,16 @@ DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서
 ---
 ### 보안 솔루션
 ---
+---
+### 방화벽
+---
+* Screening Router 내부 네트워크에서 외부 네트워크로 나가는 패킷 트래픽을 허가 및 거절하거나 혹은 외부 네트워크에서 내부 네트워크로 진입하는 패킷 트래픽의 진입 허가 및 거절, 패킷 필터링
+* Dual Home 두개의 네트워크 인터페이스 를 가진 Bastion 호스트, Proxy
+* Screened Subnet 외부와 내부 네트워크 완충지대 구축, 완충 지대에 DMZ 위치
+* Screened Host 스크린된 호스트 게이트웨이는 Dual-Homed 게이트웨이와 스크리닝 라우터를 혼합하여 사용한 방화벽 시스템
+* DPI OSI 전 계층에서 필터링 수행
+* 서킷 게이트웨이: 트랜스포트 계층, TCP 중계 역할 수행
+{: .notice--warning}
 ---
 #### VPN
 ---
