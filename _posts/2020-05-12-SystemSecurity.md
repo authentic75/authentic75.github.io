@@ -390,9 +390,15 @@ sysctl -w kernel.randomize_va_space=0
 ```
 sysctl -w kernel.randomize_va_space=1
 ```
-
-
-
+---
+### 랜섬웨어
+---
+* 랜섬 + 소프트웨어의 합성어이다
+* 문서를 암호화하여 경제적 이득을 취한다
+* 랜섬웨어 방법으로 크립토락커가 있다
+* RSA와 AES로 사용자 문서를 암호화 시켜서 돈을 요구
+* SD카드에 사용자 정보를 저장해도 모든 파일을 암호화 한다
+{: .notice--info}
 
 
 
