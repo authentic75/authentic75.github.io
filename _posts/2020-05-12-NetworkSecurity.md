@@ -592,6 +592,8 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * DNS 싱크홀: 봇에 감염된 PC가 공격자와 연결을 시도할때 싱크홀 서버에 연결하여 공격자에게 공격당하지 않게 하는것.
 {: .notice}
 
+* prstat은 어떤 프로세스가 CPU 자원을 소모하는지 확인하는 프로그램이다
+	* pstat -s cpu -n 5
 * TCP Wrapper TCP 래퍼 (TCP Wrapper)는 호스트 기반 네트워킹 ACL 시스템으로서, 리눅스 또는 BSD 같은 운영 체제의 인터넷 프로토콜 서버에서 네트워크 접근을 필터링하기 위해 사용된다.
 * netcat netcat (often abbreviated to nc ) is a computer networking utility for reading from and writing to network connections using TCP or UDP.
 * iptables 패킷 필터링 도구, 방화벽, NAT에 사용
@@ -604,7 +606,10 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 
 `무결성 검사 도구`
 * tripwire
+* fcheck
+* shmhain
 {: .notice}
+
 `보안 점검 도구`
 * SAINT 유닉스, 네트워크 취약점, HTML 보고서, 원격 취약점 점검
 * SARA SATAN을 기반으로 개발, 네트워크 기반 컴퓨터, 서버, 라우터, IDS에 대한 취약점 분석, HTML 보고서
