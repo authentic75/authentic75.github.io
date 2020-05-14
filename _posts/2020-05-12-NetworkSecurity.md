@@ -571,7 +571,7 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 `Spoofing 도구`  
 * sort
 * arpspoof: ARP Spoof 사용하는 툴
-{: .notice--warning}
+{: .notice}
 
 `세션하이재킹 도구`  
 * Hunt
@@ -582,15 +582,15 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * Paroc
 * Can & Abel
 * WireSharl
-{: .notice--warning}
+{: .notice}
 
 * Email 공격유형
 	* Active Contents
 	* 트로이 목마: 증식 x 
 	* 버퍼 오버플로
-
+{: .notice}
 * DNS 싱크홀: 봇에 감염된 PC가 공격자와 연결을 시도할때 싱크홀 서버에 연결하여 공격자에게 공격당하지 않게 하는것.
-{: .notice--warning}
+{: .notice}
 
 * TCP Wrapper TCP 래퍼 (TCP Wrapper)는 호스트 기반 네트워킹 ACL 시스템으로서, 리눅스 또는 BSD 같은 운영 체제의 인터넷 프로토콜 서버에서 네트워크 접근을 필터링하기 위해 사용된다.
 * netcat netcat (often abbreviated to nc ) is a computer networking utility for reading from and writing to network connections using TCP or UDP.
@@ -600,18 +600,18 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * urlsnarf: 웹 요청하는 URL을 잡아 주는 툴
 * dsniff: 아이디 / 패스워드를 잡아주는 전문 툴
 * webspy: urlsnar 툴에의한 URL을 웹브라우저로 전송하는 툴
-{: .notice--warning}
+{: .notice}
 
 `무결성 검사 도구`
 * tripwire
-
+{: .notice}
 `보안 점검 도구`
 * SAINT 유닉스, 네트워크 취약점, HTML 보고서, 원격 취약점 점검
 * SARA SATAN을 기반으로 개발, 네트워크 기반 컴퓨터, 서버, 라우터, IDS에 대한 취약점 분석, HTML 보고서
 * COPS 시스템 취약성 점검, 시스템 내부의 취약성
 * Nessus 클라이언트/서버 구조로 클라이언트의 취약점 점검, 600개 이상의 취약점 점검 가능
 * NMAP 
-
+{: .notice}
 
 
 
