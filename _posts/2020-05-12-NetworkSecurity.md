@@ -540,9 +540,12 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 ---
 ### 도구명
 ---
-Spoofing 도구
+`Spoofing 도구`  
 * sort
-세션하이재킹 도구
+* arpspoof: ARP Spoof 사용하는 툴
+{: .notice--warning}
+
+`세션하이재킹 도구`  
 * Hunt
 * Arpspool
 * IP Watcher
@@ -551,11 +554,25 @@ Spoofing 도구
 * Paroc
 * Can & Abel
 * WireSharl
+{: .notice--warning}
 
 * nmap 포트 스캐닝
-* arpspoof: ARP Spoof 사용하는 툴
 * driftnet: urlsnar 툴에 의한 URL 이미지 파일을 보여주는 툴  
 * urlsnarf: 웹 요청하는 URL을 잡아 주는 툴
 * dsniff: 아이디 / 패스워드를 잡아주는 전문 툴
 * webspy: urlsnar 툴에의한 URL을 웹브라우저로 전송하는 툴
 {: .notice--warning}
+
+`무결성 검사 도구`
+* tripwire
+
+`보안 점검 도구`
+* SAINT 유닉스, 네트워크 취약점, HTML 보고서, 원격 취약점 점검
+* SARA SATAN을 기반으로 개발, 네트워크 기반 컴퓨터, 서버, 라우터, IDS에 대한 취약점 분석, HTML 보고서
+* COPS 시스템 취약성 점검, 시스템 내부의 취약성
+* Nessus 
+* NMAP
+
+
+
+
