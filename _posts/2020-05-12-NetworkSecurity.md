@@ -556,6 +556,9 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * WireSharl
 {: .notice--warning}
 
+* TCP Wrapper TCP 래퍼 (TCP Wrapper)는 호스트 기반 네트워킹 ACL 시스템으로서, 리눅스 또는 BSD 같은 운영 체제의 인터넷 프로토콜 서버에서 네트워크 접근을 필터링하기 위해 사용된다.
+* netcat netcat (often abbreviated to nc ) is a computer networking utility for reading from and writing to network connections using TCP or UDP.
+* iptables 패킷 필터링 도구, 방화벽, NAT에 사용
 * nmap 포트 스캐닝
 * driftnet: urlsnar 툴에 의한 URL 이미지 파일을 보여주는 툴  
 * urlsnarf: 웹 요청하는 URL을 잡아 주는 툴
@@ -570,8 +573,8 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * SAINT 유닉스, 네트워크 취약점, HTML 보고서, 원격 취약점 점검
 * SARA SATAN을 기반으로 개발, 네트워크 기반 컴퓨터, 서버, 라우터, IDS에 대한 취약점 분석, HTML 보고서
 * COPS 시스템 취약성 점검, 시스템 내부의 취약성
-* Nessus 
-* NMAP
+* Nessus 클라이언트/서버 구조로 클라이언트의 취약점 점검, 600개 이상의 취약점 점검 가능
+* NMAP 
 
 
 
