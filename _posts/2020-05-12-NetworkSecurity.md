@@ -270,6 +270,14 @@ Ex) /24, /22 꼴로 나타냄
 * 등등  
 {: .notice--info}
 ---
+### DRDoS
+---
+* 3 way handshaking 취약점 이용하여 공격자가 출발지 IP 주소를 공격대상의 IP 주소로 위조해서 SYN 패킷을 정상적인 TCP 서버에게 전송
+* IP Spoofing 으로 은닉 공격 할 수 있다
+* 반사체라는 제 3자를 통해서 수행한다
+* 
+{: .notice--info}
+---
 ### 포트 스캐닝
 ---
 
@@ -353,7 +361,9 @@ tcpdump 옵션
 # arpspoof -i eth0 -t 110.15.241.121 110.15.241.1
 # -i 인터페이스 -t 타겟과 게이트웨이  -s 감시
 ```
-**snort: Rule과 동일한 패킷을 탐지하는 침입 탐지 시스템**  
+snort: Rule과 동일한 패킷을 탐지하는 침입 탐지 시스템  
+snort의 Payload 검사 : Content, Dept, Offset, Nocase, Rawbytes, Within, Uricontent, Urilen, isdataat, pcre
+{: .notice}
 ```console
 # snort -c /etc/snort/rules/test.rules
 # vi /etc/snort/rules/test.rules
