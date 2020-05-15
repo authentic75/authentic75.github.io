@@ -302,10 +302,10 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 * 네트워크계층(IP)
 {: .notice--info}
 
-* Record Protocol: 데이터 압축, TCP 패킷으로 변환, 메세지 인증
-* Change chiper Spec Protocol: 암호화 알고리즘, 보안 정책 조율
-* Hand Shake Protocol: 알고리즘 결정, 키분배, 서버/클라이언트 인증
-* Alert Protocol: Warning 또는 Fatal 로 수행 중 발생하는 오류 메세지
+* Record Protocol: 데이터 압축, TCP 패킷으로 변환, 메세지 인증, 계층은 송수신되는 데이터에 대해서 암호화 및 복호화 수행 
+* Change chiper Spec Protocol: 암호화 알고리즘, 보안 정책 조율, HandShaking에서 협의된 알고리즘, 키 교환 알고리즘, MAC 암호화, 해시 알고리즘이 사용될 것을 웹 브라우저와 웹 서버에게 공지하는 역할
+* Hand Shake Protocol: 알고리즘 결정, 키분배, 서버/클라이언트 인증 ,세션을 생성하고 웹 브라우저와 웹 서버 간에 암호화 방식 등을 결정한다
+* Alert Protocol: Warning 또는 Fatal 로 수행 중 발생하는 오류 메세지, 비정상 적인 세션 종료 및 에러 발생 시 경고 메세지 전송
 {: .notice--warning}
 
 `SSL에서의 HandShaking(443 포트)`
