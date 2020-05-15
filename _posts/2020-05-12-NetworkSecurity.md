@@ -138,7 +138,7 @@ SMTP도 TCP 기반 프로토콜이라 **3way hand shaking** 과정을 거친다.
 ---
 ### 전자우편 보안
 ---
-* 프로토콜
+* MDA 프로토콜
 	*SMTP(25, 메일발송) , POP3(110, 메일 읽기, MBOX삭제), IMAP/IMAP4(143, 메일읽기, MBOX 삭제 안함)
 * 보안기법
 	* PGP: 분산키 관리, RSA, IDEA, MD5 사용
