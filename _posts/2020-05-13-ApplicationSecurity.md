@@ -26,6 +26,7 @@ read_time: false
 * **xperlog**:  FTP log 파일, 필드 의미 알아 둘 것! t업로드 o는 다운로드  
 	* cat /var/log/xferlog   
 {: .notice} 	
+
 ```console
 Mon May 31 07:48:23 2010 1 x.x.x.x 0 /home/mint/1 b _ o r mint ftp 0 * c
 Mon May 31 07:48:25 2010 1 x.x.x.x 0 /home/mint/2 b _ o r mint ftp 0 * c
@@ -33,6 +34,7 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/mint/3 b _ i r mint ftp 0 * c
 ```
 시간/전송(초)/접속 ip/크기/파일이름/전송/액션/direction/access/유저/서비스/인증/상태
 {: .notice} 
+
 * **전송 형태**: a(ASCII), b(binary)
 * **액션 Flag**: C(압축), U(압축x), T(tar), _(아무 액션이 없다)
 * **Direction**: 전송의 지시 o(outgoing), i(incoming), d(delete)
@@ -41,11 +43,24 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/mint/3 b _ i r mint ftp 0 * c
 * **Authentication-method**: 0(none), 1(authenticated)
 * **Completion-status**: 전송상태 나타냄, c(완전한 전송), i(불완전한 전송)
 {: .notice--warning} 
+
 * tftp (UDP 이용), sftp(암호화)
 * TCP 기반 (3way handshaking)
 * wget으로 여러 파일 동시에 다운 가능하다.
-* bounce Attack 포트 스캐닝: 가짜 메일을 보내서 익명의 ftp 서버 경유한다(Nmap -b)
 {: .notice} 
+
+* 공격유형
+	* 무작위 공격
+	* Bounce 공격: 가짜 메일을 보내서 익명의 ftp 서버 경유한다(Nmap -b)
+	* Port Scanning
+{: .notice} 
+* 보안 대책
+	* TFTP는 인증 과정이 없으므로 사용을 지양한다
+	* 익명 사용자 제거, 익명 사용자에 대한 쓰기 권한 제한
+	* FTP 데몬 기동시 -l 옵션을 주어서 xferlog를 기록한다
+	* ftpusers 파일은 제한할 사용자 ID를 등록하는 것이다
+{: .notice}	
+	
 ---
 ### 웹서버 (80)
 ---
@@ -62,6 +77,10 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/mint/3 b _ i r mint ftp 0 * c
 * Userid: 상태 코드가 401이면 사용자가 인증을 거치지 않은 것
 * 상태 코드: 2xx(요청 성공), 4xx(클라이언트 오류), 5xx(서버 오류)
 {: .notice--warning} 
+
+* XSS 웹 취약점을 이용한 공격
+{: .notice} 
+
 ---
 ### 소프트웨어 보안
 ---
@@ -456,6 +475,15 @@ Windows 2000 Server 부터 생긴 기능. 거대 기업 네트워크 환경을 �
 * 키오스크
 {: .notice}
 
+---
+### 전자화폐
+---
+* Mondex 
+* E-Cash
+* Proton : 실물화폐의 성격, 세계 화폐 가치 이전 가능
+* NetCash
+{: .notice}
+ 
 ---
 ### 업로드 취약점
 ---
