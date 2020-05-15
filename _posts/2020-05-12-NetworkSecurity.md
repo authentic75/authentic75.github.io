@@ -510,6 +510,12 @@ MPLS VPN
 * **LDP(Label Dynamic Protocol)** : MPLS를 구성한 라우터와 라우터 상호간에 LSP를 동적으로 생성하는 프로토콜을 뜻한다. 또한, 설정된 회선의 대역폭 사용률에 따라 자동으로 생성할 수 있다.  
 {: .notice}
 ---
+#### IDS
+---
+* HIDS : 시스템에 설치가 되어서 사용자가 시스템에 행하는 행위를 모니터링하여 침입 여부를 결정. 내부자에 의한 공격, 바이러스, 웜, 트로이목마, 백도어에 대한 탐지가 가능하다.
+* NIDS
+{: .notice}
+---
 #### NAC
 ---
 **네트워크 연결을 제한하는 것으로 IP주소, MAC주소를 사용하여 네트워크 연결을 허용 및 거부하며 무결성 확인도 수행한다**  
@@ -596,18 +602,6 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * DNS 싱크홀: 봇에 감염된 PC가 공격자와 연결을 시도할때 싱크홀 서버에 연결하여 공격자에게 공격당하지 않게 하는것.
 {: .notice}
 
-* prstat은 어떤 프로세스가 CPU 자원을 소모하는지 확인하는 프로그램이다
-	* pstat -s cpu -n 5
-* TCP Wrapper TCP 래퍼 (TCP Wrapper)는 호스트 기반 네트워킹 ACL 시스템으로서, 리눅스 또는 BSD 같은 운영 체제의 인터넷 프로토콜 서버에서 네트워크 접근을 필터링하기 위해 사용된다.
-* netcat netcat (often abbreviated to nc ) is a computer networking utility for reading from and writing to network connections using TCP or UDP.
-* iptables 패킷 필터링 도구, 방화벽, NAT에 사용
-* nmap 포트 스캐닝
-* driftnet: urlsnar 툴에 의한 URL 이미지 파일을 보여주는 툴  
-* urlsnarf: 웹 요청하는 URL을 잡아 주는 툴
-* dsniff: 아이디 / 패스워드를 잡아주는 전문 툴
-* webspy: urlsnar 툴에의한 URL을 웹브라우저로 전송하는 툴
-{: .notice}
-
 `무결성 검사 도구`
 * tripwire
 * fcheck
@@ -623,4 +617,29 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 {: .notice}
 
 
+---
+### 그 외
+---
+* **prstat**은 어떤 프로세스가 CPU 자원을 소모하는지 확인하는 프로그램이다
+	* pstat -s cpu -n 5
 
+* **TCP Wrapper(TCP Wrapper)**는 호스트 기반 네트워킹 ACL 시스템으로서, 리눅스 또는 BSD 같은 운영 체제의 인터넷 프로토콜 서버에서 네트워크 접근을 필터링하기 위해 사용된다.
+* **netcat(often abbreviated to nc )** is a computer networking utility for reading from and writing to network connections using TCP or UDP.
+* **iptables** 패킷 필터링 도구, 방화벽, NAT에 사용
+* **nmap** 포트 스캐닝
+* **driftnet**: urlsnar 툴에 의한 URL 이미지 파일을 보여주는 툴  
+* **urlsnarf**: 웹 요청하는 URL을 잡아 주는 툴
+* **dsniff**: 아이디 / 패스워드를 잡아주는 전문 툴
+* **webspy**: urlsnar 툴에의한 URL을 웹브라우저로 전송하는 툴
+{: .notice--warning}
+
+* **APT 공격 유형**
+	* 제로데이 공격 APT: SW 패치 취약점
+	* MAIL APT: 악성코드를 메일에 첨부하여 발송
+	* 백도어  APT: 표적에 침투 후 백도어 설치
+{: .notice--warning}
+
+* exploit 코드
+	* 컴퓨터의 보안 취약점을 이용한 공격으로 대상 컴퓨터의 권한 획득, Dos 공격을 수행  
+	* 취약점을 이용한 공격의 종류는 BOF, CSRF, XSS  등이 존재한다.
+{: .notice--warning}
