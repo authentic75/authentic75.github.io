@@ -294,11 +294,11 @@ Ex) /24, /22 꼴로 나타냄
 
 **NMAP 포트 스캐닝**
 * TCP connection() Scan: 3-way handshaking 수립, 쉽게 탐지  
-* TCP SYN Scan: SYN/ACK 받으면 OPEN, RST/ACK 받으면 Close, Stealth Scanning  
-* TCP FIN Scan:  RST 받으면 Close 
-* TCP Null: 모든 플래그 지운다, RST 받으면 Close  
-* TCP X-MAS Tree Scan: FIN, URG, PSH 패킷 전송, RST 받으면 Close  
-{: .notice}
+* TCP SYN Scan: SYN/ACK 받으면 OPEN, RST/ACK 받으면 Close, Stealth Scanning, Half-Open  
+* TCP FIN Scan: FIN 패킷을 전송하여 RST를 받으면 Close, open 인경우 패킷 무시 
+* TCP Null: 모든 플래그 지운다, RST를 받으면 Close, open 인경우 패킷 무시   
+* TCP X-MAS Tree Scan: FIN, URG, PSH 패킷 전송, RST를 받으면 Close, open 인경우 패킷 무시   
+{: .notice--warning}
 **NMAP 옵션**
 SCAN Type (-s*)  
 -sS TCP SYN SCAN -sT TCP Connection SCAN -sU UDP SCAN  
@@ -433,7 +433,7 @@ DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서
 * DNS SEC은 DNS 인증 기능을 추가하여 인증된 메세지에 대해서만 DNS가 동작하는 것으로 위의 지문에서는 파밍과 관련된다.  
 {: .notice--info}
 
-* DNS UDP 53번 포트에 무한 도메인 질의를 수행하면 DNS는 무한 질의의 결과값을 전송하여 네트워크 및 DNS 서버에 부하를 발생시킨다.  
+* **DNS UDP 53번 포트**에 무한 도메인 질의를 수행하면 DNS는 무한 질의의 결과값을 전송하여 네트워크 및 DNS 서버에 부하를 발생시킨다.  
 * ARP spoofing Attack으로 외부의 DNS 서버로 보내는 쿼리를 DNS 서버로 가기 전에 가로채어 공격한다  
 * Master DNS와 Slave DNS 간의 Zone Transfer 정보를 변조하여 Slave DNS의 DNS Cache 값을 변조한다
 * arpspoof 도구를 이용하여 arp cache를 변조 하는것을 poisoning 이라고 부른다.
@@ -575,6 +575,15 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 데스크톱 환경을 중앙으로 통합함  
 기사에서 잘 안나오는 문제다  
 {: .notice}
+
+---
+#### UTM
+---
+* UTM(United Threat Management)
+* 방화벽, VPN, IDS, IPS 등의 보안을 하나로 통합, 비용 절감, 유지 보수 편의성, 일관된 보안 정책
+* 다양하고 복잡한 보안 위협에 대응
+{: .notice}
+
 
 ---
 ### 도구명 및 용어
