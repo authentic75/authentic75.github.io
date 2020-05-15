@@ -96,9 +96,13 @@ ETag
 ---
 ### 쿠키
 ---
-쿠키에 대한 보안을 수행하기 위해서 HTTP ONLY 옵션, 암호화 쿠키를 사용한다  
-HTTP ONLY 옵션은 HTTP Request 요청시에만 쿠키를 전송하는 옵션이다  
-{: .notice}
+* 쿠키에 대한 보안을 수행하기 위해서 HTTP ONLY 옵션, 암호화 쿠키를 사용한다  
+* HTTP ONLY 옵션은 HTTP Request 요청시에만 쿠키를 전송하는 옵션이다  
+* 지속적인 클라이언트 측 상태 저장
+* 서버는 클라이언트 브라우저에 쿠키를 설정하기 위해서 HTTP Header에 Set-Cookie를 포함 시킨다
+* 쿠키는 최대 4KB 공간을 저장한다
+* 키와 값의 구조를 이룬다
+{: .notice-warning}
 ---
 ### SMTP
 ---
