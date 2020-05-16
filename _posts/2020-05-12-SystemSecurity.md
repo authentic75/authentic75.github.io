@@ -227,7 +227,7 @@ inode 목록, 빈 inode 수와 목록, 빈블록과 inode 목록에 대한 lock 
 .bashrc: 사용자 정의변수, 함수 alias 정의
 .bash_logout: 사용자가 로그아웃할 때 실행되는 파일을 정의  
 {: .notice}
-utmp 파일은 /var/run/utmp에 존재한다 **w 또는 who로 실행 가능**  
+utmp 파일은 현재 사용자 로그, /var/run/utmp에 존재한다 **w 또는 who로 실행 가능**  
 {: .notice}
 ```console
 [root@ns2 run]# stat utmp
@@ -241,19 +241,18 @@ Modify: 2020-05-12 13:13:08.785992118 +0900
 Change: 2020-05-12 13:13:08.785992118 +0900
  Birth: -
 ```
-wtmp 파일은 로그인과 로그아웃 정보 **last 명령으로 실행 가능**  
-{: .notice}
-wtmp가 기록하고 있는 정보  
-사용자 로그인 및 로그아웃 정보  
-시스템 관련 정보  
-시스템 종료 및 부팅 정보  
-재부팅 정보  
-telnet 및 ftp 등을 통한 로그인 정보  
+* wtmp 파일은 로그인과 로그아웃 정보 **last 명령으로 실행 가능**  
+	* 사용자 로그인 및 로그아웃 정보  
+	* 시스템 관련 정보  
+	* 시스템 종료 및 부팅 정보  
+	* 재부팅 정보  
+	* telnet 및 ftp 등을 통한 로그인 정보  
 {: .notice--warning}
-btmp 파일은 리눅스 로그인시 실패한 정보 **lastb로 실행가능**  
+* btmp 파일은 리눅스 로그인시 실패한 정보 **lastb로 실행가능**  
 {: .notice}
-syslog는 리눅스 운영체제에 대한 로그를 기록하는 데몬 프로세스로 syslogd에 의해서 기록된다  
-/etc/syslogd.conf 파일 참고
+* **syslog**는 리눅스 운영체제에 대한 로그를 기록하는 데몬 프로세스로 syslogd에 의해서 기록된다  
+	* /etc/syslogd.conf 파일 참고
+* **sulog**는 su 명령 로그
 {: .notice}
 ---
 #### 리눅스 명령어
