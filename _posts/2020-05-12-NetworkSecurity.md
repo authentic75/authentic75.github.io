@@ -161,6 +161,9 @@ OSPF, EIGRP
 * Path Vector: (하이브리드) 정책기반으로 라우팅 정보 업데이트  
 BGP  
 {: .notice--info}
+* 경로 설정
+	* RIP, OSPF
+
 ---
 #### RIP
 ---
@@ -267,19 +270,19 @@ Ex) /24, /22 꼴로 나타냄
 ---
 ### DDos
 ---
-* Syn Flooding : Half Open  
-* Get Flooding: Half Open x  
-* TCP SYN Flooding:    
-* ICMP Flooding:    
-* Tear Drop (Ping of death): ICMP 사용하여 패킷 분할 유도 Half Open x  
-* smurf: ICMP 사용, ICMP Flooding, Half Open x  
-* Land Attack    
-* HTTP Get Flooding  
-* UDP Flooding
+* Syn Flooding : Half Open, 3 Way Handshaking, SYN 신호 범람  
+* ICMP Flooding(smurf): ICMP 사용, ICMP Flooding, Half Open x 
+* Tear Drop: 패킷이 조립 되지 못하도록 Sequence number 조작
+* Ping of death: ICMP 사용하여 패킷 분할 유도 Half Open x  
+* Land Attack: 송수신자 IP를 동일하게 하는공격
+* HTTP Get Flooding: Half Open x  
+* HTTP Read DOS: TCP Window 사이즈 조작
+* HTTP Header DOS: HTTP Header 개행 문자 조작
+* UDP Flooding:
 	* 대응방법: 외부 유입(inbound) Broadcast 차단, DDos 대응 솔루션, chrgen 또는 **echo 서비스 중단** 
-*Switch Jamming: 유도된 MAC주소를 네트워크에 지속적으로 흘리고 스위치 허브 주소를 오버플로 시킴
+* Switch Jamming: 유도된 MAC주소를 네트워크에 지속적으로 흘리고 스위치 허브 주소를 오버플로 시킴
 * 등등  
-{: .notice--info}
+{: .notice--warning}
 ---
 ### DRDoS
 ---
@@ -431,7 +434,7 @@ VLAN (Virtual LAN)
 #dnsspoof 도구로 DNS Spoofing을 할 수 있다.
 #dnsspoof -I eth0 -f dns.host
 ```
-
+* DNS Spoofing: DNS Cache 테이블 변조
 * **DNSSEC**: DNS 캐시 포이즈닝과 DNS의 보안 취약점을 보완하기 위해 등장,
 DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서명 값 검증. DNS 위/변조 방지   
 * DNS SEC은 DNS 인증 기능을 추가하여 인증된 메세지에 대해서만 DNS가 동작하는 것으로 위의 지문에서는 파밍과 관련된다.  
@@ -588,7 +591,14 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * 다양하고 복잡한 보안 위협에 대응
 {: .notice}
 
-
+---
+### 무선 LAN (IEEE 802)
+---
+* WEP: RC4 대칭키 암호화 기법, 40Bit 키 사용, 24Bit 초기화 벡터, 정적 키 사용으로 무작위 공격에 취약
+* WPA: 128Bit 동적 암호화, TKIP(Temperal Key Integrity Protocol) 사용, IEEE 802.1x 및 EAP 준수
+* WPA2: AES 사용, IEEE 802.11i
+* COMP: Counter Mode Encryption Protocol, TKIP, AES 블록 암호화 사용
+{: .notice}
 ---
 ### 도구명 및 용어
 ---
