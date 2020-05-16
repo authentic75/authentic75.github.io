@@ -114,7 +114,7 @@ Data(.data) 초기화된 변수
 #### 비교
 ---
 
-|  구   분  | Thread          | Process         |  
+|  구   분  |     Thread     |       Process       |  
 | ---------- | --------------- | ------------ |  
 |   상호  통신   | Library Call, 요청 Thread만 Blocking | System Call, Call 종료시까지 전체 자원 Blocking |  
 |   처리  방식   | CPU를 이용하는 기본작업, 단위로 구분 | 자원 할당을 위한 기본 구분 단위 |  
