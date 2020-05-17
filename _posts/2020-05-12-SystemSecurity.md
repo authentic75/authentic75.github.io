@@ -307,8 +307,11 @@ PAM은 요청한 서비스의 설정 파일확인
 ---
 #### 패스워드 암호화
 ---
-해시함수로 패스워드 암호화시 임의로 추가되는 값은?
-{: .notice--success}
+* 해시함수로 패스워드 암호화시 임의로 추가되는 값은?
+* 유닉스 시스템에서 패스워드는 /etc/passwd 파일에 해시값으로 보유하고 있다. 이러한 해시값을 보유하기위해서 임의적으로 필드를 늘려서 해시값을 보이지 않게 한다.
+* **shadow 파일**은 사용자 패스워드를 보관하는 파일로 md5를 사용한 해시값을 가지고 있다. 이것은 salt 값을 포함하고 있다.
+	* 첫번쨰 $는 사용자가 만든 **해시값**이고 두번째 $는 **salt** 값이다.
+{: .notice--warning}
 ```
 $salt = "this is a salt";
 $password = 'this is an password';
@@ -328,12 +331,13 @@ Security:504:user1,user2,user3
 ---
 ### 윈도우 프로세스
 ---
+
 **윈도우 인증 프로세스**  
 * **Winlogon**: 윈도우 로그인 프로세스  
-* **GNA(msgina.dll)**: Winlogon이 이것을 로딩하여 사용자가 입력한 계정과 암호를 LSA에 전달
+* **GINA(msgina.dll)**: Winlogon이 이것을 로딩하여 사용자가 입력한 계정 정보와 암호화 된 패스워드를 LSA에 전달
 * **LSA(lsas.exe)**: 계정과 암호를 검증하기 위해서 NTLM(암호화)모듈을 로딩하고 계정을 검증  
 * **SAM**: 사용자 계정정보(해시값)에 저장  
-* **SRM**: 사용자에게 고유 SID를 부여하고 SID에 권한을 부여하고
+* **SRM**: 사용자 별 고유 SID 부여 및 권한 부여
 * 리눅스의 /etc/shadow 파일과 같은 역할 수행  
 {: .notice--info}
 
@@ -388,7 +392,7 @@ BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 X
 * HKLM\SYSTEM\CurrentControlSet\Services\lanmanserver\parameters\restrictanonymous
 * HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Current\Vision\Run
 	*악성코드 감염이 의심될때 윈도우 부팅시 자동 실행을 수행하는 레지스트리
-{: .notice--info}	
+{: .notice--warning}	
 
 1. 공유목적 관리폴더 (제거해야 할 것)
 	* C$, D$
@@ -400,7 +404,7 @@ BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 X
 2. Null Session 접근 제어
 	* HKLM\SYSTEM\CurrentControlSet\Control\Lsa > restrictanonymous 
 3. Autologon 비활성화
-	* HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WInlogon
+	* HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 4. 서비스 거부 공격 예방
 	* HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
 	* 출처: https://www.ahnlab.com/kr/site/securityinfo/secunews/secuNewsView.do?curPage=81&seq=11818
@@ -416,17 +420,8 @@ BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 X
 * 프로그램, 장비 등의 문제점과 성능 확인 가능
 * 시스템 관리, 보안, 시스템 정보, 디버깅 메시지 등의 정보를 제공한다
 * 이러한 로그를 기록하는 프로세스 이름이 syslogd 이다
-{: .notice}
+{: .notice--info}
 
----
-### 윈도우 인증
----
-* Winlogon: 로그인 프로세스
-* GINA: 계정 정보와 암호화 된 패스워드를 LSA에 전달
-* LSA: 계정 검증, 감사 기록
-* SAM: 계정 정보가 저장된 해시 값
-* SRM: 사용자 별 고유 SID 부여 및 권한 부여
-{: .notice--warning}
 ---
 ### 윈도우 계정
 ---
@@ -445,24 +440,23 @@ BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 X
 ---
 ### 이벤트 뷰어
 ---
-* 윈도우 이벤트 로그
-* 이벤트로그는 응용, 보안, 시스템이 있다.
+`윈도우 이벤트 로그`  
+
 * 응용프로그램  
 * 시스템  
 * 보안 이벤트 로그: 로그인 실패 기록, 게정의 잘못된 사용, 잠김, 터미널 공격, 사용자 추가, 사용자 계정 암호 변경 로그가 있다. 
 * 기본적으로 경로는 C:\Windows\System32\winevt\Logs 이다.
 * 윈도우 시스템 로그를 실시간으로 기록하고 날짜, 시간, 사용자, 컴퓨터, 이벤트 ID, 이벤트 종류, 정보, 경고, 오류 등을 관리한다.
 * 로그파일형식 .evt 텍스트파일 형식 .txt 그리고 csv가 있고 system.evt는 로그파일이다. 
-{: .notice--info}
+{: .notice--warning}
 
 ---
 ### ASLR(동적주소)
 ---
 
 **ASLR(Address Space Layout Randomization)**  
-실행파일이 메모리에 로드될 때 동일한 메모리 주소를 가지면 공격자에게 취약한 문제점이 발생된다  
-악성코드 적재가 더 수월해진다  
-따라서, 윈도우 Vista 부터는 메모리 주소를 항상 동적으로 할당한다  
+실행파일이 메모리에 로드될 때 동일한 메모리 주소를 가지면 공격자에게 취약한 문제점이 발생된다.   
+따라서, 윈도우 Vista 부터는 메모리 주소를 항상 동적으로 할당한다.  
 {: .notice}
 
 `ASLR 해제`
@@ -479,9 +473,9 @@ sysctl -w kernel.randomize_va_space=1
 
 * 랜섬 + 소프트웨어의 합성어이다
 * 문서를 암호화하여 경제적 이득을 취한다
-* 랜섬웨어 방법으로 크립토락커가 있다
-* RSA와 AES로 사용자 문서를 암호화 시켜서 돈을 요구
-* SD카드에 사용자 정보를 저장해도 모든 파일을 암호화 한다
+* 랜섬웨어 방법으로 **크립토락커**가 있다
+* **RSA와 AES로 사용자 문서를 암호화** 시켜서 돈을 요구
+* **SD카드에 사용자 정보를 저장해도 모든 파일을 암호화 한다.**
 {: .notice--info}
 
 ---
@@ -501,9 +495,6 @@ sysctl -w kernel.randomize_va_space=1
 	* ID와 Passwd 없이도 로그인이 가능하다.
 	* r-command를 통해서 인증없이 중요 정보 유출, 공격 가능
 	* 사용되는 파일 : host.equiv / .rhost 이다 / 권한 600 이하 그리고 + 설정 없어야한다.
-* 유닉스 시스템에서 패스워드는 /etc/passwd 파일에 해시값으로 보유하고 있다. 이러한 해시값을 보유하기위해서 임의적으로 필드를 늘려서 해시값을 보이지 않게 한다.
-* **shadow 파일**은 사용자 패스워드를 보관하는 파일로 md5를 사용한 해시값을 가지고 있다. 이것은 salt 값을 포함하고 있다.
-	* 첫번쨰 $는 사용자가 만든 **해시값**이고 두번째 $는 **salt** 값이다.
 {: .notice}
 
 
