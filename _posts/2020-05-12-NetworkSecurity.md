@@ -640,6 +640,13 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * NMAP 
 {: .notice}
 
+`패스워드 크래킹 도구`  
+Johan the ripper  
+L0phtcrack  
+Pwdump  
+DDos 도구  
+WinNuke  
+{: .notice--info}
 
 ---
 ### 그 외
