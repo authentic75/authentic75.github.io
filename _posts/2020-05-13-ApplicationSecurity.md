@@ -242,6 +242,7 @@ ResultSet rs = stmt.executeQuery();
 	* 집합성: 개별 정보를 합쳐서 낮은 보안 정보로 높은 등급 정보를 알아내는 것
 	* 추론: Raw 데이터로부터 민감 정보를 유출하는 행위
 	* 접근 제어
+{: .notice--warning}
 * 요구사항: 무결성, 추론 방지, 사용자 제한, 감사 기능, 암호화
 * 보안기법: SHA-256 이상의 해시 함수 의무적으로 사용
 	* Plug In 방식: 서버에 별도 암호화 솔루션 설치, 명령어 실행시 암호화 및 복호화
@@ -311,10 +312,9 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 	* Change chiper Spec Protocol: 암호화 알고리즘, 보안 정책 조율, HandShaking에서 협의된 알고리즘, 키 교환 알고리즘, MAC 암호화, 해시 알고리즘이 사용될 것을 웹 브라우저와 웹 서버에게 공지하는 역할
 	* Hand Shake Protocol: 알고리즘 결정, 키분배, 서버/클라이언트 인증 ,세션을 생성하고 웹 브라우저와 웹 서버 간에 암호화 방식 등을 결정한다
 	* Alert Protocol: Warning 또는 Fatal 로 수행 중 발생하는 오류 메세지, 비정상 적인 세션 종료 및 에러 발생 시 경고 메세지 전송
-	* Record Protocol
 * 전송계층(TCP)
 * 네트워크계층(IP)
-{: .notice--info}
+{: .notice--danger}
 
 `SSL에서의 HandShaking(443 포트)`
 * Client가 ClientHello 보냄(통신의 시작 알림)
@@ -322,7 +322,7 @@ SSL (SSL 1.0 > SSL 2.0 > SSL3.0 > TLS1.0 > RFC 2246(표준규약))
 * 그와 동시에 ServerKeyExchange(공개키)와 ServerHelloDone(전달완료) 메세지 전달
 * Client에서는 ClientKeyExchange(비밀키 암호화), ChangechiperSpec(암호화 통신 준비완료), Finished 전달
 * Server에서 다시 ChangechiperSpec(암호화 통신 준비완료), Finished 를 전송한다
-{: .notice--info}
+{: .notice--danger}
 협의된 알고리즘 이후부터 사용하겠다고 알리는 신호  
 인증서는 서버가 요청시 클라이언트가 보낸다  
 {: .notice--info}
@@ -369,7 +369,7 @@ IPSEC을 적용하기 위해서는 운영체제의 수정이 필요하다
 	* 사용자 인증 요구와 함께 사용자 식별번호를 인증서버에 전달
 	* 난수생성하여 challenge로 사용자에게 전달
 	* 이와 동시에 서버는 이용자의 식별번호에 해당하는 패스워드를 키 DB에서 꺼내 난수 암호화함
-	* 사용자는 잣ㄴ의 패스워드를 이용하여 서버와 약속된 알고리즘을 통해 암호화 하여 Respond로 인증서버에게 반환
+	* 사용자는 패스워드를 이용하여 서버와 약속된 알고리즘을 통해 암호화 하여 Respond로 인증서버에게 반환
 	* 인증서버는 자신이 계산한 값과 수신된 값을 비교하여 사용자 인증
 	* 스니핑 공격에 취약하다는 단점이 있고 통신횟수도 비교적 많이 필요하다
 {: .notice--info}
@@ -422,7 +422,7 @@ IPSEC을 적용하기 위해서는 운영체제의 수정이 필요하다
 	* 표준 코딩, SW 개발 보안 가이드 준수
 	* 개발 가이드 제공
 	* 소스코드 보안 약점 진단
-{: .notice}
+{: .notice--warning}
 
 보안 약점: 입력데이터 검증 및 표현, 보안 기능, 시간 및 상태, 에러처리, 코드 오류, 캡슐화, API 오용
 {: .notice}
@@ -443,27 +443,22 @@ IPSEC을 적용하기 위해서는 운영체제의 수정이 필요하다
 ---
 ### WAP
 ---
-`WAP(Wireless Application Protocol)`
-
+`WAP(Wireless Application Protocol)`  
 * WAE(Wireless Application Environment)
-Application이 동작할 수있는 기본적인 Application layer이다.  
-응용 프로그램 별 마크업 언어를 정의한다.
-{: .notice}
+	* Application이 동작할 수있는 기본적인 Application layer이다.  
+	* 응용 프로그램 별 마크업 언어를 정의한다.
 * WSP(Wireless Session Protocol)
-Connection-Oriented 와 Connection-less의 두가지 Session 서비스를 WAE에 제공한다.  
-HTTP를 가진 요청을 전송할 수 있게 한다.(게이트웨이가 WML요청을 일반 HTTP로 변환후 전송)
-{: .notice}
+	* Connection-Oriented 와 Connection-less의 두가지 Session 서비스를 WAE에 제공한다.  
+	* HTTP를 가진 요청을 전송할 수 있게 한다.(게이트웨이가 WML요청을 일반 HTTP로 변환후 전송)
 * WTP(Wireless Transaction Protocol)
-데이터 그램 서비스 위에서 동작하며,Transaction-Oriented서비스를 제공한다.  
-무선 세계에 적합한 트랜잭션 지원(신뢰할 수 있는 요청/응답)을 제공
-{: .notice}
+	* 데이터 그램 서비스 위에서 동작하며,Transaction-Oriented서비스를 제공한다.  
+	* 무선 세계에 적합한 트랜잭션 지원(신뢰할 수 있는 요청/응답)을 제공
 * WTLS(Wireless Transport Layer Security)
-TLS의 무선 Version으로 데이터 무결성/기밀성/인증 기능을 제공한다.  
-공개키 암호화 기반 보안 메커니즘 제공
-{: .notice}
+	* TLS의 무선 Version으로 데이터 무결성/기밀성/인증 기능을 제공한다.  
+	* 공개키 암호화 기반 보안 메커니즘 제공
 * WDP(Wireless Datagram Protocol)
-전송 계층에 해당하며 Connection-less,Unreliable한 데이터그램 서비스를 제공(UDP와 동일한 개념)한다.   
-포트 번호(출발지와 독착지)저장으로 데이터 전송을 할수 있게 한다.
+	* 전송 계층에 해당하며 Connection-less,Unreliable한 데이터그램 서비스를 제공(UDP와 동일한 개념)한다.   
+	* 포트 번호(출발지와 독착지)저장으로 데이터 전송을 할수 있게 한다.
 {: .notice}
 
 ---
@@ -504,7 +499,7 @@ Windows 2000 Server 부터 생긴 기능. 거대 기업 네트워크 환경을 �
 * NetCash: 전자 수표
 * 비자캐시: 소액 지불
 * PC Pay: 스마트 카드
-{: .notice}
+{: .notice--warning}
  
 ---
 ### 업로드 취약점
