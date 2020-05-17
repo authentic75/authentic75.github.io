@@ -17,13 +17,14 @@ read_time: false
 ---
 ### 프로세스 명령어
 ---
-*프로세스 확인: ps, pstree, top, pgrep
-1. ps
-	* ps u	: 사용량(%)을 함께 출력
-    * ps a	: 터미널 프로세스를 출력
-    * ps x	: 모든 프로세스 목록 출력
-    * ps -f	: 부모 프로세스 정보를 같이 출력
-    * ps -e	: 모든 프로세스 목록 출력
+`프로세스 확인: ps, pstree, top, pgrep`  
+
+* ps u	: 사용량(%)을 함께 출력
+* ps a	: 터미널 프로세스를 출력
+* ps x	: 모든 프로세스 목록 출력
+* ps -f	: 부모 프로세스 정보를 같이 출력
+* ps -e	: 모든 프로세스 목록 출력
+* ps -p , ps --pid : pid를 볼 수 있다
 {: .notice}  
 
 ```console
@@ -45,20 +46,24 @@ root      3096  3091  0 10:31 pts/2    00:00:00 -bash
 root      3136  3096  0 10:33 pts/2    00:00:00 ps -f
 ```
 
-2. 전체 프로세스 목록중 특정 프로세스 목록 출력
-    * ps aux | grep 프로세스명
-    * ps -ef | grep 프로세스명
-    * pgrep 패턴(문자열)	 : 패턴과 일부 일치하는 프로세스 검색. 결과는 PID로 출력  
-    * pgrep -x 패턴(문자열): 패턴과 정확히 일치하는 프로세스 검색. 결과는 PID로 출력  
-    * 위에 출력된 PID를 ps -p, ps --pid 명령어 조건에 같이 포함하여 검색
-    * ps -p `pgrep 패턴(문자열)`
-    * ps --pid $(pgrep 패턴(문자열))
+`전체 프로세스 목록중 특정 프로세스 목록 출력`  
+
+ * ps aux|grep 프로세스명
+ * ps -ef|grep 프로세스명
+ * pgrep 패턴(문자열)	 : 패턴과 일부 일치하는 프로세스 검색. 결과는 PID로 출력  
+ * pgrep -x 패턴(문자열): 패턴과 정확히 일치하는 프로세스 검색. 결과는 PID로 출력  
+ * 위에 출력된 PID를 ps -p, ps --pid 명령어 조건에 같이 포함하여 검색
+ * ps -p `pgrep 패턴(문자열)`
+ * ps --pid $(pgrep 패턴(문자열))
 {: .notice}
 ```console
 [root@ns1 ~]# ps aux |grep tty
 root      2632  0.0  0.0   1760   448 tty1     Ss+  10:28   0:00 /sbin/mingetty tty1
 root      2633  0.0  0.0   1760   444 tty2     Ss+  10:28   0:00 /sbin/mingetty tty2
 ```
+S+는 포그라운드에서 돌아가고 있는 프로그램을 뜻하고
+Ss는 세션리더(사용자 시작 프로세스)를 뜻한다 -bash가 대부분 Ss
+{: .notice--warning}
 ```console
 [root@ns1 ~]# ps -ef | grep tty
 root      2632     1  0 10:28 tty1     00:00:00 /sbin/mingetty tty1
@@ -70,6 +75,24 @@ root      2633     1  0 10:28 tty2     00:00:00 /sbin/mingetty tty2
 2633
 2634
 ```
+* 프로세스 종류
+	* 포그라운드 프로세스: 화면에 나타나서 사용자와 상호작용
+	* 백그라운드 프로세스: 뒤에서 실행되는 프로세스
+		* done 이라는 메세지를 볼 수 있다
+* 인터럽트: 프로세스 실행 중 Ctrl + C 키 (프로세스 종료)
+{: .notice}
+* pstree 명령어
+```console
+[root@ns1 ~]# pstree -p
+```
+process의 종속 관계를 볼 수 있다
+{: .notice}
+```console
+[root@ns1 ~]# ps -p `pgrep -x ping`
+```
+홑따옴표(`)를 활용하여 특정 명령어에 대한 결과값을 입력값으로 활용 할 수 있다  
+* A = `date` 또는 A = $(date)
+{: .notice}
 ---
 ### Top 명령어
 ---
@@ -93,7 +116,7 @@ Swap:  4128696k total,        0k used,  4128696k free,   290692k cached
     1 root      15   0  2172  640  548 S  0.0  0.0   0:00.47 init
     2 root      RT  -5     0    0    0 S  0.0  0.0   0:00.01 migration/0
 ```
-
+`출력되는 정보`  
 * PR(Pririoty)는 직접 조정을 불가능하며, nice를 통해 간적적으로 제어가능한다.
 * nice -[값] 명령어 -20 ~ 19 사이에 값으로 설정가능하며, 낮을수록 우선순위 가 좋아(낮아)진다.
 * S(Status)상태 필드는 R, S, T, D, Z 상태가 출력될 수 있고,
@@ -105,9 +128,18 @@ Swap:  4128696k total,        0k used,  4128696k free,   290692k cached
 * s	세션리더(사용자 시작 프로세스)
 * +	foreground (현재 작업중인 프로세스)
 {: .notice--warning}
+```console
+[root@ns1 ~]# nice --20 tar cfz usr.tar.gz /usr &
+[root@ns1 ~]# ping 168.126.63.1 > ping1.txt &
+```
 ---
-### kill 시그널
+### kill 명령어
 ---
+```console
+[root@ns1 ~]# kill -l 
+```
+`kill -l 입력시 다음과 같은 지원 기능들을 볼 수 있다`  
+
 1. SIGHUP, HUP	: 프로세스 재구동효과(캐쉬, 버퍼)
 2. SIGINT, INT	: [Ctrl] + [c], 인터럽트
 3. SIGQUIT, QUIT	: [Ctrl] + [\], 종료
@@ -123,6 +155,10 @@ Swap:  4128696k total,        0k used,  4128696k free,   290692k cached
 ---
 ### jobs
 ---
+```console
+[root@ns1 ~]# ping 168.126.62.1 > result1.txt &
+# 또는 Ctrl + Z 키를 누르면 백그라운드로 돌릴 수 있다
+```
 * 사용자의 작업목록 확인
 * [1], [2] 같은 작업번호를 확인할 수 있으며, BackGround 에 넘어간 순서대로 순차적으로 부여됨
 * 가장 최근에 BackGround에 넘어간 작업에 + 기호가 부여된다.
@@ -142,19 +178,19 @@ Swap:  4128696k total,        0k used,  4128696k free,   290692k cached
 
 `1. 데몬(서비스) 구동/정지/상태`
 ```
- # service  데몬명  [start/stop/restart/status]
- # systemctl  [start/stop/restart/status]  데몬명
- # systemctl  [start/stop/restart/status]  데몬명.service
+[root@ns1 ~]# service  데몬명  [start/stop/restart/status]
+[root@ns1 ~]# systemctl  [start/stop/restart/status]  데몬명
+[root@ns1 ~]# systemctl  [start/stop/restart/status]  데몬명.service
 ```
 `2. 데몬(서비스) 자동 시작 등록/제거`
 ```
- # chkconfig  데몬명  [on/off]
- # systemctl  [enable/disable]  데몬명
+[root@ns1 ~]# chkconfig  데몬명  [on/off]
+[root@ns1 ~]# systemctl  [enable/disable]  데몬명
 ```
 `3. 데몬(서비스) 자동 시작여부 확인`
 ```
- # ntsysv
- # systemctl list-unit-files
+[root@ns1 ~]# ntsysv
+[root@ns1 ~]# systemctl list-unit-files
 ```
  
 * inetd (인터넷 데몬)에 보안을 강화하여 xinetd(eXtended (인터넷 데몬)이 되었으며, CentOS7 이후부토는 init데몬과 xinetd 데몬을 결합하여 systemd 데몬으로 변경되었다.
@@ -166,3 +202,20 @@ Swap:  4128696k total,        0k used,  4128696k free,   290692k cached
 * StandAlone(sshd)데몬: 항상 프로세스상태여야하며, 서비스 요청시 즉시 응답이 가능하다. 주로 자주 요청되는 서비스에 적용된다.
 * SuperDaemon (telnetd)데몬: 평소에는 프로그램(저장)상태에서 서비스 요청시 SuperDaemon에 의해서 동작(프로세스)을 시작하며, 서비스 종료와 함께 프로스세는 종료된다.
 {: .notice}
+
+```console
+[root@ns1 ~]# Systemctl start httpd.service
+[root@ns1 ~]# Systemctl stop httpd.service
+[root@ns1 ~]# Systemctl status httpd.service
+```
+```console
+[root@ns1 ~]# ls -ld /etc/init.d/ #우리가 실행하는 스크립트들을 볼 수 있다
+[root@ns2 ~]# /usr/lib/system/system/
+```
+* CentOS 5 에서는 재부팅 후 service httpd status 를 보면 정지됨 나옴  
+	* 그 이유는 ntsysv 에서 자동으로 등록이 안되어 있어서 이다  
+	* 직접 체크를 할 수도 있지만 #chkconfig httpd on 으로 체크를 해줄 수도 있다  
+* CentOS 8
+	* systemctl list-unit-files 에서 서비스 리스트 볼 수 있다.
+	* systemclt [enable/disable] httpd.service
+{: .notice--info}
