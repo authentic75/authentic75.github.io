@@ -319,35 +319,35 @@ $hash = sha1($salt.$password);
 ---
 유닉스에서의 권한은 소유자와 그룹(다른 사용자)로 분류된다.  
 home 디렉터리 소유자와 그룹은 rw권한을 가진다.  
-{: .notice}
+{: .notice--success}
 /user/home rw- rw-  
   
 /etc/group  
 Security:504:user1,user2,user3
-{: .notice--info}
+{: .notice--success}
 ---
 ### 윈도우 프로세스
 ---
 **윈도우 인증 프로세스**  
-Winlogon: 윈도우 로그인 프로세스  
-GNA(msgina.dll): Winlogon이 이것을 로딩하여 사용자가 입력한 계정과 암호를 LSA에 전달
-LSA(lsas.exe): 계정과 암호를 검증하기 위해서 NTLM(암호화)모듈을 로딩하고 계정을 검증  
-SRM이 작성한 감사로그를 기록  
-SAM: 사용자 계정정보(해시값)에 저장  
-리눅스의 /etc/shadow 파일과 같은 역할 수행  
-SRM: 사용자에게 고유 SID를 부여하고 SID에 권한을 부여하고
-{: .notice}
+* **Winlogon**: 윈도우 로그인 프로세스  
+* **GNA(msgina.dll)**: Winlogon이 이것을 로딩하여 사용자가 입력한 계정과 암호를 LSA에 전달
+* **LSA(lsas.exe)**: 계정과 암호를 검증하기 위해서 NTLM(암호화)모듈을 로딩하고 계정을 검증  
+* **SAM**: 사용자 계정정보(해시값)에 저장  
+* **SRM**: 사용자에게 고유 SID를 부여하고 SID에 권한을 부여하고
+* 리눅스의 /etc/shadow 파일과 같은 역할 수행  
+{: .notice--info}
+
 **윈도우 운영체제 프로세스**  
-winint.exe: 윈도우 시작 프로그램    
-services.exe: 윈도우 서비스  
-lsm.exe: Local Session Manager   
-시스템 관리 작업, 주요 함수 실행, 호스트 컴퓨터와 서버의 연결을 관리  
-lsass.exe: Local Security Authority Subsystem Service  
-사용자 로그인 검사, 비밀번호 변경, 액세스 토큰 생성  
-Window Security Log 작성  
-svchost.exe: 서비스를 관리하기 위한 프로세스  
-conhost.exe: 키보드, 마우스 입력 허용, 문자 출력, 콘솔 API등 셸의 기본 기능을 수행  
-{: .notice}
+* winint.exe: 윈도우 시작 프로그램    
+* services.exe: 윈도우 서비스  
+* lsm.exe: Local Session Manager   
+	* 시스템 관리 작업, 주요 함수 실행, 호스트 컴퓨터와 서버의 연결을 관리  
+* lsass.exe: Local Security Authority Subsystem Service  
+	* 사용자 로그인 검사, 비밀번호 변경, 액세스 토큰 생성  
+* Window Security Log 작성  
+* svchost.exe: 서비스를 관리하기 위한 프로세스  
+* conhost.exe: 키보드, 마우스 입력 허용, 문자 출력, 콘솔 API등 셸의 기본 기능을 수행  
+{: .notice--danger}
 
 **공유폴더 삭제**  
 #net share test /delete  
@@ -361,11 +361,11 @@ HKEY_CLASSES_ROOT: 파일의 각 확장자에 대한 정보와 파일과 프로�
 HKEY_LOCAL_MACHINE: 설치된 하드웨어와 소프트웨어 설치 드라이버 설정  
 HKEY_USERS: 사용자에 대한 정보  
 HKEY_CURRENT_CONFIG: 디스플레이 설정과 프린트 설정  
-{: .notice--info}
+{: .notice--danger}
 **하이브 파일**  
 레지스트리는 대부분 하이브라고 부르는 파일의 세트에 들어있다  
 SYSTEM: 시스템 부팅에 필요한 시스템 전역 구성정보를 가지고 있음  
-SOFTWARE: 시스템 부팅에 필요 업슨 시스템 전역 구성정보로 소프트웨어 정보를 가지고 있음  
+SOFTWARE: 시스템 부팅에 필요 없는 시스템 전역 구성정보로 소프트웨어 정보를 가지고 있음  
 SECURITY: 시스템 보안 정책과 권한 할당 정보로 시스템 계정만 접근 가능  
 SAM: 로컬 계정 정보와 그룹정보로 시스템 계정만 접근 가능  
 HARDWARE: 시스템 하드웨어 디스크립션과 모든 하드웨어의 장치 드라이버 매핑 정보를 가지고 있음  
@@ -374,9 +374,9 @@ BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 X
 {: .notice--info}
 
 * 윈도우 설정 정보는 %SystemRoot%\System32\Config에 저장
-	* SMA 사용자 그룹 계정 정보
-	* Security 보안 및 권한 관련 정보
-	* ntuser.dat 사용자 설정 정보
+	* SAM: 사용자 그룹 계정 정보
+	* Security: 보안 및 권한 관련 정보
+	* ntuser.dat: 사용자 설정 정보
 {: .notice--info}
 
 ---
