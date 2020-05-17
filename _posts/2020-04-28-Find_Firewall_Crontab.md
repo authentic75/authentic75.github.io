@@ -176,12 +176,41 @@ date > /backup/$DATE-weekday.txt
 */2 * * * *	date > /backup/result #짝수분 마다
 */5 * * * 1-5	date > /backup/$DATE #5분 마다
 ```
-
-
-
-
-
-
+특정 계정에 대한 crontab을 볼 수 있다
+{: .notice}
+```console
+[root@ns1 ~]# crontab -e
+[root@ns1 ~]# crontab -u user1 -l
+*/2 * * * *	date > /backup/result
+```
+* /etc/crontab을 살펴보자
+	* MAILTO 문제가 생겼을 시 어디에 메일을 보내야 하는지 설정
+	* 어떤 계정을 기준으로 실행시킬지 기록
+	* 오로지 실행파일이 디렉토리에 들어간다
+	* Run-parts 옵션으로 각각 /etc/cron.hourly … monthly 디렉토리 안에 있는 명령들을 grouping 하여 한꺼번에 실행한다.
+	* ls -lhd /etc/cron* 해보기
+{: .notice}
+/etc/cron.hourly, /etc/cron.daily를 활용해보자
+{: .notice}
+```console
+[root@ns1 ~]# pwd
+[root@ns1 ~]# touch backup_hour.sh
+[root@ns1 ~]# touch backup_day.sh
+[root@ns1 ~]# umask
+[root@ns1 ~]# chmod a+x *.sh
+[root@ns1 ~]# mkdir /backup
+[root@ns1 ~]# vi backup_hour.sh
+[root@ns1 ~]# cat backup_day.sh
+[root@ns1 ~]# mv backup_hour.sh /etc/cron.hourly
+[root@ns1 ~]# mv backup_day.sh /etc/cron.daily
+[root@ns1 ~]# service crond restart
+```
+* crontab을 실행하지 않을 user를 /etc/cron.deny에 추가할 수 있다.
+* cat > /etc/cron.deny
+* cat > /etc/at.deny
+* cat > /etc/at.allow
+* at.deny와 allow에 둘다 쓰는경우엔 allow를 수행한다
+{: .notice}
 
 
 
