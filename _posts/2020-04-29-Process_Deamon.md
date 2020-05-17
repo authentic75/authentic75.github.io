@@ -1,6 +1,6 @@
 ---
 title: "LINUX: 프로세스와 데몬"
-last_modified_at: 2020-05-11T16:20:02-05:00
+last_modified_at: 2020-04-29T16:20:02-05:00
 categories:
   - LINUX
 tags:
@@ -48,8 +48,8 @@ root      3136  3096  0 10:33 pts/2    00:00:00 ps -f
 
 `전체 프로세스 목록중 특정 프로세스 목록 출력`  
 
- * ps aux|grep 프로세스명
- * ps -ef|grep 프로세스명
+ * ps aux l grep 프로세스명
+ * ps -ef l grep 프로세스명
  * pgrep 패턴(문자열)	 : 패턴과 일부 일치하는 프로세스 검색. 결과는 PID로 출력  
  * pgrep -x 패턴(문자열): 패턴과 정확히 일치하는 프로세스 검색. 결과는 PID로 출력  
  * 위에 출력된 PID를 ps -p, ps --pid 명령어 조건에 같이 포함하여 검색
@@ -81,17 +81,16 @@ root      2633     1  0 10:28 tty2     00:00:00 /sbin/mingetty tty2
 		* done 이라는 메세지를 볼 수 있다
 * 인터럽트: 프로세스 실행 중 Ctrl + C 키 (프로세스 종료)
 {: .notice}
-* pstree 명령어
+`pstree 명령어`
 ```console
 [root@ns1 ~]# pstree -p
 ```
-process의 종속 관계를 볼 수 있다
-{: .notice}
+`process의 종속 관계를 볼 수 있다`
 ```console
 [root@ns1 ~]# ps -p `pgrep -x ping`
 ```
 홑따옴표(`)를 활용하여 특정 명령어에 대한 결과값을 입력값으로 활용 할 수 있다  
-* A = `date` 또는 A = $(date)
+A = `date` 또는 A = $(date)
 {: .notice}
 ---
 ### Top 명령어
@@ -192,18 +191,7 @@ Swap:  4128696k total,        0k used,  4128696k free,   290692k cached
 [root@ns1 ~]# ntsysv
 [root@ns1 ~]# systemctl list-unit-files
 ```
- 
-* inetd (인터넷 데몬)에 보안을 강화하여 xinetd(eXtended (인터넷 데몬)이 되었으며, CentOS7 이후부토는 init데몬과 xinetd 데몬을 결합하여 systemd 데몬으로 변경되었다.
-* inetd, xinetd: 인터넷 데몬, 수퍼 데몬으로도 불린다.
-{: .notice}
-
-* **데몬은 StandAlone형과 SuperDaemon형으로 나뉜다.**
-* StandAlone형은 독립적으로 동작하는 데몬들이며,SuperDaemon형은 스스로 동작하지 않고, SuperDaemon에 의해 동작하는 데몬이다.
-* StandAlone(sshd)데몬: 항상 프로세스상태여야하며, 서비스 요청시 즉시 응답이 가능하다. 주로 자주 요청되는 서비스에 적용된다.
-* SuperDaemon (telnetd)데몬: 평소에는 프로그램(저장)상태에서 서비스 요청시 SuperDaemon에 의해서 동작(프로세스)을 시작하며, 서비스 종료와 함께 프로스세는 종료된다.
-{: .notice}
-
-```console
+ ```console
 [root@ns1 ~]# Systemctl start httpd.service
 [root@ns1 ~]# Systemctl stop httpd.service
 [root@ns1 ~]# Systemctl status httpd.service
@@ -219,3 +207,25 @@ Swap:  4128696k total,        0k used,  4128696k free,   290692k cached
 	* systemctl list-unit-files 에서 서비스 리스트 볼 수 있다.
 	* systemclt [enable/disable] httpd.service
 {: .notice--info}
+
+* inetd (인터넷 데몬)에 보안을 강화하여 xinetd(eXtended (인터넷 데몬)이 되었으며, CentOS7 이후부터는 init데몬과 xinetd 데몬을 결합하여 systemd 데몬으로 변경되었다.
+* inetd, xinetd: 인터넷 데몬, 수퍼 데몬으로도 불린다.
+{: .notice}
+
+* **데몬은 StandAlone형과 SuperDaemon형으로 나뉜다.**
+* StandAlone형은 독립적으로 동작하는 데몬들이며,SuperDaemon형은 스스로 동작하지 않고, StandAlone에 의해 동작하는 데몬이다.
+* StandAlone(sshd)데몬: 항상 프로세스상태여야하며, 서비스 요청시 즉시 응답이 가능하다. 주로 자주 요청되는 서비스에 적용된다.
+* SuperDaemon (telnetd)데몬: 평소에는 프로그램(저장)상태에서 서비스 요청시 StandAlone에 의해서 동작(프로세스)을 시작하며, 서비스 종료와 함께 프로스세는 종료된다.
+{: .notice}
+
+```console
+[root@ns1 ~]# service sshd restart  #독립적인 데몬이라 독립적으로 껏다 켤 수 있다.
+[root@ns1 ~]# vi /etc/xinetd.d/telnet #수정 disable no
+[root@ns1 ~]# service sshd restart #후 pgrep sshd 로 검색 하자
+[root@ns1 ~]# Ps u -p `pgrep -x sshd`
+[root@ns1 ~]# ps aux | grep telnetd   #그러면 그랩한거만 보임
+```
+* pstree 실행해보면 sshd가 독자적으로 동작중인 것이 나온다. 
+* Telenetd는 아직 실행은 안되었지만 구동 되는순간 xinetd 뒤에 종속됨
+* 그리고 구동 되는 순간 in.teletd 라고 앞에 in 이 붙는다
+{: .notice}
