@@ -125,7 +125,7 @@ Data(.data) 초기화된 변수
 ---
 **PCB(Process Control Block)**
 프로세스 생성시 만들어지며 주기억장치에 유지된다. 프로세스는 CPU가 처리하던 작업의 내용들을 자신의 PCB에 저장하고, 다음에 다시 CPU를 점유하여 작업을 수행해야 할 때 PCB로부터 해당 정보들을 CPU에 넘겨와서 계속해서 하던 작업을 진행할 수 있게 됩니다.
-{: .notice}
+{: .notice--info}
 
 `PCB에 유지되는 정보`  
 
@@ -138,14 +138,14 @@ Data(.data) 초기화된 변수
 7. 프로세스 계정 정보 
 8. 입출력 상태 정보  
 9. 포인터
-{: .notice--warning}
+{: .notice--info}
 
 * 레이스컨디션
 	* 두 개 이상의 프로세스들이 공유 자원에 동시에 접근하여 읽기 및 쓰기를 못하게 해야한다
 	* 여러 번 실행되는 과정에서 실행순서가 뒤바뀌어 실행자가 원하는 결과를 얻는다
 	* 임시파일을 사용하여 공격한다
 	* 심볼릭 링크를 사용한다
-{: .notice}
+{: .notice--warning}
 
 ---
 #### 스케줄링
@@ -155,14 +155,14 @@ Data(.data) 초기화된 변수
 	* FCFS, SJF, HRN, 우선순위, 기한부
 * 선점
 	* 라운드로빈, SRT, 다단계 큐, 다단계 피드백 큐
-{: .notice--warning}
+{: .notice--danger}
 ---
 #### 다중스레드
 ---
 **Heavy weight process**: 한 프로세스에 속한 스레드가 여러 자원을 공유하고 프로세스의 주고 공간과 열린 파일을 공유해 수행 효율 높인다.  
 **Light weight process**: 스레드를 일컫는 말. 프로세스 속성 공유  
 **멀티 스레드 기법**: 멀티 디스크, 멀티 프로세서 시스템에서 효율성 극대화  
-{: .notice}
+{: .notice--warning}
 ---
 #### 인터럽트
 ---
@@ -193,7 +193,7 @@ SSTF(Shortest-Seek Time First): Seek time 감소, Starvation 발생
 SCAN(엘리베이터): SSTF 탐색 시간 편차 해소  
 C-SCAN(Circular Scan): 바깥쪽에서 안쪽  
 C-LOOK(Circular look): 요청된 실린더 중 마지막까지만 이동
-{: .notice}
+{: .notice--warning}
 
 ---
 ### 리눅스
@@ -201,14 +201,15 @@ C-LOOK(Circular look): 요청된 실린더 중 마지막까지만 이동
 **리눅스 셸**
 시그널 처리, 프로그램실행, 파이프/리다이렉션/백그라운드 프로세스 설정  
 명령줄 분석, 와일드 카드, 히스토리 문자, 특수문자 분석  
-{: .notice}
+{: .notice--info}
 
 **커널 종류/모드**
-사용자 모드:  
-커널 모드: 시스템 콜에 의한 요청 처리  
-마이크로 커널: 핵심기능만 포함, 아날로그 연속 입력을 디지털로 변환  
-모놀리식 커널: 커널이 만든 기능을 포함하고 있는 커널 아키텍쳐  
-{: .notice}
+* 리눅스 커널은 운영체제에서 가장 중요한 부분이다. 프로세서와 시스템 메모리에 상주하면서 디바이스나 메모리 같은 하드웨어 자원을 관리하고, 프로세스의 스케줄을 관리하여 다중 프로세스를 구현하고, 시스템에 연결된 입출력을 처리하는 운영체제의 핵심 역할을 수행
+* 사용자 모드: 유저가 접근할 수 있는 영역 제한
+* 커널 모드: 시스템 콜에 의한 요청 처리 , 모든 자원의 접근 명령 
+* 마이크로 커널: 핵심기능만 포함, 아날로그 연속 입력을 디지털로 변환  
+* 모놀리식 커널: 커널이 만든 기능을 포함하고 있는 커널 아키텍쳐  
+{: .notice--info}
 ---
 #### 리눅스 파일 시스템
 ---
@@ -216,7 +217,7 @@ C-LOOK(Circular look): 요청된 실린더 중 마지막까지만 이동
 * 슈퍼 블록: 블록 리스트, 다음 블록 인덱스,inode 목록, 빈 inode 수와 목록, 빈블록과 inode 목록에 대한 lock 필드, 슈퍼 블록들이 수정되었는지에 대한 flag, 파일시스템이름, 파일 시스템 디스크이름  
 * 아이노드: 파일이나 디렉터리에 대한 모든 정보를 가지고 있는 구조, 파일 이름은 포함 하지 않는다(이름공간에 따로 저장)
 * 데이터 블록: 삭제 데이터가 저장되어 있는 파일 형태  
-{: .notice--warning}
+{: .notice--danger}
 ---
 #### 리눅스 로그 및 파일
 ---
@@ -224,8 +225,19 @@ C-LOOK(Circular look): 요청된 실린더 중 마지막까지만 이동
 .bash_profile: 사용자 홈 디렉터리에 있는 파일, 개별적인 셸 환경 설정  
 .bashrc: 사용자 정의변수, 함수 alias 정의
 .bash_logout: 사용자가 로그아웃할 때 실행되는 파일을 정의  
-{: .notice}
-utmp 파일은 현재 사용자 로그, /var/run/utmp에 존재한다 **w 또는 who로 실행 가능**  
+{: .notice--warning}
+* utmp 파일은 현재 사용자 로그, /var/run/utmp에 존재한다 **w 또는 who로 실행 가능**  
+* wtmp 파일은 로그인과 로그아웃 정보 **last 명령으로 실행 가능**  
+	* 사용자 로그인 및 로그아웃 정보  
+	* 시스템 관련 정보  
+	* 시스템 종료 및 부팅 정보  
+	* 재부팅 정보  
+	* telnet 및 ftp 등을 통한 로그인 정보  
+* btmp 파일은 리눅스 로그인시 실패한 정보 **lastb로 실행가능**  
+{: .notice--warning}
+* **syslog**는 리눅스 운영체제에 대한 로그를 기록하는 데몬 프로세스로 syslogd에 의해서 기록된다  
+	* /etc/syslogd.conf 파일 참고
+* **sulog**는 su 명령 로그
 {: .notice}
 ```console
 [root@ns2 run]# stat utmp
@@ -239,19 +251,6 @@ Modify: 2020-05-12 13:13:08.785992118 +0900
 Change: 2020-05-12 13:13:08.785992118 +0900
  Birth: -
 ```
-* wtmp 파일은 로그인과 로그아웃 정보 **last 명령으로 실행 가능**  
-	* 사용자 로그인 및 로그아웃 정보  
-	* 시스템 관련 정보  
-	* 시스템 종료 및 부팅 정보  
-	* 재부팅 정보  
-	* telnet 및 ftp 등을 통한 로그인 정보  
-{: .notice--warning}
-* btmp 파일은 리눅스 로그인시 실패한 정보 **lastb로 실행가능**  
-{: .notice}
-* **syslog**는 리눅스 운영체제에 대한 로그를 기록하는 데몬 프로세스로 syslogd에 의해서 기록된다  
-	* /etc/syslogd.conf 파일 참고
-* **sulog**는 su 명령 로그
-{: .notice}
 ---
 #### 리눅스 명령어
 ---
@@ -267,7 +266,6 @@ Change: 2020-05-12 13:13:08.785992118 +0900
 #find / -user root | more
 #find / -nouser -o -nogroup 2>/dev/null
 ```
-
 `tripwire 파일 무결성 검사`  
 ```console
 #tripwire –init	해시 값을 저장한 데이터베이스를 초기화
@@ -276,46 +274,41 @@ Change: 2020-05-12 13:13:08.785992118 +0900
 
 **iptables 패킷 필터링**  
 체인 종류: INPUT, FORWARD, OUTPUT  
-옵션: -A 추가 -N 새로운체인 -X 체인제거 -P 정책변경 -L 규칙상태보기 -F 모든규칙제거  
+옵션: **-A 추가** -N 새로운체인 -X 체인제거 -P 정책변경 **-L 규칙상태보기** **-F 모든규칙제거**  
 -Z 체인내의 모든 규칙의 패킷과 바이트의 카운트를 0으로 초기화  
--D 규칙을 삭제 -R 새로운 규칙으로 대체 -I 가장 처음에 규칙 추가 -E 체인이름 변경  
-제어 옵션: -s 출발지 -d 목적지 - -sport 출발 포트 - -dport 목적지 포트 -p 프로토콜  
--i 들어오는 인터페이스 -o 나가는 인터페이스 -f fragment패킷 -j 규칙에 해당하는 패킷을 어떻게 할지 명시  
-{: .notice}
+**-D 규칙을 삭제** **-R 새로운 규칙으로 대체** **-I 가장 처음에 규칙 추가** -E 체인이름 변경  
+제어 옵션: **-s 출발지** **-d 목적지** **--sport 출발 포트** **--dport 목적지 포트** **-p 프로토콜**  
+**-i 들어오는 인터페이스** **-o 나가는 인터페이스** -f fragment패킷 **-j 규칙에 해당하는 패킷을 어떻게 할지 명시**   
+**DROP** **ACCEPT**
+{: .notice--info}
 ```console
 #iptables -A INPUT -s 127.0.0.1 -p icmp -j DROP
 #iptables -A FORWARD -p udp -m udp - -dport 53 -j DROP
 #iptables -I INPUT -p tcp - -dport 21 -j ACCEPT
 ```
-**패스워드 크래킹 도구**  
-Johan the ripper  
-L0phtcrack  
-Pwdump  
-DDos 도구  
-WinNuke  
-{: .notice--info}
 ---
 #### 유닉스 PAM 인증
 ---
 PAM(Pluggable Authentication Module)은 리눅스 연결 인증 모듈로 서비스 접속과 관련하여 인증을 지원한다.  
+ACL 과 비슷한 역할 수행
 {: .notice}
 **인증과정**    
 /etc/pam.d/* 서비스 인증 설정 파일  
 /lib/security/* PAM 인증 파일  
 /etc/security/* PAM 인증 파일의 설정파일  
-{: .notice}
+{: .notice--warning}
 **인증 순서**  
 사용자 서비스 접근  
 서비스는 PAM에게 인증을 요청  
 PAM은 요청한 서비스의 설정 파일확인  
 서비스는 설정 파일 안에 있는 절차에 맞게 인증 수행  
 서비스는 인증 결과 내용을 토대로 서비스 진행 또는 거부  
-{: .notice}
+{: .notice--warning}
 ---
 #### 패스워드 암호화
 ---
 해시함수로 패스워드 암호화시 임의로 추가되는 값은?
-{: .notice}
+{: .notice--success}
 ```
 $salt = "this is a salt";
 $password = 'this is an password';
@@ -499,8 +492,6 @@ sysctl -w kernel.randomize_va_space=1
 * 도메인 컨트롤러는 액티브 디렉터리 정보의 복사본을 가지고 있는 컴퓨터다.
 * 액티브 디렉터리와 정보요청에 응답하고 네트워크 통해 사용자인증, DNS 통합 을 수행한다.
 {: .notice}
-
-
 
 ---
 ### 그 외
