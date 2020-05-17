@@ -141,21 +141,6 @@ SMTP도 TCP 기반 프로토콜이라 **3way hand shaking** 과정을 거친다.
 {: .notice--info}
 
 ---
-### 전자우편 보안
----
-* MDA 프로토콜
-	*SMTP(25, 메일발송) , POP3(110, 메일 읽기, MBOX삭제), IMAP/IMAP4(143, 메일읽기, MBOX 삭제 안함)
-* 보안기법
-	* PGP: 분산키 관리, RSA, IDEA, MD5 사용
-	* PEM: 중앙집중 키 관리, DES-CBC, MD5
-	* S/MIME: RSA 개발, 서명 기능
-* 스팸차단
-	* RBL: KISA에 IP 등록
-	* SPF: DNS에 발신 IP 등록
-	* Spamassasin: 점수 기반
-	* Inflex: 첨부파일 필터링
-{: .notice--info}
----
 ### 라우팅 프로토콜
 ---
 **라우팅 프로토콜 종류**  
@@ -436,16 +421,16 @@ snort의 Payload 검사 : Content, Dept, Offset, Nocase, Rawbytes, Within, Urico
 #dnsspoof 도구로 DNS Spoofing을 할 수 있다.
 #dnsspoof -I eth0 -f dns.host
 ```
-* DNS Spoofing: DNS Cache 테이블 변조
+* DNS Spoofing: 실제 DNS 서버보다 빨리 Response 패킷 보냄, DNS는 UDP를 사용한다는 특징 이용, DNS Cache 테이블 변조
 * **DNSSEC**: DNS 캐시 포이즈닝과 DNS의 보안 취약점을 보완하기 위해 등장,
 DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서명 값 검증. DNS 위/변조 방지   
 * DNS SEC은 DNS 인증 기능을 추가하여 인증된 메세지에 대해서만 DNS가 동작하는 것으로 위의 지문에서는 파밍과 관련된다.  
 {: .notice--info}
 
 * **DNS UDP 53번 포트**에 무한 도메인 질의를 수행하면 DNS는 무한 질의의 결과값을 전송하여 네트워크 및 DNS 서버에 부하를 발생시킨다.  
-* ARP spoofing Attack으로 외부의 DNS 서버로 보내는 쿼리를 DNS 서버로 가기 전에 가로채어 공격한다  
+* ARP spoofing: 서버와 클라이언트 IP주소에 대한 2계층 MAC 주소를 공격자 주소로 속인다  
 * Master DNS와 Slave DNS 간의 Zone Transfer 정보를 변조하여 Slave DNS의 DNS Cache 값을 변조한다
-* arpspoof 도구를 이용하여 arp cache를 변조 하는것을 poisoning 이라고 부른다.
+* arpspoof 도구를 이용하여 ARP cache Table을 변조 하는것을 poisoning 이라고 부른다.
 {: .notice--info}
 
 레코드
@@ -546,6 +531,19 @@ Agentless 방식
 * 호스트명, 도메인만 관리
 {: .notice}
 ---
+#### NAT
+---
+`NAT(Network Address Translation)`
+* 네트워크 외부망과 내부망을 나눠주는 기능  
+* ===(외부)===방화벽===(내부)===
+* IP 주소 절약
+* 보안적 측면
+* 종류
+	* Static NAT ( 1:1 주소 매칭)
+	* Dynamic NAT (pool 방식)
+	* PAT (하나 이상의 공인 IP주소를 여러개 내부 IP 주소들이 공유, Port를 다르게 변환)
+{: .notice}
+---
 #### ESM/SIEM
 ---
 SIEM  
@@ -619,7 +617,7 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 * Hamster
 * Paroc
 * Can & Abel
-* WireSharl
+* WireShark
 {: .notice}
 
 * Email 공격유형
@@ -674,7 +672,7 @@ WinNuke
 	* 백도어  APT: 표적에 침투 후 백도어 설치
 {: .notice--warning}
 
-* exploit 코드
+* **exploit 코드**
 	* 컴퓨터의 보안 취약점을 이용한 공격으로 대상 컴퓨터의 권한 획득, Dos 공격을 수행  
 	* 취약점을 이용한 공격의 종류는 BOF, CSRF, XSS  등이 존재한다.
 {: .notice--warning}
