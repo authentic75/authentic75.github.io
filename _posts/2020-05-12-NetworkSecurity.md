@@ -19,25 +19,25 @@ read_time: false
 #### HTTP1.0 헤더
 ---
 **HTTP Request**  
-* Request Method: GET, POST, PUT, DELETE, TRACE, CONNECT  
-* Accept: 웹브라우저에서 사용 가능한 미디어 타입, text/*, text/html 등  
-* Accept-Language: 웹브라우저가 인식 할 수있는 언어  
-* User-Agent: 웹브라우저 정보를 의미  
-* Accept-Encoding: 웹브라우저에서 제공되는 인코딩 방식  
-* Host: 웹 서버의 기본 URL 의미  
-* Connection: 연결 지속 및 연결 끊기를 나타내며 Keep Alive 혹은 close  
+* **Request Method**: GET, POST, PUT, DELETE, TRACE, CONNECT  
+* **Accept**: 웹브라우저에서 사용 가능한 미디어 타입, text/*, text/html 등  
+* **Accept-Language**: 웹브라우저가 인식 할 수있는 언어  
+* **User-Agent**: 웹브라우저 정보를 의미  
+* **Accept-Encoding**: 웹브라우저에서 제공되는 인코딩 방식  
+* **Host**: 웹 서버의 기본 URL 의미  
+* **Connection**: 연결 지속 및 연결 끊기를 나타내며 Keep Alive 혹은 close  
 {: .notice--info}
 **Response Header**  
-* Status Code: HTTP 응답코드를 의미하고 200은 성공적으로 처리한 것을 의미  
-* Server: 서버 프로그램 이름과 버전 전송   
-* Expires: 자원의 만기 일자  
-* Cache Control: 캐시 사용 여부  
-* Pragma: 캐시 사용 여부를 나타냄  
-* Content-Encoding: 응답되는 메세지의 인코딩 방식  
-* Content-Length: 바이트 단위로 응답되는 리소스의 크기   
-* Keep-Alive: 연결 유지 시간을 의미하며 timeout, max 설정  
-* Connection: Keep-Alive 사용 여부를 의미  
-* Content-Type: 응답되는 미디어 타입  
+* **Status Code**: HTTP 응답코드를 의미하고 200은 성공적으로 처리한 것을 의미  
+* **Server**: 서버 프로그램 이름과 버전 전송   
+* **Expires**: 자원의 만기 일자  
+* **Cache Control**: 캐시 사용 여부  
+* **Pragma**: 캐시 사용 여부를 나타냄  
+* **Content-Encoding**: 응답되는 메세지의 인코딩 방식  
+* **Content-Length**: 바이트 단위로 응답되는 리소스의 크기   
+* **Keep-Alive**: 연결 유지 시간을 의미하며 timeout, max 설정  
+* **Connection**: Keep-Alive 사용 여부를 의미  
+* **Content-Type**: 응답되는 미디어 타입  
 {: .notice--info}
 ---
 #### HTTP 상태코드
