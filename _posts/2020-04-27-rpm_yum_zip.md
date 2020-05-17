@@ -233,8 +233,21 @@ Xinetd가 우선적으로 설치된 후에 telnet이 설치되어야 한다는 �
 * tar rf  TAR파일명 원본	: TAR파일에 새로운 원본을 추가
 {: .notice}	
 
-
-
+```console
+[root@ns1 ~]# tar cf files.tar /date/files[123]
+[root@ns1 ~]# gzinp files.tar
+##한줄로
+[root@ns1 ~]# tar cf file.tar /data/file[123] && gzip files.tar
+```
+```console
+[root@ns1 ~]# mkdir /test
+[root@ns1 ~]# cd /test
+[root@ns1 ~]# tar cf etc.tar /etc
+[root@ns1 ~]# tar cfz etc.tar.gz /etc
+[root@ns1 ~]# tar cfj etc.tar.bz2 /etc
+[root@ns1 ~]# tar cfJ etc.tar.xz /etc
+##비교하기
+```
 
 
 
