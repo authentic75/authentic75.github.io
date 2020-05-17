@@ -22,9 +22,7 @@ read_time: false
 * 사람이 이해 - 기계가 이해
 * Redhat RPM파일, Linux 시스템에 맞게 컴파일이 미리 되어진 파일
 {: .notice}
-rpm 파일의 네이밍
 * 파일명: telnet-server-0.17-39.el5.i386.rpm
-{: .notice}
 * 패키지명-버전-릴리즈.아키텍쳐.rpm
 * 패키지명: telnet-server
 * 버    전: 0.17
