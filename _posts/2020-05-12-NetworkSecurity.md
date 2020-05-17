@@ -26,7 +26,8 @@ read_time: false
 * **Accept-Encoding**: 웹브라우저에서 제공되는 인코딩 방식  
 * **Host**: 웹 서버의 기본 URL 의미  
 * **Connection**: 연결 지속 및 연결 끊기를 나타내며 Keep Alive 혹은 close  
-{: .notice--info}
+{: .notice}
+
 **Response Header**  
 * **Status Code**: HTTP 응답코드를 의미하고 200은 성공적으로 처리한 것을 의미  
 * **Server**: 서버 프로그램 이름과 버전 전송   
@@ -38,7 +39,11 @@ read_time: false
 * **Keep-Alive**: 연결 유지 시간을 의미하며 timeout, max 설정  
 * **Connection**: Keep-Alive 사용 여부를 의미  
 * **Content-Type**: 응답되는 미디어 타입  
-{: .notice--info}
+{: .notice}
+
+* Request는 Request 방법, 웹브라우저 정보들, 연결 지속 끊기
+* Response는 상태코드, 서버정보, 자원의 유지시간, 자원의 형태(타입)
+{: .notice--warning}
 ---
 #### HTTP 상태코드
 ---
