@@ -109,7 +109,7 @@ Xinetd가 우선적으로 설치된 후에 telnet이 설치되어야 한다는 �
 {: .notice}
 
 * rpm -qf /bin/ping	파일이 어떤 패키지에 의해서 설치되었는지 확인
-* rpm -ql iputils | wc -l
+* rpm -ql iputils l wc -l
 * rpm -qR 패키지명 	설치된 패키지가 의존적인 모든 패키지들을 출력
 * rpm -qpR RPM 파일명	 설치전 RPM파일이 의존적인 모든 패키지들을 출력
 {: .notice}
@@ -171,12 +171,49 @@ Xinetd가 우선적으로 설치된 후에 telnet이 설치되어야 한다는 �
 	* installed는 설치된 패키지들 
 {: .notice}
 * 이제까지는 개별적 패키지를 다루었고 그룹 패키지가 따로 있다. 
-* yum grouplist | tail -n 20 을 해보았다.
+* yum grouplist l tail -n 20 을 해보았다.
 * yum groupinstall  “Java 개발용 도구”	
+* yum localinstall telnet-server-…..39……rpm	원하는 rpm 파일을 설치하며 의존성만 인터넷으로 해결한다
+{: .notice}
+* yum check-update 로 업데이트를 확인할 수 있다.
+* yum update firefox 로 실제 업데이트를 할 수 있다.
+* yum info [개별 패키지명] 패키지 정보 출력
+{: .notice}
+* rpm -qf /bin/ping
+* yum provides /bin/ping
+{: .notice}
+* ls -lh /etc/yum.repos.d 내용을 바꿔야 업데이트가 가능해진다. 이전의 저장소를 지우고 다시 업데이트 (캐시를 지우고 다시 업데이트 한다)
+* yum clean all 그전의 yum 저장소의 내용을 지워서 yum list를 실행하면 다시 yum 저장소를 업데이트 한다.
 {: .notice}
 ---
 ### 파일 묶기 tar(Tape ARchive)
 ---
+* 파일 압축 xz ,bz2, gz, zip, Z
+* 현재 centOS에서 사용가능한 포맷
+* gzip(.gz)-좀더 좋은 포맷 bzip2(.bz2)-가장 최근에 나온 것 중 좋은 것 xz(.xz)
+* 윈도우와 호환되는 포맷 zip(.zip)
+{: .notice}
+
+* gzip file1 (80% 압축률) 원본은 사라지고 결과만 남는다.
+* bzip2 file2 (압축률이 더 좋아서 시간이 더 오래 걸린다)
+* xz는 따로 받아줘야한다 (압축률이 더 좋지만 시간이 더더 오래걸린다)
+{: .notice}
+
+* 압축 풀기
+* gunzip file1.gz
+* bunzip2 file2.bz2
+* unxz file3.xz
+{: .notice}
+
+* gzip -l file1.gz  정보 확인 가능
+* gzip -d file1.gz	decompress 옵션을 사용 할 수 있다.
+* bzip2 -d file2.bz2
+* xz -d file3.xz
+{: .notice}
+여러 파일을 묶는데 사용하는 것이 tar이다. 리눅스는 파일 압축과 파일 묶기가 별개의 프로그램으로 되어있다. Tar는 tape archive의 약자이다. 옛날에는 tape에 데이터를 저장했다. 5년 전 소니에서 발표한 tape는 185~7TB 정도를 저장한다. 카세트 테이프 같이 생겼다. 단점은 Access Time 이 길다. 길다 감아서 찾아야하기 때문이다. (수십분 까지 걸린다 보통은 나노초 단위) USB는 Random Access라서 빠르다.
+{: .notice}
+*Tar 명령어:  압축을 하지 않아서 크기는 여러 개가 묶인 그대로다.
+{: .notice}
 * tar 생성
 * tar cf TAR파일명 원본1 원본2 ...	: 나열된 원본들을 TAR파일명으로 묶기(생성)
 	* v, vv : 묶기 과정을 (더)자세히 출력
@@ -195,3 +232,26 @@ Xinetd가 우선적으로 설치된 후에 telnet이 설치되어야 한다는 �
 * tar uf TAR파일명 [수정된원본]  : TAR파일의 내용과 비교하여 수정된 원본을 추가
 * tar rf  TAR파일명 원본	: TAR파일에 새로운 원본을 추가
 {: .notice}	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
