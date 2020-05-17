@@ -131,7 +131,7 @@ Xinetd가 우선적으로 설치된 후에 telnet이 설치되어야 한다는 �
 {: .notice}
 3. 제거
 * yum remove [개별패키지명]	: 설치된 개별패키지 제거
-	*  -y : 모든 질문에 대해 yes 처리
+	* -y : 모든 질문에 대해 yes 처리
 	* --quiet : 제거과정을 출력을 하지 않는다. 의존성 있는 패키지도 같이 제거
 * yum groupremove [패키지그룹명] : 설치된 패키지그룹 제거
 {: .notice}
@@ -142,8 +142,9 @@ Xinetd가 우선적으로 설치된 후에 telnet이 설치되어야 한다는 �
 * 다시 yum을 실행하면 저장소갱신
 {: .notice}
 
-파일 묶기: tar(Tape ARchive)
-{: .notice}
+---
+### 파일 묶기 tar(Tape ARchive)
+---
  1. tar 생성
 * tar cf TAR파일명 원본1 원본2 ...	: 나열된 원본들을 TAR파일명으로 묶기(생성)
 	* v, vv : 묶기 과정을 (더)자세히 출력
