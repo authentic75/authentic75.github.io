@@ -394,9 +394,8 @@ snort의 Payload 검사 : Content, Dept, Offset, Nocase, Rawbytes, Within, Urico
 # vi /etc/snort/rules/test.rules
 ```
 ---
-### VLAN
+### VLAN (Virtual LAN)
 ---
-VLAN (Virtual LAN)  
 * port기반 VLAN은 스위치 포트에 VLAN 할당   
 * MAC기반 VLAN은 각 호스트들의 MAC주소를 VMPS에 등록한 후, 호스트가 스위치에 접속하면 등록된 정보를 바탕으로 VLAN을 할당  
 * 네트워크 주소기반 VLAN은 주소별로 VLAN을 구성하여 같은 네트워크에 속한 호스트 간에만 통신이 되도록 하는 방법  
@@ -406,23 +405,22 @@ VLAN (Virtual LAN)
 ---
 ### DNS 보안
 ---
-
 * 사용자는 도메인으로 접속하게 되면 도메인 안에 네임서버 도메인과 IP가 지정되어 있습니다
 * 이러한 네임서버에서는 1차부터 4차까지 무작위로 네임서버의 접근하여 사용자가 접속한 도메인의 레코드 정보를 찾게 됩니다
-{: .notice}
+{: .notice--success}
 
 |   영   역   |   도  메  인   |       
 | ---------- | ------------ |
-| Root domain | COM, ORG, KR |
-| Top level | GOOGLE, FreeBDS, NE|
-| Second level | WWW, FTP(GOOGLE), WWW, KR(FREEBSD), NOBREAK(NE) |
-| Third of Subdomains |WWW, FTP(KR), WWW(NOBREAK) |
-| Subdomains | (*원래는 트리구조)  |
+| Root domain | " . "		|
+| Top level | COM, ORG, KR |
+| Second level | GOOGLE, FreeBDS, NE |
+| Third of Subdomains | WWW, FTP(GOOGLE), WWW, KR(FREEBSD), NOBREAK(NE) |
+| Subdomains | WWW, FTP(KR), WWW(NOBREAK) |
 
 * Root domain(.): 모든 도메인의 근본이 되는 최상 level Domain  
 * Top Level Domain: com, org, kr 등의 국가, 지역
 * Second Level: 사용자가 도메인명을 신청해서 등록할 수 있는 영역  
-{: .notice--warning}
+{: .notice--success}
 
 1. Recursive Query
 2. Iterative Queries
@@ -432,7 +430,7 @@ VLAN (Virtual LAN)
 6. Query to Second-level Name Server
 7. Response from Second-level Name Server  
 8. DNS Client Get IP
-{: .notice}
+{: .notice--success}
 
 ```console
 #dnsspoof 도구로 DNS Spoofing을 할 수 있다.
@@ -457,7 +455,8 @@ DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서
 * CNAME (Canonical NAME) 레코드: 별명(별칭)을 지정해주는 레코드이고 도메인 위임이라고도 합니다.   
 * MX (Mail eXchanger) 레코드: 메일서버의 연동시 메일의 소유를 확인하는 레코드로 쓰입니다  
 * SPF (Sender Policy Framework) 레코드: 레코드 TXT 레코드에 안에서 사용되며, 메일 스푸핑을 방지하는데 사용되는 레코드 입니다.   
-{: .notice--warning}
+{: .notice--success}
+
 ---
 ### nslookup
 ---
@@ -465,20 +464,23 @@ DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서
 * DNS 레코드를 확인 할 수 있는 대화식 프로그램. 윈도우와 리눅스 모두 사용 가능   
 * ANY옵션은 호스트관련 모든 레코드 정보를 확인 한다  
 * DNS에 대해서만 서비스한다  
-{: .notice}
+{: .notice--success}
+
 ---
 ### 보안 솔루션
 ---
+
 ---
 ### 방화벽
 ---
-* Screening Router 내부 네트워크에서 외부 네트워크로 나가는 패킷 트래픽을 허가 및 거절하거나 혹은 외부 네트워크에서 내부 네트워크로 진입하는 패킷 트래픽의 진입 허가 및 거절, 패킷 필터링
-* Dual Home 두개의 네트워크 인터페이스 를 가진 Bastion 호스트, Proxy
-* Screened Subnet 외부와 내부 네트워크 완충지대 구축, 완충 지대에 DMZ 위치
-* Screened Host 스크린된 호스트 게이트웨이는 Dual-Homed 게이트웨이와 스크리닝 라우터를 혼합하여 사용한 방화벽 시스템
+* Screening Router: 내부 네트워크에서 외부 네트워크로 나가는 패킷 트래픽을 허가 및 거절하거나 혹은 외부 네트워크에서 내부 네트워크로 진입하는 패킷 트래픽의 진입 허가 및 거절, 패킷 필터링
+* Dual Home: 두개의 네트워크 인터페이스 를 가진 Bastion 호스트, Proxy
+* Screened Subnet: 외부와 내부 네트워크 완충지대 구축, 완충 지대에 DMZ 위치
+* Screened Host: 스크린된 호스트 게이트웨이는 Dual-Homed 게이트웨이와 스크리닝 라우터를 혼합하여 사용한 방화벽 시스템
 * DPI OSI 전 계층에서 필터링 수행
 * 서킷 게이트웨이: 트랜스포트 계층, TCP 중계 역할 수행
 {: .notice--warning}
+
 ---
 #### VPN
 ---
@@ -500,10 +502,8 @@ SSL VPN
 IPSEC VPN  
 * **터널모드**: 중계 장비가 패킷 전체를 암호화  
 * **전송모드**: 패킷 출발지에서 암호화, 목적지에서 복호화, End to End   
-  
 * **ISAKMP**: Security Association 설정, SA관리와 키교환  
 * **IKE**: 키교환 담장, UDP로 전달  
-  
 * **AH**: 데이터 무결성 (IP 패킷 인증, MAC 기반), 순서번호 제공, MD5, SHA-1 사용, 인증값 검증  
 * **ESP**: 전송자료를 암호화하여 전송, 수신자가 받은 자료를 복호화, 선택적 인증, 무결성, 기밀성, AH와 다르게 암호화 제공(DES, 3-DES), Transport 계층 까지 암호화 할 경우 Transprot 모드 사용, 전체 패킷 암호화할 경우 터널 모드 사용   
 {: .notice--info}
@@ -607,7 +607,7 @@ VID는 개인의 업무공간을 서버에 할당하고 사용자가 접속하�
 ### 도구명 및 용어
 ---
 `Spoofing 도구`  
-* sort
+* snort
 * arpspoof: ARP Spoof 사용하는 툴
 {: .notice}
 
