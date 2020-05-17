@@ -361,7 +361,7 @@ tcpdump 옵션
 * Paroc: 웹 Proxy 서버로서 쓸 수 있는 도구  
 * Can & Abel: 스푸핑과 스캐닝 등 다양한 기능이 있는 도구  
 * WireSharl  
-{: .notice--warning}
+{: .notice--danger}
 대책  
 * 재전송 증가 탐지  
 * ACK Strom 탐지  
