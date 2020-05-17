@@ -53,13 +53,13 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/mint/3 b _ i r mint ftp 0 * c
 	* 무작위 공격
 	* Bounce 공격: 가짜 메일을 보내서 익명의 ftp 서버 경유한다(Nmap -b)
 	* Port Scanning
-{: .notice} 
+{: .notice--warning} 
 * 보안 대책
 	* TFTP는 인증 과정이 없으므로 사용을 지양한다
 	* 익명 사용자 제거, 익명 사용자에 대한 쓰기 권한 제한
 	* FTP 데몬 기동시 -l 옵션을 주어서 xferlog를 기록한다
 	* ftpusers 파일은 제한할 사용자 ID를 등록하는 것이다
-{: .notice}	
+{: .notice--warning}	
 	
 ---
 ### 웹서버 (80)
@@ -81,13 +81,6 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/mint/3 b _ i r mint ftp 0 * c
 * XSS 웹 취약점을 이용한 공격
 {: .notice} 
 
----
-### 소프트웨어 보안
----
-* SDLC 단계별 Software 보안 활동
-* Secure SDLC
-* 보안기능(요구사항): 에러처리, 세션통제, …
-{: .notice}
 ---
 ### SQL Injection
 ---
@@ -113,7 +106,7 @@ username: ' union select sum(username) from users--
 * Stored: 게시판에 직접 게시
 * reflective: 메일로 보내서 클릭하면 공격
 * 블라인드 injection도 있다(참, 거짓을 이용하여 일일이 대입)
-{: .notice}
+{: .notice--warning}
 
 **java, PHP: prepare statement**  
 ```java
@@ -124,7 +117,7 @@ ResultSet rs = stmt.executeQuery();
 ```
 
 ---
-### 개발 보안
+### SW 개발 보안
 ---
 
 |  항  목  |    내     용   |
@@ -140,6 +133,8 @@ ResultSet rs = stmt.executeQuery();
 ---
 ### E-Mail 보안(PGP, PEM, S/MIME)
 ---
+* MDA 프로토콜
+	*SMTP(25, 메일발송) , POP3(110, 메일 읽기, MBOX삭제), IMAP/IMAP4(143, 메일읽기, MBOX 삭제 안함)
 * PGP (Pretty Good Privacy): MIME 객체에 암호화와 전자서명 기능을 추가한 암호화 프로토콜이다.
 	* 분산키 관리
 	* 전자서명: DSS/SHA, RSA/SHA
@@ -190,7 +185,7 @@ ResultSet rs = stmt.executeQuery();
 	* ServerToken: 최소한 정보 노출 
 *보안설정  
 	* 주요 디렉토리 및 파일 접근 권한    
-{: .notice}
+{: .notice--warning}
 ```console
 # chown0.bin conf logs
 # chgrp0.bin conf logs
@@ -203,11 +198,11 @@ ResultSet rs = stmt.executeQuery();
 * Directory Listing
 	* Index.html이 없거나 Listing을 보여주는 옵션이 설정되었는지 확인
 * 심볼릭 링크에 접근하여 Root 권한 획득
-	* 우선순위 결정 (index.cgi>index.html>index.htm 순서
-* Server Tokens 최소한의 정보만 보이도록 설정
-* Server Signature on으로 설정된 경우 아파치 버전, 이름 노출
+	* 우선순위 결정 (index.cgi>index.html>index.htm 순서)
+* Server Tokens: 최소한의 정보만 보이도록 설정
+* Server Signature: on으로 설정된 경우 아파치 버전, 이름 노출
 * 클라이언트 이름, IP 등을 이용해 접근 제어 수행
-{: .notice}
+{: .notice--warning}
 
 ---
 #### 웹 로그
@@ -234,7 +229,7 @@ ResultSet rs = stmt.executeQuery();
 ```
 #Local7.warn /var/log/httpd.warn.log #에러단계를 warn으로 설정
 ```
-* 에이전트로그  
+* HTTP Header에 User-Agent 문자열로 운영체제 및 브라우저 정보 식별
 * 참조로그  
 {: .notice}
 
