@@ -50,15 +50,34 @@ read_time: false
 ---
 ### cat, head, tail, more
 ---
+
+1. cat : 파일의 전체 내용을 한번에 모두 출력
+* 옵션 -n 으로 출력물 앞에 행 수를 표시한다.
+* 표준 입력을 받아 표준 출력하는 명령어
+2. head : 파일의 앞쪽의 내용을 출력, 기본값(10행)
+* -n 행 수를 지정할 수 있다.
+* (주로 파일의 앞쪽의 주석내용으로 파일의 목적을 파악하기 위해서 사용)
+3. tail : 파일의 뒷쪽의 내용을 출력, 기본값(10행)
+* -n 행 수를 지정할 수 있다.
+* 주로 파일의 뒷쪽에 새로운 계속 추가되기 때문에 최근의 추가된 내용을 파악하기 위해서 사용
+4. more : 파일의 전체 내용을 화면 단위로 나누어 출력
+* [Enter]는 1행씩 내리고, [Space Bar]는 1페이지씩 내린다. [b]는 이전 페이지로 올린다.
+5. less : 파일의 전체 내용을 화면 단위로 나누어 출력
+* more의 단축키와 동일하게 사용.
+* /, ?를 이용하여 패턴검색이 가능
+{: .notice--info}
+
 * cat /etc/hosts 짧은 파일에 적합
 * services 파일에 well known port 들 20개 가량 외워야한다
 * /etc/services 내 local services 밑에 개인 설정 내용 기록
 {: .notice}
-* head /etc/services 1-10행 출력
-* tail /etc/services 뒤로부터 10행 출력
-* tail -n 5 /etc/services 5행 출력
-* tail -n 5 /etc/passwd	최근 생성한 계정 출력 (-5 라고 써도 된다)
-* more /etc/services 화면 단위로 나누어 출력, 읽고 있는 위치 알려줌
+```
+[root@ns1 ~]# head /etc/services 1-10행 출력
+[root@ns1 ~]# tail /etc/services 뒤로부터 10행 출력
+[root@ns1 ~]# tail -n 5 /etc/services 5행 출력
+[root@ns1 ~]# tail -n 5 /etc/passwd	최근 생성한 계정 출력 (-5 라고 써도 된다)
+[root@ns1 ~]# more /etc/services 화면 단위로 나누어 출력, 읽고 있는 위치 알려줌
+```
 * Enter 행단위로 넘어감, space bar 페이지 단위로 넘어감, q 종료, b 이전페이지
 * less /etc/services
 * more와 같은 방식으로 동작한다. 추가로 /, ? 를 통한 검색기능도 지원.
@@ -226,6 +245,28 @@ bsh->csh->tcsh->ksh->bash 순으로 발전되었다.
 [root@ns1 ~]# passwd -x 30 user2  변경 전까지 최대 사용 가능 일 수
 ```
 
+* Chage 명령어
+* 두 명령어는 같은 동작을 한다
+{: .notice}
+```console
+[root@ns1 ~]# passwd -x 60 -n 2 -w 5 user1
+[root@ns1 ~]# chage -M 60 -m 2 -w 5 user1
+```
+* Shadow 파일에 encrypted passwd는 md5 알고리즘에 의해 hash 값이 생성된다.
+* hashing 값은 일치 여부를(로그인) 알기 위해서 사용한다.
+* 이를 이용하여 해킹 방법으로 shadow 파일을 수정하여 md5 값 앞에 ! 를 추가하면 로그인이 불가능하다. (계정 비활성화로도 쓰임)
+* 윈도우의 경우 계정비활성화가 좀더 번거롭다.
+{: .notice}
+```console
+[root@ns1 ~]# chage -E 2020/04/30 user2      //로 계정을 자동으로 만료하도록 할 수 있다.
+[root@ns1 ~]# date 05011200 //후 로그인을 시도하면 계정 만료로 사용 x (5월 1일 12시로 설정함)
+
+[root@ns1 ~]# usermod -G root,wheel,daemon user1 //없는 그룹이면 “알 수 없는 그룹” 가입x
+[root@ns1 ~]# groups user1
+
+[root@ns1 ~]# groupmod -g 410 admin        //group의 gid 변경
+[root@ns1 ~]# groupmod -n admins admin     //group 이름 변경
+```
 
 
 
