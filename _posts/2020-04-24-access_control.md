@@ -197,10 +197,140 @@ ls: .: 허가 거부됨
 User1은 0002 root 0022가 default 값
 {: .notice--warning}
 ```console
-
+[user1@ns1 test]$ umask
+0002
+[user1@ns1 test]$ umask -S
+u=rwx, g=rwx, o=rx
+[user1@ns1 test]$ mkdir dir1
+[user1@ns1 test]$ ls -lh
+drwxrwxr-x 2 user1 user1 4 4월 26 17:38 dir1
+[user1@ns1 test]$ umask 057
+[user1@ns1 test]$ umask -S
+u=rwx, g=w, o=
+[user1@ns1 test]$
+```
+---
+### 파일 소유자 변경
+---
+```console
+[root@ns1 test]# chown user1 sample.txt		//chown 명령어로 파일의 소유자 변경 가능
+[root@ns1 test]# chgrp user2 sample.txt		//chgrp 명령어로 파일 소유 그룹 변경가능 
+```
+```console
+[root@ns1 test]# mkdir dir1
+[root@ns1 test]# mkdir dir1/dir10
+[root@ns1 test]#
+[root@ns1 test]# touch dir1/file10
+[root@ns1 test]# touch dir1/
+dir10/  file10
+[root@ns1 test]# touch dir1/dir10/file100
+[root@ns1 test]#
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxr-xr-x 3 root root 4.0K  4월 21 13:28 dir1
+[root@ns1 test]# ls -lh dir1
+합계 4.0K
+drwxr-xr-x 2 root root 4.0K  4월 21 13:28 dir10
+-rw-r--r-- 1 root root    0  4월 21 13:28 file10
+```
+`chown으로 하위 디렉토리나 파일이 같이 바뀌진 않는다`
+```console
+[root@ns1 test]# chown user1 dir1
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxr-xr-x 3 user1 root 4.0K  4월 21 13:28 dir1
+[root@ns1 test]# ls -lh dir1
+합계 4.0K
+drwxr-xr-x 2 root root 4.0K  4월 21 13:28 dir10
+-rw-r--r-- 1 root root    0  4월 21 13:28 file10
+[root@ns1 test]#
+```
+`Recursive 옵션으로 하위 까지 변경`
+```console
+[root@ns1 test]# chown -R user1 dir1
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxr-xr-x 3 user1 root 4.0K  4월 21 13:28 dir1
+[root@ns1 test]# ls -lh dir1
+합계 4.0K
+drwxr-xr-x 2 user1 root 4.0K  4월 21 13:28 dir10
+-rw-r--r-- 1 user1 root    0  4월 21 13:28 file10
+[root@ns1 test]#
+*chgrp그룹도 마찬가지
+[root@ns1 test]# chgrp user2 dir1
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxr-xr-x 3 user1 user2 4.0K  4월 21 13:28 dir1
+[root@ns1 test]#
 ```
 
+`-R 옵션을 사용하면 모두 바뀐다`
+```console
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxr-xr-x 3 user1 user2 4.0K  4월 21 13:28 dir1
+[root@ns1 test]# ls -lh dir1
+합계 4.0K
+drwxr-xr-x 2 user1 user2 4.0K  4월 21 13:28 dir10
+-rw-r--r-- 1 user1 user2    0  4월 21 13:28 file10
+[root@ns1 test]#
+```
+`Chmod도 마찬가지다`
+```console
+[root@ns1 test]# chmod 777 dir1
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxrwxrwx 3 user1 user2 4.0K  4월 21 13:28 dir1
+[root@ns1 test]# ls -lh dir1
+합계 4.0K
+drwxr-xr-x 2 user1 user2 4.0K  4월 21 13:28 dir10
+-rw-r--r-- 1 user1 user2    0  4월 21 13:28 file10
+[root@ns1 test]#
+[root@ns1 test]# chmod -R 777 dir1
+[root@ns1 test]# ls -lh dir1
+합계 4.0K
+drwxrwxrwx 2 user1 user2 4.0K  4월 21 13:28 dir10
+-rwxrwxrwx 1 user1 user2    0  4월 21 13:28 file10
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxrwxrwx 3 user1 user2 4.0K  4월 21 13:28 dir1
+[root@ns1 test]#
+```
 
+`다양한 표현`
+```console
+[root@ns1 test]# chown root dir1
+[root@ns1 test]# !ls
+ls -lh
+합계 4.0K
+drwxrwxrwx 3 root user2 4.0K  4월 21 13:28 dir1
+[root@ns1 test]# chgrp root dir1
+[root@ns1 test]# !ls
+ls -lh
+합계 4.0K
+drwxrwxrwx 3 root root 4.0K  4월 21 13:28 dir1
+[root@ns1 test]# chown user1:user1 dir1
+[root@ns1 test]# !!
+chown user1:user1 dir1
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxrwxrwx 3 user1 user1 4.0K  4월 21 13:28 dir1
+[root@ns1 test]#
+[root@ns1 test]# chown root.user2 dir1
+[root@ns1 test]#
+[root@ns1 test]# !ls
+ls -lh
+합계 4.0K
+drwxrwxrwx 3 root user2 4.0K  4월 21 13:28 dir1
+```
+```console
+[root@ns1 test]# chown user1 dir1 ; chgrp user1 dir1
+[root@ns1 test]#
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxrwxrwx 3 user1 user1 4.0K  4월 21 13:28 dir1
+[root@ns1 test]#
+```
 
 
 
