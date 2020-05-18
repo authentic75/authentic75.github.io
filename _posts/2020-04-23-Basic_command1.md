@@ -76,15 +76,15 @@ gzip: 1개의 파일을 압축한다
 {: .notice}
 `; 와 &&를 사용 하여 시간을 단축 시켜보자`
 ```
-# tar cf file1 /etc && gz file1 && mv file1.gz ~
-# tar cf file2 /etc ; gz file2 ; mv file2.gz ~
+[root@ns1 ~]# tar cf file1 /etc && gz file1 && mv file1.gz ~
+[root@ns1 ~]# tar cf file2 /etc ; gz file2 ; mv file2.gz ~
 ```
 `; 과 && 차이점`
 ```console
-#touch file1 &&mkdir dir1&&touch file2	//dir1이 이미 존재시 에러, 그 뒤 명령어 수행x
-#touch file2;mkdir dir2;touch file20 //에러가 나도 뒤에 명령어를 계속해서 수행
+[root@ns1 ~]# touch file1 &&mkdir dir1&&touch file2	//dir1이 이미 존재시 에러, 그 뒤 명령어 수행x
+[root@ns1 ~]# touch file2;mkdir dir2;touch file20 //에러가 나도 뒤에 명령어를 계속해서 수행
 //파이프
-#cat -n /etc/services | grep http | grep www| grep -v numbers
+[root@ns1 ~]# cat -n /etc/services | grep http | grep www| grep -v numbers
 //(-v 옵션으로 특정 단어나 문자를 제외한다)
 ```
 ---
@@ -102,18 +102,23 @@ gzip: 1개의 파일을 압축한다
 		*ELF 32bit LSB excutable … //실행가능한 파일
 {: .notice}
 Cat 명령어 : 표준입력을 받아 표준 출력하는 명령어
-#cat	실행시 표준 입력을 받아 출력 하는 모습을 보여줌 (echo 비슷)
+{: .notice}
+```
+[root@ns1 ~]# cat	//실행시 표준 입력을 받아 출력 하는 모습을 보여줌 (echo 비슷)
 >abc		
 abc
 >123
 123
+```
+[root@ns1 ~]# cat >file1	//내용 새로 입력
+[root@ns1 ~]# cat>>file1	//내용 추가 입력	ctrl+D 입력하여 종료
+{: .notice}
 
-#cat >file1	내용 새로 입력
-#cat>>file1	내용 추가 입력	ctrl+D 입력하여 종료
-
-
-
-
+---
+### 사용자 관리와 파일 속성
+---
+passwd, group, shadow 를 살펴보자
+{: .notice}
 
 
 
