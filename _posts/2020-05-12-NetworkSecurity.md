@@ -264,6 +264,7 @@ Ex) /5, /10 꼴로 나타냄
 * ICMP Flooding(smurf): ICMP 사용, ICMP Flooding
 * Tear Drop: 패킷이 조립 되지 못하도록 Sequence number 조작
 * Ping of death: ICMP 사용하여 패킷 분할 유도
+	* sysctl -w netipv4.icmp_echo_ignore_all=1
 * Land Attack: 송수신자 IP를 동일하게 하는공격
 * HTTP Get Flooding
 * HTTP Read DOS: TCP Window 사이즈 조작
