@@ -88,9 +88,9 @@ read_time: false
 tar: 여러 파일을 1개의 파일로 묶는다
 gzip: 1개의 파일을 압축한다
 {: .notice}
-* tar cf file /etc /etc 	디렉토리 파일들을 file로 묶어서 cf 파일 생성
-* gzip file 압축 80% 정도의 압축률
-* mv file.gz ~ 이동
+* tar cf file /etc /etc //디렉토리 파일들을 file로 묶어서 cf 파일 생성
+* gzip file //압축 80% 정도의 압축률
+* mv file.gz ~ //이동
 	* 이와 같은 3단계를 일일이 실행하는 경우 파일크기가 크면 걸리는 단계별로 시간도 증가
 {: .notice}
 `; 와 &&를 사용 하여 시간을 단축 시켜보자`
@@ -104,7 +104,7 @@ gzip: 1개의 파일을 압축한다
 [root@ns1 ~]# touch file2;mkdir dir2;touch file20 //에러가 나도 뒤에 명령어를 계속해서 수행
 //파이프
 [root@ns1 ~]# cat -n /etc/services | grep http | grep www| grep -v numbers
-//(-v 옵션으로 특정 단어나 문자를 제외한다)
+// -v 옵션으로 특정 단어나 문자를 제외한다
 ```
 ---
 ### File 명령어
@@ -151,13 +151,14 @@ passwd, group, shadow 를 살펴보자
 * usermod -G root user1	user1의 그룹을 root에 추가
 {: .notice}
 `사용자 생성 과정`  
-1. /etc/passwd 파일에 사용자 정보 등록  
+1. /etc/passwd 파일에 사용자 정보 등록
+	* user:x:UID:GID:comment:Home_Dir:Shell_Path
 2. /etc/shadow 파일에 사용자 암호 등록  
+	* user:Enscrypted_Password:last:min:max:warning:invalid:expire:unused
 3. /home 아래에 사용자 홈 디렉토리 생성  
 4. /etc/skel 디렉토리의 파일들을 복사해서 사용자 홈 디렉토리에 넣어준다  
 {: .notice}
-User : Encrpted_Passwd : create date : Last Passwd : min : max : warning : inactive : expire : unused Create date : 
-{: .notice--info}
+
 * 1970-01-01 로부터 지난 일 수
 * Min : 패스워드 변경전 최소 사용기간
 * Max : 패스워드 변경전 최대 사용기간
@@ -177,6 +178,23 @@ User : Encrpted_Passwd : create date : Last Passwd : min : max : warning : inact
 
 bsh->csh->tcsh->ksh->bash 순으로 발전되었다.
 {: .notice}
+
+* useradd -u UID		순차적으로 부여되는 UID대신 임의의 값으로 UID 를 부여
+* useradd -u UID	-o	순차적으로 부여되는 UID대신 임의의 동일한(중복된) 값으로 UID 를 부여
+* useradd -d 홈디렉토리	/home 이 아닌 다른 위치에 홈디렉토리 생성
+* useradd -s 쉘		기본쉘이 아닌 다른 쉘을 부여
+* useradd -g 기본그룹	: 기본그룹을 변경
+* useradd -G 추가그룹	: 다른그룹에 추가 등록
+* useradd -m		: 계정 생성시 홈디렉토리를 생성
+* useradd -M		: 계정 생성시 홈디렉토리를 미생성
+{: .notice--info}
+* 기본값 확인 및 변경
+* useradd -D		계정 생성시 사용되는 기본값을 조회
+	* etc/default/useradd
+* useradd -D -b 경로	홈디렉토리 생성시 베이스 디렉토리
+	* useradd -D -b /home
+* useradd -D -s 쉘	기본쉘 지정
+{: .notice--info}
 ```console
 [root@ns1 ~]# useradd -u 490 user3		//UID 지정
 [root@ns1 ~]# useradd -s /bin/ksh user5	//shell 변경
