@@ -213,9 +213,12 @@ u=rwx, g=w, o=
 ### 파일 소유자 변경
 ---
 ```console
-[root@ns1 test]# chown user1 sample.txt		//chown 명령어로 파일의 소유자 변경 가능
-[root@ns1 test]# chgrp user2 sample.txt		//chgrp 명령어로 파일 소유 그룹 변경가능 
+[root@ns1 test]# chown user1 sample.txt	//chown 명령어로 파일의 소유자 변경 가능
+[root@ns1 test]# chgrp user2 sample.txt	//chgrp 명령어로 파일 소유 그룹 변경가능 
 ```
+
+`파일 및 디렉토리 생성`
+
 ```console
 [root@ns1 test]# mkdir dir1
 [root@ns1 test]# mkdir dir1/dir10
@@ -233,6 +236,7 @@ drwxr-xr-x 3 root root 4.0K  4월 21 13:28 dir1
 drwxr-xr-x 2 root root 4.0K  4월 21 13:28 dir10
 -rw-r--r-- 1 root root    0  4월 21 13:28 file10
 ```
+
 `chown으로 하위 디렉토리나 파일이 같이 바뀌진 않는다`
 ```console
 [root@ns1 test]# chown user1 dir1
@@ -245,6 +249,7 @@ drwxr-xr-x 2 root root 4.0K  4월 21 13:28 dir10
 -rw-r--r-- 1 root root    0  4월 21 13:28 file10
 [root@ns1 test]#
 ```
+
 `Recursive 옵션으로 하위 까지 변경`
 ```console
 [root@ns1 test]# chown -R user1 dir1
@@ -275,6 +280,7 @@ drwxr-xr-x 2 user1 user2 4.0K  4월 21 13:28 dir10
 -rw-r--r-- 1 user1 user2    0  4월 21 13:28 file10
 [root@ns1 test]#
 ```
+
 `Chmod도 마찬가지다`
 ```console
 [root@ns1 test]# chmod 777 dir1
@@ -309,14 +315,14 @@ drwxrwxrwx 3 root user2 4.0K  4월 21 13:28 dir1
 ls -lh
 합계 4.0K
 drwxrwxrwx 3 root root 4.0K  4월 21 13:28 dir1
-[root@ns1 test]# chown user1:user1 dir1
+[root@ns1 test]# chown user1:user1 dir1 //소유자와 소유그룹을 동시에 바꿈
 [root@ns1 test]# !!
 chown user1:user1 dir1
 [root@ns1 test]# ls -lh
 합계 4.0K
 drwxrwxrwx 3 user1 user1 4.0K  4월 21 13:28 dir1
 [root@ns1 test]#
-[root@ns1 test]# chown root.user2 dir1
+[root@ns1 test]# chown root.user2 dir1 //소유자와 소유그룹 동시에 바꿈
 [root@ns1 test]#
 [root@ns1 test]# !ls
 ls -lh
@@ -324,7 +330,7 @@ ls -lh
 drwxrwxrwx 3 root user2 4.0K  4월 21 13:28 dir1
 ```
 ```console
-[root@ns1 test]# chown user1 dir1 ; chgrp user1 dir1
+[root@ns1 test]# chown user1 dir1 ; chgrp user1 dir1 //두명령을 한줄에 실행
 [root@ns1 test]#
 [root@ns1 test]# ls -lh
 합계 4.0K
@@ -332,7 +338,9 @@ drwxrwxrwx 3 user1 user1 4.0K  4월 21 13:28 dir1
 [root@ns1 test]#
 ```
 
-
+---
+### 특수 권한
+---
 
 
 
