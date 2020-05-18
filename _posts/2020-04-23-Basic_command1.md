@@ -90,3 +90,51 @@ gzip: 1개의 파일을 압축한다
 ---
 ### File 명령어
 ---
+
+* File 명령어 : 파일 타입 정보를 출력
+	* file file3 
+		*ASCII English text //텍스트 파일
+	* file file.tar	
+		*POSIX tar archive //POSIX = 유닉스 호환
+	* file file2.tar.gz	
+		*gzip compressed data … //압축파일
+	* file cat 
+		*ELF 32bit LSB excutable … //실행가능한 파일
+{: .notice}
+Cat 명령어 : 표준입력을 받아 표준 출력하는 명령어
+#cat	실행시 표준 입력을 받아 출력 하는 모습을 보여줌 (echo 비슷)
+>abc		
+abc
+>123
+123
+
+#cat >file1	내용 새로 입력
+#cat>>file1	내용 추가 입력	ctrl+D 입력하여 종료
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
