@@ -671,7 +671,40 @@ rm: cannot remove `file1': 명령이 허용되지 않음
 ```
 오로지 작성자만이 파일을 지울 수 있다.
 {: .notice}
+---
+### 문제
+---
+whoami  > user2  
+groups  > user2 admin wheel  
+umask 033 		  				
+touch file1	  					
+mkdir dir1  
+{: .notice}
+ls -lh
+(1) 2 (3) (4) 4K 날짜 dir1  
+(2) 1 (3) (4) 0 날짜 file1  
+chmod (5) dir 1  
+chmod (6) file 1
+{: .notice}   
+ls -lh    
+drwxrws--- 2 ( 3 ) ( 4 ) 4k 날짜 dir1     
+-rwsr-xr-x 1 ( 3 ) ( 4 ) 0 날짜 file 1    
+chmod 1777 dir1    
+chmod u=rwx,go-w file1 
+{: .notice}  
+ls -lh  
+(7) 2 (3) (4) 4k 날짜 dir1  
+(8) 1 (3) (4) 0 날짜 file1  
+{: .notice}
 
+* 3번 답은 user2 (whoami 를 보고 알 수 있다)
+* 4번 또한 groups 를 보고 user2 임을 알 수 있다
+* umask  --- -wx -wx  디렉토리의 경우 제거 하면 1번  drwx r-- r-- 이 된다
+* 파일의 경우 x가 빠져서 2번은  -rw- r-- r-- 가 된다
+* 5번은 chmod g+s dir1 또는 chmod 2770 dir1, chmod ug=rwx,o=,g+s , chmod g+wxs,o-r 등
+* 6번은 chmod 4755, chmod ugo=rx, u+xs , chmod u+xs, go+x
+* 7번은 drwxrwxrwt 8번은 -rwxr-xr-x 
+{: .notice--danger}
 
 
 
