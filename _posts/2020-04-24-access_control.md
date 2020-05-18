@@ -342,6 +342,142 @@ drwxrwxrwx 3 user1 user1 4.0K  4월 21 13:28 dir1
 ### 특수 권한
 ---
 
+* 특수한 형태의 파일 권한
+* setuid, setgid, sticky 비트가 있다.
+{: .notice}
+```console
+[root@ns1 test]# tail -n 2 /etc/shadow
+user2:!!:18373:0:99999:7::: >> 암호 비활성화 됨
+user1:$1$Hq669u7g$6ttJGwQvj/kxdGgIwD29.1:18373:0:99999:7:::
+```
+`락과 언락 옵션`
+```console
+[root@ns1 test]# passwd -l user1
+Locking password for user user1.
+passwd: Success
+[root@ns1 test]# tail -n 2 /etc/shadow
+user2:!!:18373:0:99999:7:::
+user1:!!$1$Hq669u7g$6ttJGwQvj/kxdGgIwD29.1:18373:0:99999:7:::
+[root@ns1 test]# passwd -u user1
+Unlocking password for user user1.
+passwd: Success.
+[root@ns1 test]# tail -n 2 /etc/shadow
+user2:!!:18373:0:99999:7:::
+user1:$1$Hq669u7g$6ttJGwQvj/kxdGgIwD29.1:18373:0:99999:7:::
+```
+```console
+[root@ns1 test]# passwd user2
+Changing password for user user2.
+New UNIX password:
+BAD PASSWORD: it is too short
+Retype new UNIX password:
+passwd: all authentication tokens updated successfully.
+[root@ns1 test]# tail -n 2 /etc/shadow
+user2:$1$bWJorwZw$AJsr6HRb8RL2foEYH7bkv.:18373:0:99999:7:::
+user1:$1$Hq669u7g$6ttJGwQvj/kxdGgIwD29.1:18373:0:99999:7:::
+[root@ns1 test]#
+```
+
+`Shadow에서 암호를 확인할 수 있다. 이 파일은 root 조차 읽기만 가능`
+```console
+[root@ns1 test]# ls -lh /etc/shadow
+-r-------- 1 root root 1.3K  4월 21 13:45 /etc/shadow
+[root@ns1 test]#
+```
+하지만 특정 조건 시에 수정 가능하다.  
+그것이 바로 passwd 명령어.
+{: .notice}
+passwd 를 사용하여 암호수정하면 shadow 에서 md5 해쉬가 바뀐것을 볼수 있다  
+이러한 것을 setUID 이라고 부른다.
+{: .notice}
+```console
+[root@ns1 test]# cp /bin/cat ./cat1
+[root@ns1 test]# cp /bin/cat ./cat2
+[root@ns1 test]#
+[root@ns1 test]# chmod u+s cat2
+[root@ns1 test]#
+[root@ns1 test]# ls -lh
+합계 48K
+-rwxr-xr-x 1 root root 23K  4월 21 13:50 cat1
+-rwsr-xr-x 1 root root 23K  4월 21 13:51 cat2 (빨간색)
+```
+
+`권한 변경`
+```console
+[root@ns1 test]# cat > file1
+abc
+[root@ns1 test]# cat > file2
+xyz
+[root@ns1 test]# chmod 644 file1
+[root@ns1 test]# chmod 600 file2
+[root@ns1 test]#
+[root@ns1 test]# ls -lh
+합계 56K
+-rwxr-xr-x 1 root root 23K  4월 21 13:50 cat1
+-rwsr-xr-x 1 root root 23K  4월 21 13:51 cat2
+-rw-r--r-- 1 root root   4  4월 21 13:51 file1
+-rw------- 1 root root   4  4월 21 13:51 file2
+```
+
+위 상황에서 일반 계정으로 cat1을 실행가능, cat1으로 file1 read 가능 file2는 불가능   
+그러나 cat2를 사용할 시에는 root의 권한을 잠깐 빌려와서 사용하게 된다.
+{: .notice}
+```console
+[root@ns1 test]# ls -lh
+합계 56K
+-rwxr-xr-x 1 root root 23K  4월 21 14:27 cat1
+-rwsr-xr-x 1 root root 23K  4월 21 14:27 cat2
+-rw-r--r-- 1 root root   4  4월 21 14:27 file1
+-rw-r----- 1 root root   4  4월 21 14:28 file2
+```
+* user1은 other에 속한다 cat을 통해서 file1 읽기 가능 file2 읽기 불가능
+* cat1을 통해서는? other로 접근 file1 읽기가능 file2 읽기 불가능
+* cat2를 통해서는? other 의 권한으로 접근 하지만 set uid 의 영향으로 소유자 권한을 가지고 file1에 소유자의 권한으로 접근 file2도 소유자 권한으로 접근
+* 위의 같은 경우에는 root 권한으로 실행  
+{: .notice}
+* cat 명령과 vi 명령어는 set UID가 들어가면 큰일난다.
+* 어느 파일이든 읽고 쓸수있게된다.
+{: .notice}
+```console
+[root@ns1 test]# rm -rf *
+[root@ns1 test]# which echo
+/bin/echo
+[root@ns1 test]# cp /bin/echo ./echo1
+[root@ns1 test]# cp /bin/vi ./vi1
+[root@ns1 test]# chmod u+s echo1
+[root@ns1 test]# chmod u+s vi1
+[root@ns1 test]# ls -lh
+합계 608K
+-rwsr-xr-x 1 root root  20K  4월 21 14:33 echo1
+-rwsr-xr-x 1 root root 581K  4월 21 14:34 vi1
+```
+`vi1 로 passwd 파일을 수정할 수 있게됨`
+```console
+[user1@ns1 test]$ ./vi1 /etc/passwd
+[user1@ns1 test]$ tail -n 3 /etc/passwd
+user2:x:500:500::/home/user2:/bin/bash
+user1:x:501:501::/home/user1:/bin/bash
+test1:x:0:0::/root:/bin/bash
+```
+`암호를 제거해줌`
+```console
+[user1@ns1 test]$ ./vi1 /etc/shadow
+```
+`root에서 확인`
+```console
+[root@ns1 test]# tail -n 3 /etc/shadow
+user2:$1$bWJorwZw$AJsr6HRb8RL2foEYH7bkv.:18373:0:99999:7:::
+user1:$1$Hq669u7g$6ttJGwQvj/kxdGgIwD29.1:18373:0:99999:7:::
+test1::18373:0:99999:7:::
+```
+접속 가능해짐 (그렇지만 root 로 들어가짐. 백도어 계정이 만들어져서 시스템에 권한 행사가 가능해짐.  보안 차원에서 Set uid 가 있는 파일을 잘 보고 걸러내야함)
+{: .notice}
+```console
+[user1@ns1 test]$ su - test1
+[root@ns1 ~]# [user1@ns1 test]$ ./vi1 /etc/shadow
+```
+
+
 
 
 
