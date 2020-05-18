@@ -75,7 +75,7 @@ gzip: 1개의 파일을 압축한다
 	* 이와 같은 3단계를 일일이 실행하는 경우 파일크기가 크면 걸리는 단계별로 시간도 증가
 {: .notice}
 `; 와 &&를 사용 하여 시간을 단축 시켜보자`
-```
+```console
 [root@ns1 ~]# tar cf file1 /etc && gz file1 && mv file1.gz ~
 [root@ns1 ~]# tar cf file2 /etc ; gz file2 ; mv file2.gz ~
 ```
@@ -103,23 +103,24 @@ gzip: 1개의 파일을 압축한다
 {: .notice}
 Cat 명령어 : 표준입력을 받아 표준 출력하는 명령어
 {: .notice}
-```
+```console
 [root@ns1 ~]# cat	//실행시 표준 입력을 받아 출력 하는 모습을 보여줌 (echo 비슷)
 >abc		
 abc
 >123
 123
 ```
+```console
 [root@ns1 ~]# cat >file1	//내용 새로 입력
 [root@ns1 ~]# cat>>file1	//내용 추가 입력	ctrl+D 입력하여 종료
-{: .notice}
+```
 
 ---
 ### 사용자 관리와 파일 속성
 ---
 passwd, group, shadow 를 살펴보자
 {: .notice}
-```
+```console
 [root@ns1 ~]# more /etc/passwd
 #ID : 암호 : UID : GID : comment : home : 기본 shell
 ```
@@ -145,7 +146,7 @@ User : Encrpted_Passwd : create date : Last Passwd : min : max : warning : inact
 * Inactive : 로그인 차단 접속 일수
 * Expire : 로그인 사용 금지 일 수
 {: .notice--warning}
-```
+```console
 [root@ns1 ~]# tail -n 2 /etc/gshadow		그룹의 암호 정보 저장
 [root@ns1 ~]# userdel -r user1			계정과 홈디렉토리 모두 삭제
 ```
@@ -157,30 +158,30 @@ User : Encrpted_Passwd : create date : Last Passwd : min : max : warning : inact
 
 bsh->csh->tcsh->ksh->bash 순으로 발전되었다.
 {: .notice}
-```
+```console
 [root@ns1 ~]# useradd -u 490 user3		//UID 지정
 [root@ns1 ~]# useradd -s /bin/ksh user5	//shell 변경
 [root@ns1 ~]# useradd -g root user6		//group을 root로 지정
 ```
-```
+```console
 [root@ns1 ~]# useradd -G root user2		 //추가 그룹
 //passwd 파일로는 확인 안됨. Groups로 봐야지 나온다
 [root@ns1 ~]# useradd -G user1, user2 user8 //두개 이상의 그룹 나열 가능
 ```
-```
+```console
 [root@ns1 ~]# useradd -d [홈디렉토리]		//홈디렉토리 지정 가능
 ```
 
 * 일반계정으로 로그인 후 su 명령어로 root 권한 사용 가능  
 * user1의 UID를 0으로 바꿔주면 root 계정 처럼 사용 가능하다.  
 {: .notice}
-```
+```console
 [root@ns1 ~]# useradd -u 0 -o user20		//UID를 root와 같이 0으로 변경 -o는 중복 값 허용
 ```
 * user1의 GID가 0으로 바뀜 그룹이 root로 변경됨.
 * user2의 UID가 0으로 바뀜 그룹은 user2와 root 둘 다 가진다.
 {: .notice}
-```
+```console
 [root@ns1 ~]# useradd -d /home2 user2	로 home2에 계정 생성이 가능하다
 [root@ns1 ~]# useradd -D 		/etc/default/useradd (환경변수) 출력
 [root@ns1 ~]# useradd -D -b /home2		기본 home을 home2로 변경
@@ -203,7 +204,7 @@ bsh->csh->tcsh->ksh->bash 순으로 발전되었다.
 	* USERDEL_CMD /usr/sbin/userdel_local 은 userdel 하면 자동으로 실행되는 부분이다.
 	* UMASK 설정도 가능 하다
 {: .notice}
-```
+```console
 [root@ns1 ~]# groupadd -g 401 admin
 [root@ns1 ~]# groupadd -g 402 product
 [root@ns1 ~]# groupadd -g 403 sales
@@ -215,7 +216,7 @@ bsh->csh->tcsh->ksh->bash 순으로 발전되었다.
 [root@ns1 ~]# usermod -d /home2/user1 user1
 [root@ns1 ~]# usermod -s /bin/ksh user2
 ```
-```
+```console
 [user1@ns1 ~]$ passwd user2	루트 계정이 아니므로 다른 계정 암호 변경x
 [user1@ns1 ~]$ passwd		현재 암호 입력 후 자신의 암호 수정 (암호 정책에 맞아야함)
 		대소문자 숫자 특수문자 길이 3가지 이상 충족
