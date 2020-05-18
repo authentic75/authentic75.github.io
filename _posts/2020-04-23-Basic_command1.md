@@ -87,3 +87,6 @@ gzip: 1개의 파일을 압축한다
 #cat -n /etc/services | grep http | grep www| grep -v numbers
 //(-v 옵션으로 특정 단어나 문자를 제외한다)
 ```
+---
+### File 명령어
+---
