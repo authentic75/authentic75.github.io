@@ -768,6 +768,7 @@ tmpfs                     1014         0      1014   0% /dev/shm
 ```console
 [root@ns1 test]# cp file1 file2
 [root@ns1 test]# ls -lh
+```
 이때 file1 을 수정한다해서 file2 내용이 바뀌지 않는다 즉, 서로 다른 공간을 쓴다는의미다.
 {: .notice}
 
@@ -881,7 +882,7 @@ xyz
 123
 ```
 ```console
-[root@ns1 ~]# groups			admin 등록 적용됨
+[root@ns1 ~]# groups //admin 등록 적용됨
 root bin daemon sys adm disk wheel admin
 
 [root@ns1 ~]# newgrp admin
