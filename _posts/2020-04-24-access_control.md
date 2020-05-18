@@ -836,6 +836,8 @@ lrwxrwxrwx 1 root root    5  4월 21 17:39 file3 -> file1
 touch: invalid date format `050512002019'
 [root@ns1 test]# touch -t 201905051200 file3
 날짜가 다같이 변함
+{: .notice}
+
 [root@ns1 test]# ls -lh
 합계 122M
 -rw-r--r-- 4 root root    0  5월  5  2019 file1
