@@ -158,34 +158,63 @@ User : Encrpted_Passwd : create date : Last Passwd : min : max : warning : inact
 bsh->csh->tcsh->ksh->bash 순으로 발전되었다.
 {: .notice}
 ```
-#useradd -u 490 user3		//UID 지정
-#useradd -s /bin/ksh user5	//shell 변경
-#useradd -g root user6		//group을 root로 지정
+[root@ns1 ~]# useradd -u 490 user3		//UID 지정
+[root@ns1 ~]# useradd -s /bin/ksh user5	//shell 변경
+[root@ns1 ~]# useradd -g root user6		//group을 root로 지정
 ```
 ```
-#useradd -G root user2		 //추가 그룹
+[root@ns1 ~]# useradd -G root user2		 //추가 그룹
 //passwd 파일로는 확인 안됨. Groups로 봐야지 나온다
-#useradd -G user1, user2 user8 //두개 이상의 그룹 나열 가능
+[root@ns1 ~]# useradd -G user1, user2 user8 //두개 이상의 그룹 나열 가능
 ```
 ```
-#useradd -d [홈디렉토리]		//홈디렉토리 지정 가능
+[root@ns1 ~]# useradd -d [홈디렉토리]		//홈디렉토리 지정 가능
 ```
 
 * 일반계정으로 로그인 후 su 명령어로 root 권한 사용 가능  
 * user1의 UID를 0으로 바꿔주면 root 계정 처럼 사용 가능하다.  
 {: .notice}
 ```
-#useradd -u 0 -o user20		//UID를 root와 같이 0으로 변경 -o는 중복 값 허용
+[root@ns1 ~]# useradd -u 0 -o user20		//UID를 root와 같이 0으로 변경 -o는 중복 값 허용
 ```
 * user1의 GID가 0으로 바뀜 그룹이 root로 변경됨.
 * user2의 UID가 0으로 바뀜 그룹은 user2와 root 둘 다 가진다.
 {: .notice}
+```
+[root@ns1 ~]# useradd -d /home2 user2	로 home2에 계정 생성이 가능하다
+[root@ns1 ~]# useradd -D 		/etc/default/useradd (환경변수) 출력
+[root@ns1 ~]# useradd -D -b /home2		기본 home을 home2로 변경
+[root@ns1 ~]# useradd -m user5	수동으로 home 생성 지시
+[root@ns1 ~]# useradd -M user5	home을 만들지 않도록 지시
+```
+-s는 기본 shell 변경
+{: .notice}
 
+* /etc/login.defs에 계정 관련 설정된 값들이 기록됨  
+* PASS_MAX_DAYS 99999  
+* PASS_MIN_DAYS 0  
+* UID 및 GID 범위 등등  
+* /etc/shadow 에서 볼 수 있는 값들이 주로 기록되어있다. Shadow 파일이 login.defs 파일을 참고하여 계정 정보를 생성한다는 뜻이다.
+* UID_MIN과 GID_MIN을 1000으로 변경하면 이후 생성하는 계정의 UID, GID가 1000부터 생성
+* rdate -s time.bora.net 으로 날짜 세팅이 가능하다.
+{: .notice}
 
+*/etc/login.defs
+	* USERDEL_CMD /usr/sbin/userdel_local 은 userdel 하면 자동으로 실행되는 부분이다.
+	* UMASK 설정도 가능 하다
+{: .notice}
+```
+[root@ns1 ~]# groupadd -g 401 admin
+[root@ns1 ~]# groupadd -g 402 product
+[root@ns1 ~]# groupadd -g 403 sales
 
+[root@ns1 ~]# useradd user1
+[root@ns1 ~]# useradd -G product user2
 
-
-
+[root@ns1 ~]# usermod -G sales user1
+[root@ns1 ~]# usermod -d /home2/user1 user1
+[root@ns1 ~]# usermod -s /bin/ksh user2
+```
 
 
 
