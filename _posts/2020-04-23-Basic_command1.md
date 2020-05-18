@@ -119,16 +119,67 @@ abc
 ---
 passwd, group, shadow 를 살펴보자
 {: .notice}
+```
+[root@ns1 ~]# more /etc/passwd
+#ID : 암호 : UID : GID : comment : home : 기본 shell
+```
+* 비밀번호가 해싱된 키 값으로 저장된 것을 볼 수 있다.
+* root에게만 UID, GID가 0으로 부여된다.
+* tail -n 2 /etc/shadow
+* tail -n 2 /etc/group
+	* GID 찾아보면 그룹명이 나온다
+* usermod -G root user1	user1의 그룹을 root에 추가
+{: .notice}
+`사용자 생성 과정`  
+1. /etc/passwd 파일에 사용자 정보 등록  
+2. /etc/shadow 파일에 사용자 암호 등록  
+3. /home 아래에 사용자 홈 디렉토리 생성  
+4. /etc/skel 디렉토리의 파일들을 복사해서 사용자 홈 디렉토리에 넣어준다  
+{: .notice}
+User : Encrpted_Passwd : create date : Last Passwd : min : max : warning : inactive : expire : unused Create date : 
+{: .notice--info}
+* 1970-01-01 로부터 지난 일 수
+* Min : 패스워드 변경전 최소 사용기간
+* Max : 패스워드 변경전 최대 사용기간
+* Warning : 경고메세지 제공일
+* Inactive : 로그인 차단 접속 일수
+* Expire : 로그인 사용 금지 일 수
+{: .notice--warning}
+```
+[root@ns1 ~]# tail -n 2 /etc/gshadow		그룹의 암호 정보 저장
+[root@ns1 ~]# userdel -r user1			계정과 홈디렉토리 모두 삭제
+```
+* 사용자 생성시 자동으로 부여되는 기본 값들
+1.	UID는 마지막으로 생성된 UID에서 +1된 값을 부여
+2.	사용자 홈디렉토리는 /home 아래에 생성
+3.	사용자 기본 shell (bin/bash)
+{: .notice}
 
+bsh->csh->tcsh->ksh->bash 순으로 발전되었다.
+{: .notice}
+```
+#useradd -u 490 user3		//UID 지정
+#useradd -s /bin/ksh user5	//shell 변경
+#useradd -g root user6		//group을 root로 지정
+```
+```
+#useradd -G root user2		 //추가 그룹
+//passwd 파일로는 확인 안됨. Groups로 봐야지 나온다
+#useradd -G user1, user2 user8 //두개 이상의 그룹 나열 가능
+```
+```
+#useradd -d [홈디렉토리]		//홈디렉토리 지정 가능
+```
 
-
-
-
-
-
-
-
-
+* 일반계정으로 로그인 후 su 명령어로 root 권한 사용 가능  
+* user1의 UID를 0으로 바꿔주면 root 계정 처럼 사용 가능하다.  
+{: .notice}
+```
+#useradd -u 0 -o user20		//UID를 root와 같이 0으로 변경 -o는 중복 값 허용
+```
+* user1의 GID가 0으로 바뀜 그룹이 root로 변경됨.
+* user2의 UID가 0으로 바뀜 그룹은 user2와 root 둘 다 가진다.
+{: .notice}
 
 
 
