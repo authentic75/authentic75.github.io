@@ -87,3 +87,68 @@ drw-r-x--- 1 root admin 4 4월 26 16:38 dir2
 * user1에 newgrp admin 해서 그룹에 가입 후
 	* ls dir2 가능
 {: .notice}
+```console
+[root@ns1 test]# chmod 666 file1
+[root@ns1 test]# chmod 664 file2
+[root@ns1 test]# chmod 662 file3
+```
+* user1을 생성하여 파일에 접근
+	* vi file1 가능
+	* cat file1 가능
+	* vi file2 가능
+	* cat file2 가능
+	* vi file3 가능
+	* cat file3	거부
+{: .notice}
+```console
+[root@ns1 test]# mkdir dir1 dir2 dir3
+[root@ns1 test]# touch dir1/file1
+[root@ns1 test]# touch dir2/file2
+[root@ns1 test]# chmod 777 dir1
+[root@ns1 test]# chmod 666 dir1/file1
+[root@ns1 test]# chmod 775 dir2
+[root@ns1 test]# chmod 666 dir2/file2
+[root@ns1 test]# chmod 773 dir3
+```
+* user1로 dir1에 접근시
+	* cd dir1
+	* ls -lh
+	* touch file11
+	* mkdir 11
+	* rm file11
+	* rm -r dir11
+	* rm file1
+* user1로 dir2 접근시
+	* cd dir2
+	* ls -lhd
+	* cat >> file2
+	* cat file2
+	* **rm file2 거부됨** 파일 수정 권한은 있는데 파일을 지울 수는 없다. 왜냐면 파일을 담고 있는 디렉토리에 대한 권한이 없기 때문이다
+{: .notice}
+다른 예로 파일에 대한 rwx 권한이 전부 없지만 담고 있는 디렉토리에 대한 w 권한이 있을 경우 파일 삭제가 가능하다.  
+파일 삭제는 파일 권한이 아니라 디렉토리 권한과 관련이 있다.  
+디렉토리의 read 권한이 없으면 ls 명령어를 사용할 수 없다.
+디렉토리의 execute 권한이 있으면 cd를 사용하여 이동이 가능하다. 
+{: .notice--warning}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
