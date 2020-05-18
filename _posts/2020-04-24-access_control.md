@@ -476,9 +476,94 @@ test1::18373:0:99999:7:::
 [user1@ns1 test]$ su - test1
 [root@ns1 ~]# [user1@ns1 test]$ ./vi1 /etc/shadow
 ```
+* root가 파일 생성시 항상 644로 생성
+* x자리에만 s 치환이 가능하다
+* 하지만 x가 원래 있던 파일인지 아닌지 알수 없어서 x 권한이 없으면 대문자 S로 바뀌어서 보이게 된다.
+{: .notice}
+```console
+[root@ns1 test]# ls -lh
+합계 0
+-rw-r--r-- 1 root root 0  4월 21 14:42 file1
+[root@ns1 test]# chmod u+s file1
+[root@ns1 test]# ls -lh
+합계 0
+-rwSr--r-- 1 root root 0  4월 21 14:42 file1
+[root@ns1 test]# chmod u+x file1
+[root@ns1 test]# ls -lh
+합계 0
+-rwsr--r-- 1 root root 0  4월 21 14:42 file1
+[root@ns1 test]# chmod u-x file1
+[root@ns1 test]# ls -lh
+합계 0
+-rwSr--r-- 1 root root 0  4월 21 14:42 file1
+```
+setGID 는 그룹의 x 자리에 s가 들어가고 그룹의 권한으로 실행되게 된다.
+{: .notice}
+```console
+[root@ns1 test]# ls -lh
+합계 0
+-rwSr--r-- 1 root root 0  4월 21 14:42 file1
+[root@ns1 test]# chmod g=rwx file1
+[root@ns1 test]# ls -lh
+합계 0
+-rwSrwxr-- 1 root root 0  4월 21 14:42 file1
+[root@ns1 test]# chmod g=rws file1
+[root@ns1 test]# ls -lh
+합계 0
+-rwSrwSr-- 1 root root 0  4월 21 14:42 file1
+[root@ns1 test]#
+```
+```console
+[root@ns1 test]# mkdir dir1
+[root@ns1 test]# chown user1:user1 dir1
+[root@ns1 test]# ls -lh
+합계 4.0K
+drwxr-xr-x 2 user1 user1 4.0K  4월 21 14:47 dir1
 
+[user1@ns1 test]$ whoami
+user1
+[user1@ns1 test]$ groups
+user1
+[user1@ns1 test]$ cd /test/dir1
+[user1@ns1 dir1]$ pwd
+/test/dir1
+[user1@ns1 dir1]$ touch file1
+[user1@ns1 dir1]$ mkdir dir1
+```
 
+```console
+login as: user2
+user2@192.168.0.114's password:
+[user2@ns1 ~]$ whoami
+user2
+[user2@ns1 ~]$ groups
+user2
+[user2@ns1 ~]$ cd /test/dir1
+[user2@ns1 dir1]$ pwd
+/test/dir1
+[user2@ns1 dir1]$ touch file2
+touch: cannot touch `file2': 허가 거부됨
+[user2@ns1 dir1]$ mkdir dir2
+mkdir: `dir2' 디렉토리를 만들 수 없습니다: 허가 거부됨
+```
 
+```console
+[user2@ns1 dir1]$ mkdir dir1 dir2
+[user2@ns1 dir1]$ touch dir2/file20
+[user2@ns1 dir1]$ ls -lh
+합계 8.0K
+drwxrwxr-x 2 user2 user2 4.0K  4월 21 15:01 dir1
+drwxrwxr-x 2 user2 user2 4.0K  4월 21 15:01 dir2
+```
+```console
+[user1@ns1 dir1]$ ls -lh
+합계 8.0K
+drwxrwxr-x 2 user2 user2 4.0K  4월 21 15:01 dir1
+drwxrwxr-x 2 user2 user2 4.0K  4월 21 15:01 dir2
+[user1@ns1 dir1]$ rmdir dir1
+```
+rmdir dir2 를 하려면 아래에 있는 file20 을 지워야 하는데 file20은 누구의 권한이 필요한가? 부모인 dir2 를 지울 수 있는 권한이 필요하다 그것은 user2
+{: .notice}
 
 
 
