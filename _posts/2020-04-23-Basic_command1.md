@@ -215,8 +215,15 @@ bsh->csh->tcsh->ksh->bash 순으로 발전되었다.
 [root@ns1 ~]# usermod -d /home2/user1 user1
 [root@ns1 ~]# usermod -s /bin/ksh user2
 ```
+```
+[user1@ns1 ~]$ passwd user2	루트 계정이 아니므로 다른 계정 암호 변경x
+[user1@ns1 ~]$ passwd		현재 암호 입력 후 자신의 암호 수정 (암호 정책에 맞아야함)
+		대소문자 숫자 특수문자 길이 3가지 이상 충족
 
-
+[root@ns1 ~]# passwd -n 1 user2  user2의 암호 변경 전까지 최소 사용기간
+[root@ns1 ~]# passwd -w 1 user2  warning date 설정
+[root@ns1 ~]# passwd -x 30 user2  변경 전까지 최대 사용 가능 일 수
+```
 
 
 
