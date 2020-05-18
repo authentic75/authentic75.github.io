@@ -72,11 +72,11 @@ read_time: false
 * /etc/services 내 local services 밑에 개인 설정 내용 기록
 {: .notice}
 ```
-[root@ns1 ~]# head /etc/services 1-10행 출력
-[root@ns1 ~]# tail /etc/services 뒤로부터 10행 출력
-[root@ns1 ~]# tail -n 5 /etc/services 5행 출력
-[root@ns1 ~]# tail -n 5 /etc/passwd	최근 생성한 계정 출력 (-5 라고 써도 된다)
-[root@ns1 ~]# more /etc/services 화면 단위로 나누어 출력, 읽고 있는 위치 알려줌
+[root@ns1 ~]# head /etc/services //1-10행 출력
+[root@ns1 ~]# tail /etc/services //뒤로부터 10행 출력
+[root@ns1 ~]# tail -n 5 /etc/services //5행 출력
+[root@ns1 ~]# tail -n 5 /etc/passwd	//최근 생성한 계정 출력 (-5 라고 써도 된다)
+[root@ns1 ~]# more /etc/services //화면 단위로 나누어 출력, 읽고 있는 위치 알려줌
 ```
 * Enter 행단위로 넘어감, space bar 페이지 단위로 넘어감, q 종료, b 이전페이지
 * less /etc/services
