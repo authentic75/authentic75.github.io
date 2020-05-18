@@ -341,10 +341,24 @@ drwxrwxrwx 3 user1 user1 4.0K  4월 21 13:28 dir1
 ---
 ### 특수 권한
 ---
-
-* 특수한 형태의 파일 권한
-* setuid, setgid, sticky 비트가 있다.
+* 특수 권한 : SetUID SetGID Stickybit
+* SetUID: u+s	--S --- ---
+	* File: 파일을 실행할 경우 실행한 사용자의 권한이 아닌 실행파일의 
+	* 소유자 권한으로 파일 접근 
+* SetGID: g+s	--- --S ---
+	* File: 파일을 실행할 경우 실행한 사용자의 권한이 아닌 실행파일의 
+	* 소유 그룹 권한으로 파일 접근 	
+	* Directory: 해당 디렉토리에 파일이나 디렉토리가 만들어진 경우 
+	사용자의 그룹이 아닌 원래 해당 디렉토리의 소유 그룹으로 자동으로 수정 되어 진다.
+* Stickybit: o+t	--- --- --T	
+	* Directory: 아무나 쓰기 가능한 디렉토리에 타인 소유의 파일을 제거 할 수 있는 권한을 없앤다. 
+	따라서 파일 생성자(소유자) 만이 파일이나 디렉토리를 제거할 수 있다. 
+	( 실제 Sticky bit 가 들어가잇는 디렉토리는 temp 가 있다 다운로드 후 임시로 압축 풀고 지우고 등등)
 {: .notice}
+
+---
+#### shadow 파일
+---
 ```console
 [root@ns1 test]# tail -n 2 /etc/shadow
 user2:!!:18373:0:99999:7::: >> 암호 비활성화 됨
@@ -402,7 +416,10 @@ passwd 를 사용하여 암호수정하면 shadow 에서 md5 해쉬가 바뀐것
 -rwsr-xr-x 1 root root 23K  4월 21 13:51 cat2 (빨간색)
 ```
 
-`권한 변경`
+---
+####  권한변경
+---
+
 ```console
 [root@ns1 test]# cat > file1
 abc
@@ -422,6 +439,7 @@ xyz
 위 상황에서 일반 계정으로 cat1을 실행가능, cat1으로 file1 read 가능 file2는 불가능   
 그러나 cat2를 사용할 시에는 root의 권한을 잠깐 빌려와서 사용하게 된다.
 {: .notice}
+
 ```console
 [root@ns1 test]# ls -lh
 합계 56K
@@ -435,9 +453,15 @@ xyz
 * cat2를 통해서는? other 의 권한으로 접근 하지만 set uid 의 영향으로 소유자 권한을 가지고 file1에 소유자의 권한으로 접근 file2도 소유자 권한으로 접근
 * 위의 같은 경우에는 root 권한으로 실행  
 {: .notice}
+
 * cat 명령과 vi 명령어는 set UID가 들어가면 큰일난다.
 * 어느 파일이든 읽고 쓸수있게된다.
 {: .notice}
+
+---
+#### setUID
+---
+
 ```console
 [root@ns1 test]# rm -rf *
 [root@ns1 test]# which echo
@@ -480,6 +504,11 @@ test1::18373:0:99999:7:::
 * x자리에만 s 치환이 가능하다
 * 하지만 x가 원래 있던 파일인지 아닌지 알수 없어서 x 권한이 없으면 대문자 S로 바뀌어서 보이게 된다.
 {: .notice}
+
+---
+#### setGID 파일
+---
+
 ```console
 [root@ns1 test]# ls -lh
 합계 0
@@ -565,6 +594,83 @@ drwxrwxr-x 2 user2 user2 4.0K  4월 21 15:01 dir2
 rmdir dir2 를 하려면 아래에 있는 file20 을 지워야 하는데 file20은 누구의 권한이 필요한가? 부모인 dir2 를 지울 수 있는 권한이 필요하다 그것은 user2
 {: .notice}
 
+---
+#### sitcky bit
+---
+
+```console
+[root@ns1 test]# mkdir dir1 dir2
+[root@ns1 test]# chmod 777 dir*
+[root@ns1 test]# ls -lh
+합계 8.0K
+drwxrwxrwx 2 root root 4.0K  4월 21 15:46 dir1
+drwxrwxrwx 2 root root 4.0K  4월 21 15:46 dir2
+```
+둘다 루트 소유 아무나 수정 가능 -> sticky 비트를 줘볼것이다.
+{: .notice}
+```console
+[root@ns1 test]#
+[root@ns1 test]# chmod o+t dir2
+[root@ns1 test]# ls -lh
+합계 8.0K
+drwxrwxrwx 2 root root 4.0K  4월 21 15:46 dir1
+drwxrwxrwt 2 root root 4.0K  4월 21 15:46 dir2
+[root@ns1 test]#
+```
+user1 user2 둘다 dir1 에 들어온다
+{: .notice}
+```console
+[user1@ns1 test]$ cd dir1
+[user1@ns1 dir1]$ ls -lhd
+drwxrwxrwx 2 root root 4.0K  4월 21 15:46 .
+[user1@ns1 dir1]$ touch file1
+[user1@ns1 dir1]$ cat > file1
+abc
+xyz
+[user1@ns1 dir1]$ cat > file2
+123
+456
+[user1@ns1 dir1]$ ls -lh
+합계 4.0K
+-rw-rw-r-- 1 user1 user1 8  4월 21 15:50 file2
+[user1@ns1 dir1]$
+```
+user가 file2 를 작성하는동안 user 2 가 file1 을 지워버림.  
+이런 상황을 대비하기 위해 사용하는것이 sticky bit다   
+dir2 에 들어와 보자  
+{: .notice}
+```console
+[user1@ns1 dir1]$ cd ../dir2
+[user1@ns1 dir2]$ pwd
+/test/dir2
+[user1@ns1 dir2]$
+[user1@ns1 dir2]$ ls -lhd
+drwxrwxrwt 2 root root 4.0K  4월 21 15:46 .
+[user1@ns1 dir2]$ cat > file1
+abc
+xyz
+[user1@ns1 dir2]$ cat> file2
+123
+456
+```
+```console
+[user2@ns1 dir1]$ cd ../dir2
+[user2@ns1 dir2]$ pwd
+/test/dir2
+[user2@ns1 dir2]$ ls -ldh
+drwxrwxrwt 2 root root 4.0K  4월 21 15:46 .
+[user2@ns1 dir2]$
+[user2@ns1 dir2]$ touch file5
+[user2@ns1 dir2]$ touch file6
+[user2@ns1 dir2]$ rm 5
+[user2@ns1 dir2]$ ls
+file  file1  file2  file5  file6
+[user2@ns1 dir2]$ rm file1
+rm: remove write-protected 일반 파일 `file1'? y
+rm: cannot remove `file1': 명령이 허용되지 않음
+```
+오로지 작성자만이 파일을 지울 수 있다.
+{: .notice}
 
 
 
