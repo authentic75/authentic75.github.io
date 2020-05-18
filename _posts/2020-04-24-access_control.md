@@ -1,6 +1,6 @@
 ---
 title: "LINUX: Permission(권한)"
-last_modified_at: 2020-05-13T16:20:02-05:00
+last_modified_at: 2020-04-24T16:20:02-05:00
 categories:
   - Security
 tags:
