@@ -237,6 +237,7 @@ C-LOOK(Circular look): 요청된 실린더 중 마지막까지만 이동
 {: .notice--warning}
 * **syslog**는 리눅스 운영체제에 대한 로그를 기록하는 데몬 프로세스로 syslogd에 의해서 기록된다  
 	* /etc/syslogd.conf 파일 참고
+	* kern.emerg /var/log/emerg.log
 * **sulog**는 su 명령 로그
 {: .notice}
 ```console
@@ -251,6 +252,13 @@ Modify: 2020-05-12 13:13:08.785992118 +0900
 Change: 2020-05-12 13:13:08.785992118 +0900
  Birth: -
 ```
+* 시스템이 부팅 될 때 마다 자동 실행
+* Run level 문제
+* /etc/rc.d/rc.local //실제 설정파일
+{: .notice}
+* init 모든 프로세스의 부모격//PID 1
+* init이 실행 될때는 가장 먼저 inittab을 불러온다
+{: .notice}
 ---
 #### 리눅스 명령어
 ---
@@ -365,6 +373,7 @@ HKEY_CLASSES_ROOT: 파일의 각 확장자에 대한 정보와 파일과 프로�
 HKEY_LOCAL_MACHINE: 설치된 하드웨어와 소프트웨어 설치 드라이버 설정  
 HKEY_USERS: 사용자에 대한 정보  
 HKEY_CURRENT_CONFIG: 디스플레이 설정과 프린트 설정  
+HKEY_CURRENT_USER\...\RunMRU 실행한 명령 히스토리 정보
 {: .notice--danger}
 **하이브 파일**  
 레지스트리는 대부분 하이브라고 부르는 파일의 세트에 들어있다  
@@ -496,9 +505,14 @@ sysctl -w kernel.randomize_va_space=1
 	* r-command를 통해서 인증없이 중요 정보 유출, 공격 가능
 	* 사용되는 파일 : host.equiv / .rhost 이다 / 권한 600 이하 그리고 + 설정 없어야한다.
 {: .notice}
-
-
-
-
+`crontab`
+* 정기적 작업 수행
+* 주간, 월간 단위로 일자 지정하여 실행 
+* /var/log/cron에 저장
+* /etc/crontab 에 작업 설정
+{: .notice}
+* 인터넷 EX 히스토리는 어디에 보관되는가
+* index.dat
+{: .notice}
 
 
