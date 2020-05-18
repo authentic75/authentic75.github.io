@@ -709,6 +709,186 @@ ls -lh
 * 7번은 drwxrwxrwt 8번은 -rwxr-xr-x 
 {: .notice--danger}
 
+---
+### 심볼릭 링크
+--- 
+
+|   구 조   |    데이터     |
+| -------- | ----------- |
+| name | file |
+| i-node | 1234 |
+| Block |   -   |
+| Block | 1234 |
+| Block | - |
+	
+* 만들어진 날짜, 수정된 날짜, 접근 날짜, 소유, 그룹 등등 파일을 설명하는 내용이 많은데 이 내용이 저장되는 공간이 inode 이다. 이름은 이름 공간에 저장. 실제 파일 용량에 영향은 없다. 모든 파일은 1개의 아이노드를 가지고있다. 리눅스/ 유닉스에서 쓰이는 자료 구조. 실제 데이터가 하드디스크 어디에있는지 시작주소가 포함되어있다.  
+* read 권한이 있는 경우 시작 주소를 알려주고 권한이 없는 경우에는 시작주소를 알려주지 않는다.
+{: .notice}
+
+* $touch file1
+	* name file1 이 기록되고 inode에 권한 소유 날짜 용량 주소 저장되고 block에 데이터가 저장된다.3개는 별개의 다른 공간 
+* $cp /etc/hosts file2
+	* name 공간에 file2가 만들어지고 inode block이 또 만들어 진다. 그리고 마찬가지로 주소를 찾아가보면 새로 생성된 같은 내용의 블록이 있다.
+{: .notice}
+* 윈도우에서는 클러스터 라는 말이 있는데 할당 단위 크기를 말하는 것으로 파일크기가 작던 크던 최소 크기가 있다. 그것이 할당 단위 크기 . 1바이트든 2바이트든 4096 바이트로 저장된다. 만약 4096이 넘어가면 조각나서 저장된다. 그리고 이것들은 분산되어 저장되어서 각각 찾아다녀야한다. 블록이 끝날때마다 뒷부분에서 다음 주소를 알려줌. 디스크조각모음을 하는 이유다.
+	* $touch file1
+	* $cp /etc/hosts file2
+	* $cp file2 file3
+{: .notice}
+/boot (sda1) 	/(root) (sda2) 부트 외 다른 것은 모두 루트 파티션에서 용량 소진  
+df로 용량 확인 가능   
+{: .notice}
+
+```console
+[root@ns1 test]# df -m
+Filesystem           1M-blocks      Used Available Use% Mounted on
+/dev/sda2                59383      3165     53153   6% /
+/dev/sda1                   99        12        83  13% /boot
+tmpfs                     1014         0      1014   0% /dev/shm
+[root@ns1 test]#
+```
+
+`파일을 하나 생성해보자`
+
+```console
+[root@ns1 test]# tar cf file1 /etc
+tar: Removing leading `/' from member names
+[root@ns1 test]# ls -lh
+합계 122M
+-rw-r--r-- 1 root root 121M  4월 21 17:34 file1
+
+[root@ns1 test]# df -m
+Filesystem           1M-blocks      Used Available Use% Mounted on
+/dev/sda2                59383      3286     53032   6% /
+/dev/sda1                   99        12        83  13% /boot
+tmpfs                     1014         0      1014   0% /dev/shm
+```
+블록의 공간만을 헤아린다.
+{: .notice}
+```console
+[root@ns1 test]# cp file1 file2
+[root@ns1 test]# ls -lh
+이때 file1 을 수정한다해서 file2 내용이 바뀌지 않는다 즉, 서로 다른 공간을 쓴다는의미다.
+{: .notice}
+
+`심볼릭 링크를 만들어 보자`
+```console
+[root@ns1 test]# ln -s file1 file3
+```
+
+이경우 file3가 name에 기록되고 또 새로운 inode 값이 만들어 집니다. 이때 블록에는 file1을 가리키는 정도로 작은 용량만을 사용한다. file1은 5글자 밖에 안되어서 해당되는 만큼의 용량 (5바이트 정도) 블록에 저장. 원본이름이 바뀌면 파일을 못찾아간다.
+리눅스도 빨리 찾아가기위해 심볼릭 링크를 사용한다.
+{: .notice}
+
+```console
+[root@ns1 test]# ln -s /etc/sysconfig/network-scripts/ifcfg-eth0 ifcfg-eth0
+[root@ns1 test]# ls
+file10  file3  ifcfg-eth0
+[root@ns1 test]# cat ifcfg-eth0
+# Intel Corporation 82540EM Gigabit Ethernet Controller
+DEVICE=eth0
+BOOTPROTO=static
+IPADDR=192.168.0.114
+NETMASK=255.255.255.0
+ONBOOT=yes
+[root@ns1 test]#
+```
+
+그냥 ln file1 file4 를 입력할 경우 file4는 inode를 새로 생성하지 않고 file1의 inode를 동일하게 가르키게 된다.
+{: .notice}
+
+```console
+[root@ns1 test]# ln file1 file4
+[root@ns1 test]# ln file1 file5
+[root@ns1 test]# ln file1 file6
+[root@ns1 test]# ls -lh
+합계 606M
+-rw-r--r-- 4 root root 121M  4월 21 17:34 file1
+-rw-r--r-- 1 root root 121M  4월 21 17:48 file2
+lrwxrwxrwx 1 root root    5  4월 21 17:39 file3 -> file1
+-rw-r--r-- 4 root root 121M  4월 21 17:34 file4
+-rw-r--r-- 4 root root 121M  4월 21 17:34 file5
+-rw-r--r-- 4 root root 121M  4월 21 17:34 file6
+[root@ns1 test]#
+=>
+[root@ns1 test]# df -m
+Filesystem           1M-blocks      Used Available Use% Mounted on
+/dev/sda2                59383      3286     53032   6% /
+/dev/sda1                   99        12        83  13% /boot
+tmpfs                     1014         0      1014   0% /dev/shm
+```
+용량의 변화가 없다  
+파일 정보를 수정 해보자  
+{: .notice}
+
+```console
+[root@ns1 test]#
+[root@ns1 test]# ls -lh
+합계 122M
+-rw-r--r-- 4 root root    0  4월 21 17:49 file1
+-rw-r--r-- 1 root root 121M  4월 21 17:48 file2
+lrwxrwxrwx 1 root root    5  4월 21 17:39 file3 -> file1
+-rw-r--r-- 4 root root    0  4월 21 17:49 file4
+-rw-r--r-- 4 root root    0  4월 21 17:49 file5
+-rw-r--r-- 4 root root    0  4월 21 17:49 file6
+[root@ns1 test]# touch -t 050512002019 file3
+touch: invalid date format `050512002019'
+[root@ns1 test]# touch -t 201905051200 file3
+날짜가 다같이 변함
+[root@ns1 test]# ls -lh
+합계 122M
+-rw-r--r-- 4 root root    0  5월  5  2019 file1
+-rw-r--r-- 1 root root 121M  4월 21 17:48 file2
+lrwxrwxrwx 1 root root    5  4월 21 17:39 file3 -> file1
+-rw-r--r-- 4 root root    0  5월  5  2019 file4
+-rw-r--r-- 4 root root    0  5월  5  2019 file5
+-rw-r--r-- 4 root root    0  5월  5  2019 file6
+[root@ns1 test]#
+[root@ns1 test]#
+```
+`소유권을 바꿈`
+```console
+[root@ns1 test]# chown user1 file6
+[root@ns1 test]# ls -lh
+합계 122M
+-rw-r--r-- 4 user1 root    0  5월  5  2019 file1
+-rw-r--r-- 1 root  root 121M  4월 21 17:48 file2
+lrwxrwxrwx 1 root  root    5  4월 21 17:39 file3 -> file1
+-rw-r--r-- 4 user1 root    0  5월  5  2019 file4
+-rw-r--r-- 4 user1 root    0  5월  5  2019 file5
+-rw-r--r-- 4 user1 root    0  5월  5  2019 file6
+```
+* ln -s 심볼릭 링크 ln 은 하드링크
+* 하드링크는 원본이 바뀌면 같이 내용이 바뀐다. 하드 링크는 백업용으로는 적합하지 않다. 오로지 short cut 하지만 원본이 바뀌어도 찾아갈 수 있다. 심볼릭 링크는 이름으로 연결되었지만 하드링크는 이름과 상관없이 inode가 연결되어 있어서 상관없다. 위치를 바꾸어도 상관없다. 단점 하드디스크가 분리되어 있으면 연결이 안된다. 즉, 파티션이 같아야 한다. 하지만 심볼릭 링크는 위치로 추적하여서 파티션이 달라도 된다.
+{: .notice}
+```console
+[root@ns1 test]# ln file1 file4
+[root@ns1 test]# ln file1 file5
+[root@ns1 test]# ln file1 file6
+[root@ns1 test]# cat >> file1
+123
+[root@ns1 test]# cat file4
+abc
+xyz
+123
+[root@ns1 test]# cat file5
+abc
+xyz
+123
+[root@ns1 test]# cat file6
+abc
+xyz
+123
+```
+```console
+[root@ns1 ~]# groups			admin 등록 적용됨
+root bin daemon sys adm disk wheel admin
+
+[root@ns1 ~]# newgrp admin
+[root@ns1 ~]# groups
+admin root bin daemon sys adm disk wheel
+```
+
 
 
 
