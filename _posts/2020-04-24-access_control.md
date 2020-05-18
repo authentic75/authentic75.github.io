@@ -34,6 +34,9 @@ read_time: false
 디렉토리에서 x가 없는 r은 없습니다. 들어갈 수 없는 디렉토리의 내용을 정상적으로 출력되지 않는다.  
 디렉토리에 x만 있으면, 내용을 감추고 하위 디렉토리에 들어갈 수 있다.
 {: .notice--info}
+---
+### groups, newgrp
+---
 ```console
 [root@ns1 ~]# groups
 root bin daemon sys adm disk wheel
@@ -52,6 +55,9 @@ root bin daemon sys adm disk wheel
 [root@ns1 ~]# groups
 admin root bin daemon sys adm disk wheel 
 ```
+---
+### 파일 권한
+---
 ```console
 [root@ns1 ~]# cat > file1
 [root@ns1 ~]# cat > file2
@@ -60,6 +66,7 @@ admin root bin daemon sys adm disk wheel
 -rw-r--r-- 1 root admin 4 4월 26 16:38 file1
 -rw-r----- 1 root admin 4 4월 26 16:38 file2
 ```
+
 * root에서 파일 생성시 644
 * root에서 디렉토리 생성시 755
 * Umask가 0022 이므로 디렉토리(777-022), 파일(666-022) 
@@ -71,6 +78,9 @@ admin root bin daemon sys adm disk wheel
 	* cat file2 가능
 	* vi file2 가능 (읽기는 가능, 수정은 불가능)
 {: .notice}
+---
+### 디렉토리 권한
+---
 ```console
 [root@ns1 test]# mkdir dir1 dir2
 [root@ns1 test]# touch dir1/file11 dir1/file12
@@ -126,16 +136,69 @@ drw-r-x--- 1 root admin 4 4월 26 16:38 dir2
 	* **rm file2 거부됨** 파일 수정 권한은 있는데 파일을 지울 수는 없다. 왜냐면 파일을 담고 있는 디렉토리에 대한 권한이 없기 때문이다
 {: .notice}
 다른 예로 파일에 대한 rwx 권한이 전부 없지만 담고 있는 디렉토리에 대한 w 권한이 있을 경우 파일 삭제가 가능하다.  
-파일 삭제는 파일 권한이 아니라 디렉토리 권한과 관련이 있다.  
-디렉토리의 read 권한이 없으면 ls 명령어를 사용할 수 없다.
-디렉토리의 execute 권한이 있으면 cd를 사용하여 이동이 가능하다. 
+또한 디렉토리에 대한 w 권한이 있어야 touch가 가능하다.   
+파일 삭제는 파일 권한이 아니라 디렉토리 권한과 관련이 있다.    
+디렉토리의 read 권한이 없으면 ls 명령어를 사용할 수 없다.  
+디렉토리의 execute 권한이 있으면 cd를 사용하여 이동이 가능하다.   
+{: .notice--warning}
+추가로, 디렉토리에 대한 권한이 r-- 일 경우 ls로 디렉토리를 조회해도 정상적으로 출력이 되지 않는다.  
+r와 x가 반드시 같이 설정되어있어야함.  
 {: .notice--warning}
 
+---
+### 실습
+---
+`mkdir -p 옵션을 사용하면 거쳐가는 path 한번에 생성됨`
+```console
+[root@ns1 test]# mkdir -p dir1/dir2/dir3
+```
 
+```console
+[root@ns1 test]# ls
+dir1
+[root@ns1 test]# chmod 755 dir1
+[root@ns1 test]# chmod 750 dir1/dir2/
+```
 
+```console
+[user1@ns1 test]$ cd dir1
+[user1@ns1 dir1]$ pwd
+/test/dir1
+[user1@ns1 dir1]$ cd dir2
+-bash: cd: dir2: 허가 거부됨
+```
 
+```console
+[root@ns1 test]# chmod 777 dir1/dir2/
+dir2/
+```
 
+```console
+[user1@ns1 dir1]$ cd dir2
+[user1@ns1 dir2]$ ls
+ls: .: 허가 거부됨
+```
 
+```console
+[root@ns1 test]# chmod 777 dir1/dir2/dir3/
+[root@ns1 test]#
+[root@ns1 test]# chmod o+x dir1/dir2
+[root@ns1 test]#
+```
+
+```console
+[user1@ns1 dir1]$
+[user1@ns1 dir2]$ cd dir3
+[user1@ns1 dir3]$
+```
+---
+### Umask
+---
+User1은 0002 root 0022가 default 값
+{: .notice--warning}
+```console
+
+```
 
 
 
