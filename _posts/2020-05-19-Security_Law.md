@@ -1,5 +1,5 @@
 ---
-title: "정보보안기사: 정보보안 일반"
+title: "정보보안기사: 정보 보안 법규"
 last_modified_at: 2020-05-19T16:20:02-05:00
 categories:
   - Security
