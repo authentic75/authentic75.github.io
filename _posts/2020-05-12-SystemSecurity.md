@@ -375,7 +375,8 @@ HKEY_USERS: 사용자에 대한 정보
 HKEY_CURRENT_CONFIG: 디스플레이 설정과 프린트 설정  
 HKEY_CURRENT_USER\...\RunMRU 실행한 명령 히스토리 정보
 {: .notice--danger}
-**하이브 파일**  
+
+**하이브 파일 c:\windows\system32\config**
 레지스트리는 대부분 하이브라고 부르는 파일의 세트에 들어있다  
 SYSTEM: 시스템 부팅에 필요한 시스템 전역 구성정보를 가지고 있음  
 SOFTWARE: 시스템 부팅에 필요 없는 시스템 전역 구성정보로 소프트웨어 정보를 가지고 있음  
@@ -384,12 +385,6 @@ SAM: 로컬 계정 정보와 그룹정보로 시스템 계정만 접근 가능
 HARDWARE: 시스템 하드웨어 디스크립션과 모든 하드웨어의 장치 드라이버 매핑 정보를 가지고 있음  
 COMPONENTS: 설치된 컴포넌트와 관련된 정보 관리  
 BCD0000000000: 부팅 환경 데이터를 관리하는 것은 과거 윈도우 XP의 Boot_ini가 없어지고 대체됨  
-{: .notice--info}
-
-* 윈도우 설정 정보는 %SystemRoot%\System32\Config에 저장
-	* SAM: 사용자 그룹 계정 정보
-	* Security: 보안 및 권한 관련 정보
-	* ntuser.dat: 사용자 설정 정보
 {: .notice--info}
 
 ---
