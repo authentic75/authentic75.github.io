@@ -2,7 +2,7 @@
 title: "LINUX: 권한(소유권)과 링크"
 last_modified_at: 2020-04-24T16:20:02-05:00
 categories:
-  - Security
+  - LINUX
 tags:
   - LINUX
   - Permission
