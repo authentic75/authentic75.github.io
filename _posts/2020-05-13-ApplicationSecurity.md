@@ -51,7 +51,8 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/mint/3 b _ i r mint ftp 0 * c
 
 * 공격유형
 	* 무작위 공격
-	* Bounce 공격: 가짜 메일을 보내서 익명의 ftp 서버 경유한다(Nmap -b)
+	* Bounce 공격: 익명의 사용자로 로그인 하여 악성코드 업로드, 중요파일 다운로드
+		* 가짜 메일을 보내서 익명의 ftp 서버 경유한다(Nmap -b)
 	* Port Scanning
 {: .notice--warning} 
 * 보안 대책
@@ -67,7 +68,15 @@ Mon May 31 07:48:53 2010 1 x.x.x.x 0 /home/mint/3 b _ i r mint ftp 0 * c
 * **디렉토리 리스팅**: index.* 파일 없을 때 해당 경로의 모든 파일 디렉토리 노출
 * **서버에 대한 정보**: 서버 토큰, 서버 signature
 * **웹서버 로그 파일**: access.log
-{: .notice} 
+{: .notice}
+
+* Apache 웹서버
+* 웹로그에 응답코드, IP주소, 시간 정보, 요청 페이지 정보를 기록
+* GET Request 발생시 access.log 기록한다 
+* 웹로그 분석을 통해 어떤 IP가 어떤 페이지 호출했는지 기록 확인 가능
+* 응답코드는 access.log에 기록되나 error.log에는 나타나지 않는다
+{: .notice--warning}
+ 
 ```
 211.36.215.78 -  manager [22/Jun/2000:23:09:09 +0900] "GET / HTTP/1.1" 200 5  
 ```
@@ -131,28 +140,75 @@ ResultSet rs = stmt.executeQuery();
 | API 오용 | DNS Lookup에 의존한 보안 결정, 취약한 API 사용 |   
 
 ---
-### E-Mail 보안(PGP, PEM, S/MIME)
+### 전자 우편 보안
 ---
 * MDA 프로토콜
 	*SMTP(25, 메일발송) , POP3(110, 메일 읽기, MBOX삭제), IMAP/IMAP4(143, 메일읽기, MBOX 삭제 안함)
-* PGP (Pretty Good Privacy): MIME 객체에 암호화와 전자서명 기능을 추가한 암호화 프로토콜이다.
+* email 내용의 외부 유출
+* 바이러스 프로그램 첨부 
+* 메일 서버, 메일 프로그램의 취약성 이용해 시스템 침입
+* 위를 막기위해 PGP, S/MIME, PEM 등장
+{: .notice--warning}
+---
+#### PGP
+---
+* PGP(Pretty Good Privacy)
+	* 전자우편의 암호화, 받은 전자우편을 해석, 편지봉투와 같다
+	* 분산된 키 인증 (키서버)
+	* 구현 용이, 보안은 떨어지나 활용성이 높다
+	* 기밀성(메세지 암호화), 인증(메세지, 사용자 인증), 압축, 분할, Email호환 (Radiusx64 변환)
+	* 수신자공개키 + 세션키 + 파일생성시각 + 송신자 공개키 + 메시지 다이제스트 + 파일 이름 + 타임 스탬프 + 데이터  
+	* PKI(인증기관)이 없다
+	* 서로 알고 있는 서버/클라이언트끼리 사용
 	* 분산키 관리
+* 사용키	
 	* 전자서명: DSS/SHA, RSA/SHA
 	* 메시지 암호화: CAST-128, 3DES 1회용 
 	* 세션키 생성: Difiie-Helman 혹은 RSA
 	* 세그멘테이션(메시지 최대 사이즈 제한)
 	* 오픈소스 RFC 3156
-* PEM(Privacy Enhanced Mail): 중앙집중화된 키 인증 방식으로 높은 보안성 (군사, 은행)
-	* RSA, IDEA, MD5 사용
-* S/MIME: 표준 보안 메일 규약
-	* 송/수신자 인증, 메시지 무결성
-	* 첨부파일포함
+* 기출 지문	
+	* PGP의 공개키 링의 각 키 인증서는 믿음의 유효성과 신뢰성 등급 표현이다.
+	* PGP의 인증체계 기반기술은 PKI표준과 일치하지 않으며, 개별적인 획득 사용이 쉽지만 대규모의 전자상거래를 지원하기에는 부적합하다.
+	* 공개키 기반구조는 네트워크 계층구조 사용한다.
+{: .notice--warning}
+
+---
+#### S/MIME
+---
+* S/MIME(Secure/Multipurpose Internet Mail Extension)
+	* 첨부물에 대한 보안이 목적이다
+	* MIME에 전자서명과 암호화를 더한 형태로 RSA 암호 시스템 이용
+	* 서명과 메세지 암호화, 기밀성, MIME에 대한 보안 제공 
 	* 메일 전체를 암호화한다
-	* 인터넷 MIME 메시지에 전자서명 기능 함께 암호화를 더함
-	* RSA 암호 사용
 	* CA로부터 공개키를 보증하는 인증서를 받아야한다
 	* S/MIMEv3 (DSS, DES, SHA-1)
-{: .notice}
+* 기출 지문
+	* X.509의 버전 3에 일치하는 공개키 인증서를 사용한다.
+	* 사용된 키 관리구조는 엄격한 X.509 인증서 계층과 PGP의 신뢰모델에 대한 복합적인 방식을 채택하였다.
+	* S/MIME 관리자 및 사용자들은 PGP처럼 신뢰하는 키의 목록과 CRL을 갖고 각 클라이언트를 구성하였다.
+{: .notice--warning}
+
+---
+#### PEM
+---
+* PGP와 같이 메세지 암호화 하고 특정키가 있어야만 내용을 볼 수 있다
+* 비밀성, 무결성, 사용자 인증, 부인 방지
+* 중앙집중화된 키 인증 방식으로 높은 보안성 (군사, 은행)
+* RSA, IDEA, MD5 사용
+{: .notice--warning}
+
+---
+#### 메일 서버 공격
+---
+* Active Content 공격: 사용자가 이메일 열람시 HTMP 기능이 있는 클라이언트 프로그램을 사용하는 사용자를 대상으로 공격
+* 스크립트 기능 제한으로 예방 가능 
+* 사용자 정보 유출, 다른 악성 코드 실행 
+{: .notice--warning}
+* Spamassasin: 메일 메세지 내용 분석, 스팸 필터 동작, 블랙리스트, fuzzy checksum 필터, bayesian 필터, 온라인 DB 기반
+{: .notice--warning}
+
+
 ---
 #### Sendmail 보안
 ---
