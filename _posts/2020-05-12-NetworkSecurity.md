@@ -98,6 +98,7 @@ ETag
 * Server Signature: Apache 정보노출
 * indexes: 디렉터리 리스팅 차단
 {: .notice--info}
+
 ---
 ### 쿠키
 ---
@@ -285,20 +286,36 @@ Ex) /5, /10 꼴로 나타냄
 ### 포트 스캐닝
 ---
 
-**NMAP 포트 스캐닝**
+**포트 스캐닝**
 * TCP connection() Scan: 3-way handshaking 수립, 쉽게 탐지  
-* TCP SYN Scan: SYN/ACK 받으면 OPEN, RST/ACK 받으면 Close, Stealth Scanning, **Half-Open**  
+* TCP SYN Scan: SYN/ACK 받으면 OPEN, RST/ACK 받으면 Close, **Half-Open**  
 * TCP FIN Scan: FIN 패킷을 전송하여 RST를 받으면 Close, open 인경우 패킷 무시 
 * TCP Null: 모든 플래그 지운다, RST를 받으면 Close, open 인경우 패킷 무시   
 * TCP X-MAS Tree Scan: FIN, URG, PSH 패킷 전송, RST를 받으면 Close, open 인경우 패킷 무시   
 {: .notice--warning}
+
+**Stealth Scan**
+* 세션확립x, 로그를 기록하지 않고 포트 스캐닝 
+* XMAS SCAN
+* FIN SCAN
+* NULL SCAN
+* TCP Fragmentation
+* ACK SCAN
+* TCP Half OPEN
+{: .notice--warning}
+
 **NMAP 옵션**
 SCAN Type (-s*)  
 -sS TCP SYN SCAN -sT TCP Connection SCAN -sU UDP SCAN  
 -sF TCP FIN SCAN -sN TCP Null SCAN -sA TCP ACK SCAN  
 {: .notice}
+
 Port Option (-p)  
 -p [번호/프로그램이름/포트범위/T:tcp/U:udp]
+{: .notice}
+
+-O option  
+-o 옵션으로 TTL 확인 할 수 있다. 디폴트 라우터개수 255 - TTL = 지나온 라우터 수.  
 {: .notice}
 ---
 ### 스니핑 공격
@@ -372,12 +389,20 @@ tcpdump 옵션
 # arpspoof -i eth0 -t 110.15.241.121 110.15.241.1
 # -i 인터페이스 -t 타겟과 게이트웨이  -s 감시
 ```
-snort: Rule과 동일한 패킷을 탐지하는 침입 탐지 시스템  
-snort의 Payload 검사 : Content, Dept, Offset, Nocase, Rawbytes, Within, Uricontent, Urilen, isdataat, pcre
+---
+### snort
+---
+* Rule과 동일한 패킷을 탐지하는 침입 탐지 시스템  
+* snort의 Payload 검사 : Content, Dept, Offset, Nocase, Rawbytes, Within, Uricontent, Urilen, isdataat, pcre
 {: .notice}
 ```console
 # snort -c /etc/snort/rules/test.rules
 # vi /etc/snort/rules/test.rules
+```
+```
+alert tcp any any -> any 23 (msg:"Telnet Root..":Content:"root":sid:100001;)
+alert tcp any any -> any 80 (msg:"XSS TRY":Content:"<SCRIP>":nocase:sid:100002;)
+alert tcp !x.x.x.x any -> x.x.x.x 139 (msg:"SMB Attack":flow:Established:Content:"|0530x03210x0331|";)
 ```
 ---
 ### VLAN (Virtual LAN)
@@ -473,8 +498,9 @@ DNS 응답 정보에 전자서명 값을 첨부하여 보내고 수신층이 서
 VPN (Virtual Private Network)  
 * 공중망을 이용하여 사설망과 같은 효과를 얻는 프로토콜  
 * 패스워드 인증/ USB 인증 -> 2 Factor 인증 제공  
-* 터널링 -> VPN 클라이언트/서버 간에 암호화키 교환 후 암호화하여 메시지 주고받음  
-{: .notice}
+* 터널링 -> VPN 클라이언트/서버 간에 암호화키 교환 후 암호화하여 메시지 주고받음 
+* 암호화, 인증, 데이터 무결성(QoS), 터널링 
+{: .notice--warning}
 
 SSL VPN  
 * 별도 장비 필요 없음, 웹브라우저만으로 VPN 구현, 네트워크 레이어 암호화 방식이라 HTTP 뿐 아니라 NNTP, FTP에도 사용  
@@ -510,7 +536,9 @@ MPLS VPN
 ---
 #### IDS
 ---
-* HIDS : 시스템에 설치가 되어서 사용자가 시스템에 행하는 행위를 모니터링하여 침입 여부를 결정. 내부자에 의한 공격, 바이러스, 웜, 트로이목마, 백도어에 대한 탐지가 가능하다.
+* HIDS
+	*시스템에 설치가 되어서 사용자가 시스템에 행하는 행위를 모니터링하여 침입 여부를 결정
+	* 부자에 의한 공격, 바이러스, 웜, 트로이목마, 백도어에 대한 탐지가 가능하다
 * NIDS
 {: .notice}
 ---
@@ -669,11 +697,20 @@ WinNuke
 
 * **APT 공격 유형**
 	* 제로데이 공격 APT: SW 패치 취약점
+		* 바이너리 디핑: 제로데이 공격 취약점 찾는 기법
 	* MAIL APT: 악성코드를 메일에 첨부하여 발송
 	* 백도어  APT: 표적에 침투 후 백도어 설치
+	* 드라이브 바이 다운로드
+	* 워터링홀
 {: .notice--warning}
 
 * **exploit 코드**
 	* 컴퓨터의 보안 취약점을 이용한 공격으로 대상 컴퓨터의 권한 획득, Dos 공격을 수행  
 	* 취약점을 이용한 공격의 종류는 BOF, CSRF, XSS  등이 존재한다.
+{: .notice--warning}
+
+* **클라우드 서비스**
+* IaaS: CPU나 하드웨어 등의 컴퓨터 리소스를 네트워크로 제공
+* PaaS: 기업의 APP 실행 환경 및 개발 환경을 서비스로 제공 
+* Saas: 업무에서 사용하는 sw 기능을 네트워크를 통해 필요한 만큼만 제공
 {: .notice--warning}
