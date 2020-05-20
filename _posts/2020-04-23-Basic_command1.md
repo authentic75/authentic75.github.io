@@ -2,7 +2,7 @@
 title: "LINUX: 파일읽기 및 계정"
 last_modified_at: 2020-04-23T16:20:02-05:00
 categories:
-  - Security
+  - LINUX
 tags:
   - LINUX
   - rdate
