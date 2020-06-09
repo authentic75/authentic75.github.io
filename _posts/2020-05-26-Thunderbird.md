@@ -61,7 +61,7 @@ Rpm -qc sendmail 을 입력하면 config 파일들도 볼 수 있다
 Addr을 제거할 경우 모든 interface 수신 허용, 유지하는 경우 localhost 허용   
 그 외, interface를 추가할 경우 아래 1행을 복사하여 추가할 ip주소를 추가한다  
 Addr=192.168.0.114 추가  
-  
+{: .notice}
 85행의 Cw영역명 추가 또는  
 Fw/etc/mal/local-host-names 에 영역명 추가  
 {: .notice}
@@ -78,7 +78,7 @@ kjy.co.ki
 co.ki		RELAY	: *.co.ki 로 끝나는 영역 릴레이  
 @naver.com	DISCARD: naver.com 영역에 거부  
 spam@		REJECT: spam 계정에 반송  
-  
+{: .notice}
 우리는 co.ki 만 추가  
 {: .notice}
 
@@ -99,7 +99,7 @@ connect:127.0.0.1
 
 6 데몬(서비스) 구동, 방화벽 포트 개방  
 CentOS ~6: service 데몬명 start  
-  
+{: .notice}
 Ns2 가 네임 서버  -  zone 파일 설정   
 Ns1 이 메일 서버  - 전반적인 설정은 여기에 했어야했다.  
 {: .notice}
