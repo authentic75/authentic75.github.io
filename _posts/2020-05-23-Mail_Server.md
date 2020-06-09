@@ -222,8 +222,8 @@ user@                   RELAY
 * Reject는 거절한 이유를 설명해준다
 {: .notice}
 
-> 리다이렉션 표준 출력 방향 전환  
-< 표준 입력의 방향 전환  
+>리다이렉션 표준 출력 방향 전환  
+<표준 입력의 방향 전환  
 {: .notice}
 
 ```
@@ -257,7 +257,7 @@ co.ki                                   RELAY
 192.168.0.0/24                          RELAY
 
 [root@ns2 mail]# systemctl restart sendmail.service
-
+```
 ---
 ### mail 조회하기
 ---
