@@ -222,10 +222,6 @@ user@                   RELAY
 * Reject는 거절한 이유를 설명해준다
 {: .notice}
 
->리다이렉션 표준 출력 방향 전환  
-<표준 입력의 방향 전환  
-{: .notice}
-
 ```
 [root@ns2 mail]# makemap hash access.db
 [root@ns2 mail]# strings access.db
@@ -345,7 +341,7 @@ kjy에게 온 메일을 볼 수가 없다
 메일서버 mail.kjy.ac.ki  
 어디선가 메일을 발송한다고 가정하고 시작  
 {: .notice}
-1.	메일 발신지에서 DNS 조회를 통해 kjy.ac.ki 영역에 대한 mx 레코드를 조회하고 조회한 도메인의 a(IPv4) 레코드에 등록된 서버로 메일을 발송한다  
+1 메일 발신지에서 DNS 조회를 통해 kjy.ac.ki 영역에 대한 mx 레코드를 조회하고 조회한 도메인의 a(IPv4) 레코드에 등록된 서버로 메일을 발송한다  
 #dig kjy.co.ki mx  
 10 mail.kjy.co.ki  
 #dig mail.kjy.ac.ki a  
@@ -375,7 +371,7 @@ ftp     IN A            12.12.12.12
 ```
 ```
 [root@ns2 ~]# date 0525170630
-2030. 05. 25. (토) 17:06:00 KST
+2020. 05. 25. (토) 17:06:00 KST
 [root@ns2 ~]#
 ```
 시간 좀 맞추자
@@ -399,7 +395,7 @@ ns2.kjy.co.ki. root.kjy.co.ki. 2020052500 600 180 604800 86400
 [root@ns2 ~]#
 ```
 
-2.	메일서버에서 수신시 방화벽 TCP 25 포트가 열려있어야한다.
+2 메일서버에서 수신시 방화벽 TCP 25 포트가 열려있어야한다.
 {: .notice}
 ```
 [root@ns2 ~]# iptables -L  //로 확인해본다
@@ -429,7 +425,7 @@ RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
 telnet mail.kjy.co.ki 25 실행 해보는 방법도 있다.
 {: .notice}
 
-3.	방화벽을 통과하면 SMTP 서비스(sendmail) 서비스와 만나게 된다.
+3 방화벽을 통과하면 SMTP 서비스(sendmail) 서비스와 만나게 된다.
 {: .notice}
 ```
 [root@ns1 ~]# telnet 127.0.0.1 25
@@ -439,13 +435,13 @@ Escape character is '^]'.
 220 ns1.kjy.co.ki ESMTP Sendmail 8.13.8/8.13.8; Thu, 21 May 2020 16:06:05 +
 ```
 
-4.	/etc/mail/sendmail.cf 265행   
+4 /etc/mail/sendmail.cf 265행   
 265 O DaemonPortOptions=Port=smtp,Addr=127.0.0.1, Name=MTA  
 Addr을 제거할 경우 모든 interface 수신 허용, 유지하는 경우 localhost 허용   
 그 외, interface를 추가할 경우 아래 1행을 복사하여 추가할 ip주소를 추가한다  
 Addr=192.168.0.114 추가하자  
 {: .notice}
-5.	그 다음에 access.db를 만나게된다  
+5 그 다음에 access.db를 만나게된다  
 {: .notice}
 ```
 [root@ns1 mail]# vi access
@@ -464,10 +460,10 @@ connect:localhost
 makemap hash access < access 로 access.db 에서 db를 생략했다.
 {: .notice}
 
-6.	Access.db에서 허용된 메일은 /var/spool/mqueue 에 쌓여있게 되어있다.  
+6 Access.db에서 허용된 메일은 /var/spool/mqueue 에 쌓여있게 되어있다.  
 메일은 임시저장되고 순서대로 처리되기 시작한다.  
 {: .notice}
-7.	/etc/mail/sendmail.cf. 또는 /etc/mail/local-host-names 파일에 등록된 도메인은 최종적으로 수신자의 메일함에 저장되고, 그 외 도메인은 다른 곳으로 메일 라우팅 처리된다.  
+7 /etc/mail/sendmail.cf. 또는 /etc/mail/local-host-names 파일에 등록된 도메인은 최종적으로 수신자의 메일함에 저장되고, 그 외 도메인은 다른 곳으로 메일 라우팅 처리된다.  
 /etc/mail/sendmail.cf  
 85행 Cw도메인 또는  
 /etc/mail/local-host-names 에   
