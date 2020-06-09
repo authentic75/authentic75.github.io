@@ -6,6 +6,7 @@ categories:
 tags:
   - DNS
   - 웹메일
+  - MUA
   - LINUX
 toc: true 
 toc_label: "Table of Contents"
@@ -15,37 +16,40 @@ author_profile: true
 read_time: false 
 ---
 
-DNS 주소를 192 168 0 150
-보조 DNS 192 168 0 100 설정
+DNS 주소를 192.168.0.150
+보조 DNS 192.168.0.100 설정
+{: .notice}
 
-그리고 CentOS5, 8 을 켜서 
+그리고 CentOS5, 8 을 켜서  
 각각 시간을 세팅해준다
+{: .notice}
+```
 CentOS5  # date -s time.bora.net
 CentOS8  # date -s “2020-05-27 13:52:00”
-
-CentOS5 putty로 메일을 작성하여 보내보고 
-Thunder bird 로 확인해보자 ~
-잘된다!
+```
 
 Kjy.co.ki 가 있다고 가정하자 이 안에는 
 Ns1/smtp/mail(pop3)/www/www 이 있다고 하자
 네이버에도 마찬가지로 Ns1/smtp/mail(pop3)/www/www 가 있다고 하자 
-
+{: .notice}
 발신자: Kjy@kjy.co.ki
 수신자: User1@naver.com
-
+{: .notice}
 메일을 보낸다고 가정하자 우리가 smtp 에 메일을 보내겠다고 의뢰 그러면 naver 안에 mail(pop3)로 메일을 전달 한다 반대로 네이버에서 답장이 온다고 해도 smtp를 통해 kjy의 mail(pop3)로 온다.
-
+{: .notice}
 smtp 는 전송만을 맡는다. Kjy.co.ki 또는 naver가 RELAY 설정이 되어있어야 받아들인다
 메일을 보내면 nslookup -type=mx naver.com 레코드를 조회한다
 그러면 naver에서 mx1.naver.com 의 주소 125.209.238.100 다음으로 mx2 mx3 의 주소를 얻는다…
 네이버에서 별도로 pop3/smtp 를 사용하려 보면 smtp.naver.com이 smtp 서버 주소라고 나와있다.
 pop.naver.com이 pop 서버이다. 우리는 최종적으로 mail(pop3) 에서 메일을 조회하고 다운받는다.
-시간 00:54:17
+{: .notice}
+
 Outlook 같은 사용자를 사용할 경우 (MUA)
 우리가 메일을 직접 목적지에 보내는게 아니라 smtp 프로토콜로 메일을 보내면 DNS mx 조회를 통해서 smtp가 상대편 메일 교환기를 찾아준다. 반대도 마찬가지로 smtp 서버를 통해서 mx 레코드에 등록되어있는 곳으로 메일을 보낸다. 그리고 그곳에 메일이 쌓여있고 MUA를 통해 메일을 다운받아와서 본다. 
 네이버 같은 곳 (웹상에서 메일을 보내는경우)
 우리가 메일을 보내면 HTTP(httpd)가 SMTP를 통해서 메일 교환기 쪽으로 메일을 보냅니다. 이 상황에서는 포트번호 80번이 열려 있어야한다. 이때 pop3는 사용안하고 IMAP을 사용한다. Pop3는 세션이 끊기는 순간 메일이 지워져서 내 메일을 볼 수가 없다. 메일 확인도 최종적으로 HTTP를 통해서 본다.
+{: .notice}
+
 
 P546  ?  웹메일
 웹서버를 설치하여 구성할 건데  웹서버와  메일(IMAP)서버는 어쩔 수 없이 같은 CentOS5에 구현할 것이다.
@@ -138,5 +142,4 @@ Return > R > 10 > 1 > ko_KR
 그상태로 다람쥐 메일에서 
 오오 아이디 로그인 입력하면 로그인이 된다.
 Kjy 123
- 
-CentOS8 은 라운드 큐브?? 
+
