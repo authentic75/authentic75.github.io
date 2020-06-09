@@ -1,5 +1,5 @@
 ---
-title: "LINUX: DNS의 위임체계"
+title: "LINUX: DNS 위임과 역방향 조회"
 last_modified_at: 2020-05-21T20:20:02-05:00
 categories:
   - LINUX
@@ -403,4 +403,26 @@ ns1.kjy.co.ki.          86400   IN      A       192.168.0.114
 ;; SERVER: 127.0.0.1#53(127.0.0.1)
 ;; WHEN: Thu May 21 17:29:10 2020
 ;; MSG SIZE  rcvd: 119
+```
+
+CentOS 8에서 해보자
+{: .notice}
+
+```
+[root@ns2 named]# cat /var/named/192.168.0.164.rev
+#대표 도메인에 대한 reverse mapping 정보를 기록
+$TTL    1D   ///Positive TTL 캐시에게 하루동안 기억하라고 알려주는 역할
+$ORIGIN 164.0.168.192.in-addr.arpa.
+@       IN SOA  ns2.kjy.co.ki.  root.kjy.co.ki. (
+                2020052100
+                3H
+                15M
+                1W
+                1D      )  // Negative TTL  NX인 경우(도메인이 없을 때) 하루동안 기억해라
+        IN NS   ns2.kjy.co.ki.
+        IN PTR ns2.kjy.co.ki.
+        IN PTR www.kjy.co.ki.
+```
+```
+[root@ns2 named]# dig 164.0.168.192.in-addr.arpa ptr +short
 ```
