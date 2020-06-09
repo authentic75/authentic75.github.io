@@ -1,0 +1,230 @@
+---
+title: "LINUX: 메일서버와 MX레코드"
+last_modified_at: 2020-05-22T20:20:02-05:00
+categories:
+  - LINUX
+tags:
+  - DNS
+  - 서버구현
+  - LINUX
+toc: true 
+toc_label: "Table of Contents"
+toc_icon: "cog"
+toc_sticky: true 
+author_profile: true 
+read_time: false 
+---
+---
+#### rndc 설정
+---
+우선 메일 서버를 생성하기에 앞서 rndc를 설정해주자
+{: .notice}
+
+```console
+[root@ns2 named]# rndc flush
+[root@ns2 named]# rndc -s 192.168.0.100 -p 953 -y 2ndkey flush
+[root@ns2 named]# rndc –s 192.168.0.100 flush 하면 키를 안알려줘서 오류가 뜬다
+```
+```
+일단 CentOS 8에서 CentOS 5로 rndc 명령어를 쳐보자
+[root@ns2 named]# rndc -s 192.168.0.114 -p 953 -y 2ndkey reload
+server reload successful
+[root@ns2 named]#
+```
+rndc 파일에 내용을 추가해준다.
+{: .notice}
+```
+[root@ns2 named]# vi /etc/rndc.conf
+key "rndc-key" {
+        algorithm hmac-md5;
+        secret "BX0nHmWdPZJgHaUN6P1bpGFV6XL6MjmFed3AvVStgI4=";
+};
+key "2ndkey" {
+        algorithm hmac-md5;
+        secret "eD5q0pwKAFzHn4DPCOBv+i9HG1b5pxYeSWSgNrG2C8M=";
+};
+options {
+        default-key "rndc-key";
+        default-server 127.0.0.1;
+        default-port 953;
+};
+server 192.168.0.114{
+        port 953;
+        key "2ndkey";
+};
+server ns1.kjy.co.ki{
+        port 953;
+        key "2ndkey";
+};
+```
+
+```
+[root@ns2 named]# rndc -s 192.168.0.114 -p 953 -y 2ndkey reload
+server reload successful
+[root@ns2 named]# vi /etc/rndc.conf
+[root@ns2 named]# rndc -s 192.168.0.114 -p 953 -y 2ndkey reload
+server reload successful
+[root@ns2 named]# rndc -s ns1 -p 953 -y 2ndkey reload
+server reload successful
+[root@ns2 named]# vi /etc/rndc.conf
+```
+
+1.	Rndc reload	: -s 127.0.0.1 -p 953 -y rndc-key 가 디폴트다  
+2.	Rndc -s 192.168.0.114 reload : -s 192.168.0.100 -p 953 -y rndc-key   
+{: .notice}
+
+---
+### 메일 서버의 개념
+---
+
+* 메일 서버의 개념
+* SMTP(Simple Mail Transfer Protocol, TCP 25)
+	* 메일 서버간에 메일 송/수신에 사용되는 프로토콜
+* POP3(Post Office Protocol 3, TCP 110)
+	* 메일서버에 저장된 메일을 다운로드하는 프로토콜 (메일이 삭제된다)
+* IMAP(Inter Message Access Protocol, TCP 143)
+	* 메일 서버에 저장된 메일을 접근하는 프로토콜 (메일 서버 부담)
+{: .notice}
+
+* 메일 송신 과정
+* MUA(Mail User Agent): 사용자를 대신해서 메일 발송/수신 받아주는 프로그램
+	* Microsoft Outlook (유료)
+	* Mozilla Thunderbird (무료)
+* 우리가 MUA 프로그램을 사용하여 메일을 발송한다고 가정하자. 우리가 사용할 서버가 정해져있다.
+* 메일 서버 내에서 생기는 일
+	* 발송버튼을 누르면 자신이 사용하는 SMTP를 사용하여 방화벽(tcp25) 확인. 메일 보내면 MTA 프로그램이 /etc/mail/access.db를 참조하여 메일을 받을지 말지 결정한다(메일 도메인 검사, 나에게 와도 되는 도메인인지, 유효한지 등등). 수신 거부할지 수신할지 결정. 수신이 결정되면 임시메일함(/var/spool/mqueue)에 임시로 저장합니다.
+	* 메일은 여러 개가 날라와도 하나씩 순서대로 처리해야한다. 그래서 임시메일함을 큐로 이용한다. MTA가 /etc/mail/local-host-names 라는 파일을 참조하여 메일을 받을지 다른 곳으로 보낼지 정합니다. (예로들어 여기는 apple인데 daum으로 메일을 보냈다! 우리가 받을 메일은 아니다! 우리의 메일 도메인이 등록되어 있다)
+	* “/var/spool/mail/사용자” 가 최종 도착지다. 
+	* /etc/mail/local-host-names에 미등록된 메일들을 apple로 향해 간다. 그리고 다시 발송과정을 거친다. 
+* 이때 /var/spool/mail/사용자 메일 함에 메일을 넣는 프로토콜이 있다: MDA 
+* MDA(Mail Delivery Agent): 수신된 메일을 메일 함에 저장해주는 프로그램
+	* procmail 이라는 프로그램이 유일하다
+* MTA(Mail Transfer Agent): 제일 중요하다. 메일 송수신 과정에서 제일 많은 역할을 한다. 
+	* sendmail
+	* qmail
+	* exchange server
+*MTA가 /etc/mail/local-host-names 검사, MDA가 spool에 등록
+{: .notice}
+
+* 메일 수신 과정
+* IMAP 메일을 잠깐 확인한다 POP3 메일을 저장한다
+* POP3 110번 IMAP 143번 MUA가 방화벽을 지나서 spool 로부터 받는다.
+* 이때 사용자가 spool로부터 메일을 받을 수 있도록 하는 프로토콜을 MRA라고 부른다.
+* MRA (Mail Retriever Agent): 메일함에 저장된 메일을 사용자에게 전송(복구)하는 프로그램
+	* dovecot
+	* uw-imap
+{: .notice}
+
+---
+### MX 레코드
+---
+
+* 처음 메일을 보낼 시, 보내는 메일서버의 A레코드를 DNS에게 질의하는 과정이 들어간다.
+* 그리고나서 IP를 얻고 서버에 접근하여 메일 발송 과정을 거치게 되는 것 
+* 미등록된 메일을 다른 메일 서버로 보낼 시 , 최종 도착지에 해당하는 메일주소의 MX 레코드 조회 
+* 받는쪽에서도 받기전에 A레코드 조회를 진행한다 하지만 MX 레코드 조회는 하지 않는다.
+* 결론은 MX 레코드를 생성해주어야 한다
+{: .notice}
+
+```console
+[root@ns1 etc]# hostname
+ns1.kjy.co.ki
+[root@ns1 etc]#
+[root@ns1 etc]# hostname mail.kjy.co.ki
+```
+
+잠깐 바꿔 줄 수는 있지만, /etc/sysconfig/network 에 호스트 이름이 들어가있어서 재부팅 하면 다시 돌아온다.
+{: .notice}
+```
+$ORIGIN kjy.co.ki 
+@	IN MX mail.kjy.co.ki.
+Mail.kjy.co.ki.	IN A 192.168.0.114 
+```
+
+* /var/name/zone파일에 위와 같이 추가 필요
+* sysconfig 아래 network 파일을 수정
+* 재부팅 후 hostname을 쳐서 결과가 잘 나오나 보자
+{: .notice}
+
+```
+[root@ns1 etc]# vi /etc/sysconfig/network
+[root@ns1 etc]# cat /etc/sysconfig/network
+NETWORKING=yes
+NETWORKING_IPV6=no
+HOSTNAME=mail.kjy.co.ki
+GATEWAY=192.168.0.1
+[root@ns1 etc]#
+```
+```
+#CentOS 8의 경우 
+[root@ns2 named]# vi /etc/hostname
+[root@ns2 named]# cat /etc/hostname
+mail.kjy.co.ki
+[root@ns2 named]#
+```
+
+* NS2 에서 MX 검사를 할 수 있도록 설정해보자
+ *MX 레코드에는 우선순위 개념이 있다는 것을 관찰해두자
+{: .notice}
+
+```console
+C:\Users\authe>nslookup -type=mx hanmail.net
+서버:    kns.kornet.net
+Address:  168.126.63.1
+
+권한 없는 응답:
+hanmail.net     MX preference = 10, mail exchanger = mx2.hanmail.net
+hanmail.net     MX preference = 10, mail exchanger = mx4.hanmail.net
+hanmail.net     MX preference = 10, mail exchanger = mx3.hanmail.net
+hanmail.net     MX preference = 10, mail exchanger = mx1.hanmail.net
+```
+```console
+C:\Users\authe>nslookup -type=mx google.com
+서버:    kns.kornet.net
+Address:  168.126.63.1
+
+권한 없는 응답:
+google.com      MX preference = 50, mail exchanger = alt4.aspmx.l.google.com
+google.com      MX preference = 20, mail exchanger = alt1.aspmx.l.google.com
+google.com      MX preference = 40, mail exchanger = alt3.aspmx.l.google.com
+google.com      MX preference = 30, mail exchanger = alt2.aspmx.l.google.com
+google.com      MX preference = 10, mail exchanger = aspmx.l.google.com
+```
+* zone 파일에 다음과 같이 MX record를 추가해보자
+* 숫자 10을 줘서 우선순위를 높여보자
+{: .notice}
+
+```console
+[root@mail ~]# vi /var/named/kjy.co.ki.zone
+$TTL    1D
+$ORIGIN kjy.co.ki.
+@       IN SOA          ns2     root (
+                        2020052200
+                        10M
+                        3M
+                        1W
+                        1D      )
+        IN NS           ns2
+        IN NS           ns1
+        IN MX   10      mail
+
+ns2     IN A    192.168.0.164
+ns1     IN A    192.168.0.114
+mail    IN A    192.168.0.114
+
+www     IN A    192.168.0.114
+ftp     IN A    12.12.12.12
+```
+
+서비스 restart 할 필요 없이 rndc reload 후 확인 해봅시다
+{: .notice}
+```console
+[root@mail ~]# rndc reload
+server reload successful
+[root@mail ~]#
+[root@mail ~]# dig kjy.co.ki mx +short
+10 mail.kjy.co.ki.
+[root@mail ~]# rndc flush
+```
+잘 안될경우 캐쉬 문제일 수 있으니 flush 명령어로 캐쉬를 지워보자
+{: .notice}
