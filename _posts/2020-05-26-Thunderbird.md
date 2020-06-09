@@ -5,7 +5,7 @@ categories:
   - LINUX
 tags:
   - DNS
-  - 웹메일
+  - MUA
   - LINUX
 toc: true 
 toc_label: "Table of Contents"
