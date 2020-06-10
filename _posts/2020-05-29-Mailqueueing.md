@@ -7,7 +7,7 @@ tags:
   - MailServer
   - MailQueue
   - LINUX
-toc: true 
+toc: false
 toc_label: "Table of Contents"
 toc_icon: "cog"
 toc_sticky: true 
