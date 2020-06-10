@@ -157,7 +157,7 @@ squirrelmail-1.4.8-21.el5.centos
 2. 3 > 1  입력해서 sendmail 을 사용할 것이라고 설정
 3. IMAP Server 설정을 위해  A > 4 > mail.kjy.co.ki 
 	* 썬더버드에서 pop으로  웹에서는 IMAP 을 사용해야한다
-	* uwi 로 IMAP을 설치 했었고 disable no 로 해놨었다. 
+	* uwi 로 IMAP을 설치 했었고 disable no 로 해놨었다.(썬더버드 게시물 참고)
 4. Return > R > 10 > 1 > ko_KR
 5. 2 > UTF-8  설정해준다
 {: .notice--info} 
