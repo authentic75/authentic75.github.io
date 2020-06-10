@@ -15,7 +15,9 @@ toc_sticky: true
 author_profile: true 
 read_time: false 
 ---
-
+---
+### 메일 전송 과정
+---
 
 * 다음과 같은 조건으로 메일을 송수신 한다고 가정하자
 * 발신자: Kjy@kjy.co.ki
