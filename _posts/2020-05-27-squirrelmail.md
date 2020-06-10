@@ -39,7 +39,7 @@ read_time: false
 * 네이버 사이트에서도 이 주소를 확인 할 수 있는데 설정에서 pop3/smtp를 살펴보면 smtp 서버 주소(smtp.naver.com)가 공개되어있다
 * 마찬가지로 pop 서버주소는 pop.naver.com이 이다
 * 우리는 최종적으로 mail(pop3) 에서 메일을 조회하고 다운받는다  
-{: .notice}
+{: .notice--info}
 
 * Outlook 같은 프로그램 사용할 경우  
 	* 우리가 메일을 직접 목적지에 보내는게 아니라 smtp 프로토콜을 통해서 메일을 전송한다
@@ -52,7 +52,7 @@ read_time: false
 	* 이때 pop3는 사용안하고 IMAP을 사용한다
 	* Pop3는 세션이 끊기는 순간 메일이 지워져서 내 메일을 볼 수가 없다 (웹메일은 받은메일함에 기본적으로 메일이 저장되어 있어야한다)
 	* 메일 확인도 최종적으로 HTTP를 통해서 본다  
-{: .notice}
+{: .notice--info}
 
 ---
 ### 웹서버 구성
