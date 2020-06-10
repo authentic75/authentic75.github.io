@@ -14,7 +14,9 @@ toc_sticky: true
 author_profile: true 
 read_time: false 
 ---
-
+---
+### Mail queueing
+---
 * 여러명이서 mail queueing을 구현해 볼 것이다
 * 한명이 NS 역할을 해야한다
 * 메일 서버 3대 mx1 mx2 mx3를 만들고 차등 순위를 부여할 것이다 10 20 30 
@@ -24,7 +26,7 @@ read_time: false
 * mx1에 에러가 생겼을 시, mx2 와 mx3 가 메일을 받고(임시보관) mx1이 복구가 되면 다시 보냄
 * 최종적으로는 mx1 에만 메일이 남는다
 * 계정도 mx1 에만 있으면 된다
-{: .notice}
+{: .notice--info}
 
 .com의 역할을 하는 사람이 만들어야할 zone 파일의 예다
 {: .notice}
