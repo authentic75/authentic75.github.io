@@ -1,5 +1,5 @@
 ---
-title: "squirrelmail"
+title: "LINUX: Squirrelmail"
 last_modified_at: 2020-05-27T20:20:02-05:00
 categories:
   - LINUX
