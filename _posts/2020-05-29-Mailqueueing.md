@@ -1,5 +1,5 @@
 ---
-title: "Mail queueing"
+title: "LINUX: Mail queueing"
 last_modified_at: 2020-05-29T20:20:02-05:00
 categories:
   - LINUX
