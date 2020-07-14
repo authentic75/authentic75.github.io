@@ -1,5 +1,5 @@
 ---
-title: "Thunderbird"
+title: "LINUX: Thunderbird"
 last_modified_at: 2020-05-26T20:20:02-05:00
 categories:
   - LINUX
