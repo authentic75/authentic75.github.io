@@ -287,6 +287,11 @@ R1과 R3의 통신이 가능해졌다
 * VLAN 번호: 프레임의 VLAN 번호 표시. 12비트로 4096개의 VLAN이 지원된다
 {: .notice}
 
+ISL은 시스코에서 개발한 트렁킹 프로토콜이다 802.1q와 달리 extended VLAN을 지원하지 못한다. 프레임 앞에 26바이트의 헤더를 추가하는 방식
+그리고 이더넷 FCS 뒤에 ISL FCS를 붙이는 것이 특징. 간단히 하고 넘어가겠다.
+{: .notice}
+
+
 ```
 SW1(config-if)# switchport trunk encapsulation dot1q
 ```
@@ -297,6 +302,55 @@ SW1(config-if)# switchport trunk encapsulation dot1q
 * 표시가 되지 않은 프레임을 수신한 SW는 해당 프레임을 네이티브 VLAN인 VLAN 10 으로만 전송한다
 * 802.1q 를 사용하지 않는 기본 네이티브 VLAN은 1번이며 보안상 변경하는 것이 좋다
 {: .notice}
+
+---
+### DTP 모드 
+---
+
+**DTP(Dynamic Trunking Protocol)**란 시스코 스위치에서 
+상대 스위치와 트렁크 관련 사항을 협상할 때 사용되는 프로토콜이다. DTP는 트렁크 포트 전환 여부와
+트렁크 포트로 동작시 사용할 프로토콜을 협상한다. 
+{: .notice}
+
+* **정적포트**
+* 액세스 모드: 항상 액세스 포트로 동작
+* 트렁크 모드: 항상 트렁크 포트로 동작
+* **동적 포트**
+* 다이내믹 다자이어러블: 상대가 액세스 포트인 경우에만 액세스 포트로 동작  
+* 다이내믹 오토: 상대가 액세스나 다이내믹 오토인 경우 액세스 포트로 동작, 나머지 경우는 트렁크 포트로 동작
+{: .notice}
+
+```
+SW1(config-if)# switchport mode access
+```
+
+액세스 포트 설정
+{: .notice}
+
+```
+SW1(config-if)# switchport trunk encapsulation dot1q
+SW1(config-if)# switchport mode trunk
+```
+
+트렁크 포트 설정 
+{: .notice}
+
+이더스위치 모듈에서는 access와 trunk 모드만 지원됩니다. 
+{: .notice--warning}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
