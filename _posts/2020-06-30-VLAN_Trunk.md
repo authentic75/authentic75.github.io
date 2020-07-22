@@ -29,7 +29,7 @@ VLAN(Virtual LAN)이란 논리적으로 분할된 스위치를 말한다.
 ### 토폴로지 기본 설정 
 ---
 
-<figure class="align-center">
+<figure class="half">
   <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/VLAN.JPG" alt="">
   <figcaption>VLAN을 위한 기본 토폴로지 설정</figcaption>
 </figure> 
@@ -128,7 +128,7 @@ VLAN Name                             Status    Ports
 	* 이더넷에서 사용할 수 있는 번호 1 ~ 1001
 * 기본적으로 스위치의 모든 포트는 VLAN 1에 소속되어있다
 * 1006 ~ 4094는 extended VLAN이라고 하다 
-{: .notice}
+{: .notice--warning}
 
 
 ```
@@ -175,7 +175,7 @@ VLAN Name                             Status    Ports
 1004 fddinet-default                  act/unsup
 1005 trnet-default                    act/unsup
 SW1#
-``
+```
 
 show vlan brief 명령어로 다음과 같이 설정된 vlan 정보를 확인할 수 있다.
 이때 주목해야할점은 e0/3은 e0/1, e0/2와 다른 vlan에 있어서 arp가 사용하는
@@ -196,7 +196,7 @@ VLAN 간의 통신이 필요할 때에 사용하는 방법으로 trunking을 이
 논리적으로 분할하여 각각 VLAN 10 과 VLAN 20에 할당한다. 이때 분할된 인터페이스를 서브 인터페이스라고 부른다.
 VLAN 10에 소속된 R1과 R2는 게이트웨이를 R4의 VLAN 10에 할당된 서브 인터페이스로 설정하고 VLAN 20에 소속된
 R3는 R4의 VLAN 20에 할당된 서브 인터페이스로 설정한다.
-{: .notice}
+{: .notice--warning}
 
 ```
 R4#conf t
@@ -247,3 +247,16 @@ Success rate is 80 percent (4/5), round-trip min/avg/max = 28/42/48 ms
 
 R1과 R3의 통신이 가능해졌다
 {: .notice}
+
+
+---
+### 트렁킹 이란?
+---
+
+**트렁크 또는 트렁크 포트란** 복수개의 VLAN에 소속된 포트를 말한다.
+그리고 트렁크가 사용하는 프로토콜을 트렁킹 프로토콜이라고 부른다.
+하나의 VLAN에 소속된 포트를 **액세스 포트**라 부른다.
+{: .notice}
+
+
+
