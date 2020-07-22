@@ -187,7 +187,7 @@ show vlan brief 명령어로 다음과 같이 설정된 vlan 정보를 확인할
 ### VLAN 간의 라우팅
 ---
 
-<figure class="align-center">
+<figure class="half">
   <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/VLAN2.JPG" alt="">
   <figcaption>R4를 추가하고 서브인터페이스를 만들고 VLAN을 할당했다</figcaption>
 </figure> 
