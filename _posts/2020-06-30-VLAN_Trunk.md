@@ -4,8 +4,7 @@ last_modified_at: 2020-06-30T20:20:02-05:00
 categories:
   - Network
 tags:
-  - Routing protocol
-  - EIGRP
+  - VLAN
 toc: true 
 toc_label: "Table of Contents"
 toc_icon: "cog"
