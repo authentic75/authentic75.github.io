@@ -324,7 +324,7 @@ SW1(config-if)# switchport trunk encapsulation dot1q
 SW1(config-if)# switchport mode access
 ```
 
-액세스 포트 설정
+액세스 포트 설정 (포트 양쪽이 같은 Native VLAN을 가져야한다) 
 {: .notice}
 
 ```
@@ -332,12 +332,63 @@ SW1(config-if)# switchport trunk encapsulation dot1q
 SW1(config-if)# switchport mode trunk
 ```
 
-트렁크 포트 설정 
+트렁크 포트 설정 (포트 양쪽이 같은 Native VLAN을 가져야한다)
 {: .notice}
 
 이더스위치 모듈에서는 access와 trunk 모드만 지원됩니다. 
 {: .notice--warning}
 
+
+---
+### VTP
+---
+
+**VTP(VLAN Trunking Protocol)**란 하나의 스위치에 설정된 VLAN 번호와 이름을 다른 스위치에게 알려줄때
+사용하는 프로토콜이다.
+{: .notice}
+
+* **VTP** 동작원리
+* 스위치에서 VLAN을 추가, 수정 또는 삭제 한다
+	* 이 경우, VLAN 설정 정보가 변경되고 새로운 VLAN 설정 정보를 다른 스위치에게 전송해야한다
+* 스위치는 VTP 설정 번호를 기존 값보다 1을 증가시켜 다른 스위치에게 변경된 VLAN 정보와 함께 전송
+* VTP 정보를 수신한 스위치는 자신의 VTP 설정 번호와 수신한 번호를 비교한다
+	* 수신한 정보의 VTP 설정 번호가 더 높으면 자신의 VLAN 정보를 새로운 정보로 대체한다
+	* 수신한 정보의 VTP 설정 번호와 자신의 번호가 동일 하면 수신한 정보를 무시한다
+	* 수신한 정보의 설정 번호가 자신의 번호보다 낮으면 자신의 VTP 정보를 전송한다 
+{: .notice--info}
+
+**VTP를 사용하기 위해서는 스위치들이 트렁크 포트를 통해 연결이 되어있어야하고 VTP 도메인 이름이 같아야 한다**
+{: .notice}
+
+
+```
+SW1(config)# vtp domain MyVTP
+SW1# show vtp status
+```
+
+* **VTP 모드**
+* 서버 모드: VLAN을 만들거나 지우기 또는 이름을 변경할 수 있고 VLAN 설정 정보를 다른 스위치에 전송한다.
+ 그리고 다른 스위치와 자신의 정보를 일치시키고 다른 스위치에 중계한다
+* 클라이언트 모드: VLAN을 만들거나 지울 수 없다. 하지만 설정 정보를 다른 스위치에 전송 시켜 일치시키고 중계한다. 
+* 트랜스패런트 모드: 자신의 VTP 정보를 다른 스위치에 전송하지 않고 일치시키지 않는다. 하지만 다른 스위치에게서 받은 정보를 중계하고
+자신이 사용할 VLAN을 만들거나 삭제할 수 있다.
+{: .notice}
+
+```
+SW1(config)# vtp mode client
+SW1(config)# vlan 200
+//클라이언트 모드에서는 vlan 생성 불가. 에러 발생
+SW1(config)# vtp mode transparent
+```
+
+**VTP 설정 초기화** 새로운 스위치를 추가할때는 VTP 설정 번호를 초기화 시키자. 만약 설정된 채로 스위치를 추가한다면
+새로운 스위치의 VTP 번호가 더 높을 경우 다른 스위치들의 설정 값을 지울 우려가 있다.
+{: .notice}
+
+```
+SW1# delete vlan.dat
+SW1# reload
+```
 
 
 
