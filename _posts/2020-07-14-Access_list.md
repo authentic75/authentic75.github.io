@@ -311,9 +311,6 @@ R2(config-std-nacl)#exit
 R2(config)#int s 0/1
 R2(config-if)#ip access-group acl_internet_in in
 ```
----
-### 확장 access-list
----
 
 확장 ACL을 이용한 트래픽 제어
 {: .notice}
@@ -330,189 +327,13 @@ R2(config-ext-nacl)#interface s 0/1
 R2(config-if)#ip access-group acl_s0/1_inbound in
 ```
 
-```
-R2(config)#ip access-list extended option-control// 옵션이 들어간 것을 거부하겠다
-R2(config-ext-nacl)#Deny ip any any option record-route
-R2(config-ext-nacl)#Permit ip any any
-R2(config-ext-nacl)#Exit 
-
-R2(config)#Int e0/1
-R2(config-if)#Ip access-group option-control in
-```
-
-* Ping 1.1.12.1 size 18024 로 보내면 ping이 잘 가지만  
-* Extended ping을 설정해서 보내면 unreachable이 뜬다  
-* TTL도 IP헤어에 들어가있는 헤더이다
-	* 얼마 이상의 TTL에 대해서 어떻게 제어할것인가
-	* ip access-list extended ttl ?
-	* lt, gt, 등등
-{: .notice}
-
-
-ACL로그 표시도 할 수 있다.
-Icmp 에 대해서만 로그표시를 하도록 만들어 보자
-R2#do show ip access-list option-control
-#ip access-list extended option-control
-#15 permit icmp any any echo
-#no 15 	// 중복되면 설정 안되서 15 잘 못설정한 것을 지우자
-#15 permit icmp any any echo log
-#do show ip access-list option-control
-
-R4#ping 1.1.12.1 repeat 10
-
-보내면
-R2에서는 이와 관련하여 메시지가 뜬다
-(실시간 모니터링을 위해 쓰는 옵션이다)
 
 
 
-#ip access-list extended outside-acl-in
-#permit ospf host 1.1.23.3 any  //라우팅 테이블 유지를 위해 R3로부터 오는 ospf 패킷 허용
-#permit icmp host 1.1.34.4 host 1.1.12.1 echo// ping으로 R4로부터 패킷 오는 것 허용
-#exit
-
-#int e0/1
-#ip access-group outside-acl-in in 
-
-예시
-R1# conf t
-#ip domain-name cisco.com
-#crypto key generate rsa modulus 1024
-#line vty 0 4
-#login local   //계정 정보 기반 인증
-#transport in ssh telnet // 내부망에서 ssh telnet으로 오는 것 허용
-#exit
-#username admin password cisco
-#enable password cisco
-
-R2# int fa 0/1
-#ip access-group option-control in
-#exit
-
-R4# ping 1.1.12.1
-#telnet 1.1.12.1
-#ssh -l admin 1.1.12.1  // 방화벽 설정 된 것이 없으니 다 잘 될 것이다
-
-R2# ip access-list extended outside-acl-in
-#permit ospf host 1.1.23.3 any   //R3의 라우팅 정보허용
-#permit icmp any 1.1.12.0 0.0.0.255 echo // 목적지가 1.1.12.0 네트워크면 허용
-#exit
-
-#int fa 0/1
-#ip access-group outside-acl-in in
-설정후에 
-
-R4# ping 1.1.12.1
-#telnet 1.1.12.1  허용 안됨
-#ssh -l admin 1.1.12.1 허용 안됨
-
-R1# ping 1.1.23.3  허용 안됨 
-#ping 1.1.34.4  허용 안됨  외부 네트워크라 
 
 
-R1          R2             R3             R4
-Fa0/0   fa0/0  fa0/1   fa0/0   fa0/1   fa0/0
-1.1.12.0           1.1.23.0         1.1.34.0
-현재 방화벽은 R2의 fa 0/1 에서 동작하고 있다.
-R1에서 R4로 핑을 보내면 왜 막힐까? 
-Outbound 설정안해서 일단 R1에서 나가는 것은 통과한다 
-그런데 R4에서 Request를 받았으니 reply가 돌아오는데
-R2에 암묵적인 모든 패킷을 차단한다는 정책에 따라서 reply가 막히고
-R4에게 unreachable 이 간다.
-
-그래서
-R2# ip access-list outside-acl-in
-#permit icmp any 1.1.12.0 0.0.0.255 echo-reply 를 입력해줘야한다
-
-문제를 내보겠다
-R4에서만 R1으로 telnet과 ssh 접속이 가능하도록 설정해봐라
-나머지는 거부 되도록 해야한다
-Permit [protocol] Src_IP  [src_port] Dst_IP [Dst_port]
-	Tcp	host x.x.x.x		eq Num
-	Udp	any			gt Num
-	Icmp	Net_ID Wildbit		lt Num
-
-#ip access-list ftp-in  //ftp 
-#permit tcp host 1.1.12.0 host 1.1.23.0 eq 21
-#permit tcp host 1.1.12.0 host 1.1.23.0 eq 20
 
 
-우선 R2 acl 설정을 다시 보여주겠다
-R2(config)#ip access-list extended outside-acl-in
-R2(config-ext-nacl)#permit ospf host 1.1.23.3 any
-R2(config-ext-nacl)#permit icmp any 1.1.12.0 0.0.0.255 echo
-R2(config-ext-nacl)#int fa 0/1
-R2(config-if)#ip access-group outside-acl-in in
-R2(config-if)#
-
-
-자 이제 문제로 다시 돌아와서 ~
-Protocol 번호는 6 (tcp)
-Src IP 는 1.1.34.4
-Dst IP는 1.1.12.1
-
-Src Po:1024~
-Dst po: 23
-
-우선 Telnet
-R2(config-ext-nacl)#permit tcp host 1.1.34.4 gt 1024 host 1.1.12.1 eq 23
-다음은 SSH
-R2(config-ext-nacl)#permit tcp host 1.1.34.5 gt 1024 host 1.1.12.1 eq 22
-이렇게 하면 접근 되어야 한다.  (난 안됨)
-R4#conf t
-Enter configuration commands, one per line.  End with CNTL/Z.
-R4(config)#line vty 0 4
-R4(config-line)#password cisco
-R4(config-line)#login
-R4(config-line)#transport in telnet
-R4(config-line)#end
-
-R1에서 R4로 Telnet만 접속가능하도록 추가해봐라
-R1 > R2 > R4
-Src: 1.1.12.1 
-Dst: 1.1.34.4
-Src_port: 1024 
-Dst : 23
-
-R2 < R4  막힌다
-Src 1.1.34.4
-Dst 1.1.12.1
-Src 23
-Dst 1024 
-Permit tcp host 1.1.34.4 eq 23 host 1.1.12.1 gt 1024
-
-R2#show ip access-list
-Extended IP access list outside-acl-in
-    10 permit ospf host 1.1.23.3 any (280 matches)
-    20 permit icmp any 1.1.12.0 0.0.0.255 echo
-    30 permit tcp host 1.1.34.4 gt 1024 host 1.1.12.1 eq telnet
-    40 permit tcp host 1.1.34.5 gt 1024 host 1.1.12.1 eq 22
-R2#conf t
-R2(config)#no ip access-list extended outside-acl-in
-
-문제!  내부망(1.1.12.0/24)에서 외부망 어디든지(any, 0.0.0.0/0)으로 
-Ping (ICMP-Echo Request)이 가능하도록 설정하시오. 
-# permit icmp any 1.1.12.0 0.0.0.255 echo-reply  이거 같은데
-어라 안되네  답은 이거 맞다 
-R4가 라우팅 정보를 못받아서 생긴 일이엇다
-문제!
-조각이난 icmp는 못받게 하고
-그러고 나서 나머지 echo request는 받아들인다
-
-R2(config-ext-nacl)#do show ip access-list
-Extended IP access list acl_outside_in
-    10 permit ospf host 1.1.23.3 host 224.0.0.5 (211 matches)
-    30 deny icmp any 1.1.12.0 0.0.0.255 fragments (195 matches)
-    40 permit icmp any 1.1.12.0 0.0.0.255 echo (20 matches)
-
-어라 나는 되는데 
-
-이상하게 35가 위에 올라가면 echo-reply 가 인식해서 그게 올라가버린다.
-선생님도 모른다 그런데 예상은 fragments 가 조립이 안되어서 무슨 패킷인지 몰라서 걸러버리는것일까 
-
-30 deny ip any 1.1.12.0 0.0.0.255 fragments
-35 permit icmp any 1.1.12.0 0.0.0.255 echo-reply  이거를 껴주자
-40 permit icmp any 1.1.12.0 0.0.0.255 echo (20 matches)
 
 
 
