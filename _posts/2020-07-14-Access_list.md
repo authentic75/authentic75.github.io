@@ -18,7 +18,7 @@ read_time: false
 ---
 
 <figure class="half">
-  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/Access_list.JPG" alt="">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/Access_list.jpg" alt="">
   <figcaption>VLAN을 위한 기본 토폴로지 설정</figcaption>
 </figure> 
 
