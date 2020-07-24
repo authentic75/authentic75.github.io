@@ -58,8 +58,9 @@ Interface lo0
 Ip address 1.1.3.3 255.255.255.0
 ```
 
-OSPF 설정
-{: .notice}
+---
+### OSPF 설정 
+---
 
 ```
 #R1
@@ -169,10 +170,23 @@ R2(config)#int s 0/1
 R2(config-if)#ip access-group 1 in
 ```
 
+* access-list 다음에 오는 1은 그룹 번호다
 * 여기서 0.0.0.0 은 와일드카드로 255.255.255.255 를 뜻한다.
 * 이는 한 개의 주소를 가리키는 것이므로 1.1.23.3 과 1.1.30.3 만 허용한다는 뜻이 된다
 * 인터페이스 설정으로 들어가서 ip access-group과 함께 그룹 번호 in 을 치면 적용된다
 {: .notice}
+
+허용한 주소만 Ping이 가능하다
+{: .notice}
+
+```
+R3#ping 1.1.10.1 source 1.1.30.3
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.10.1, timeout is 2 seconds:
+Packet sent with a source address of 1.1.30.3
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms
+```
 
 ```
 R3#ping 1.1.10.1 source 1.1.3.3
@@ -181,6 +195,119 @@ Sending 5, 100-byte ICMP Echos to 1.1.10.1, timeout is 2 seconds:
 Packet sent with a source address of 1.1.3.3
 UUUUU
 Success rate is 0 percent (0/5)
+```
+
+---
+### access-list 조회
+---
+
+```
+R2#show run | include access-list
+access-list 1 remark Test ACL
+access-list 1 permit 1.1.23.3
+access-list 1 permit 1.1.30.3
+```
+
+```
+R2#show access-list
+Standard IP access list 1
+    10 permit 1.1.23.3 (190 matches) // 몇 개의 패킷이 해당되는지 통계도 나온다
+    20 permit 1.1.30.3 (5 matches)
+R2#show ip access-list		// IP로 설정된 access-list만 확인한다
+Standard IP access list 1
+    10 permit 1.1.23.3 (191 matches)
+    20 permit 1.1.30.3 (5 matches)
+```
+
+잘못설정한 경우 모두 통과 시킨다. 좁은 범위부터 적용해야한다. 넓은 범위 부터 적용하면 공통된 부분에 대한 규칙은 무시함.
+{: .notice}
+```
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#access-list 2 permit 1.1.0.0 0.0.255.255
+R2(config)#access-list 2 permit 1.1.30.0 0.0.0.255
+R2(config)#int s 0/1
+R2(config-if)#ip access-group 2 in
+R2(config-if)#
+```
+
+---
+### access-list 지우기
+---
+
+
+* 그룹 전체를 지울 수도 있고 따로 지울 수도 있다.
+* no access-list 2 1.1.0.0 0.0.255.255
+{: .notice}
+
+```
+R2(config-if)#no access-list 2
+R2(config)#do show ip access-list
+Standard IP access list 1
+    10 permit 1.1.23.3 (348 matches)
+    20 permit 1.1.30.3 (5 matches)
+R2(config)#
+```
+
+```
+R2#conf t
+R2(config)#access-list 10 deny host 1.1.3.3
+R2(config)#access-list 10 deny host 1.1.12.2
+R2(config)#access-list 10 permit any
+R2(config)#int s 0/0
+R2(config-if)#ip access-group 10 out
+
+R2(config-if)#do ping 1.1.12.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.12.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/3/12 ms
+```
+
+---
+### 특정 서비스에 대한 access-list
+---
+
+```
+R2(config)#do show run | include access-list
+access-list 99 permit 1.1.10.1
+access-list 99 remark Telnet Control
+access-list 99 permit 1.1.12.0 0.0.0.255
+access-list 100 permit ospf host 1.1.23.3 any
+access-list 100 permit tcp host 1.1.23.3 host 1.1.12.1 eq telnet
+access-list 100 permit tcp host 1.1.23.3 host 1.1.12.1 eq www
+access-list 100 permit ip 1.1.30.0 0.0.0.255 1.1.10.0 0.0.0.255
+R2(config)#
+```
+
+---
+### 이름을 이용한 access-list
+---
+
+```
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#ip access-list standard acl_internet_in
+R2(config-std-nacl)#permit 1.1.23.3
+R2(config-std-nacl)#permit 1.1.30.0 0.0.0.255
+R2(config-std-nacl)#exit
+R2(config)#int s 0/1
+R2(config-if)#ip access-group acl_internet_in in
+```
+
+인바운드
+{: .notice}
+```
+R2(config)#ip access-list extended acl_s0/1_inbound
+R2(config-ext-nacl)#permit ospf host 1.1.23.3 any
+R2(config-ext-nacl)#permit tcp host 1.1.23.3 host 1.1.12.1 eq telnet
+R2(config-ext-nacl)#permit tcp host 1.1.23.3 host 1.1.12.1 eq 8
+R2(config-ext-nacl)#permit tcp host 1.1.23.3 host 1.1.12.1 eq 80
+R2(config-ext-nacl)#permit ip 1.1.30.0 0.0.0.255 1.1.10.0 0.0.0.255
+R2(config-ext-nacl)#Exit
+
+R2(config-ext-nacl)#interface s 0/1
+R2(config-if)#ip access-group acl_s0/1_inbound in
 ```
 
 
