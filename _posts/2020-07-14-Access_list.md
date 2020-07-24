@@ -123,7 +123,22 @@ Success rate is 100 percent (5/5), round-trip min/avg/max = 1/3/8 ms
 ### Access List
 ---
 
-access-list 명령어로 옵션들을 살펴보자
+* ACL은 특정한 패킷을 차단 또는 허용할때 사용한다.
+* IPv4 ACL, IPv6 ACL, MAC ACL 등이 있다.
+* 출발지 IP 주소만 참조하는 것을 **표준 ACL**, 출발지/목적지 IP, 프로토콜 번호 및 전송계층의 포트번호까지 참조하는 것을 **확장 ACL** 이라고 한다.
+* 번호 또는 이름을 사용하여 정의할 수 있다.
+* 라우터의 부담을 줄여준다. 보통 서버가 7계층 방화벽을 통해 일일이 확인하는데 ACL을 사용하면 3~4계층에서 필터링 할 수 있다.
+{: .notice}
+
+* **네트워크 보안 장비**
+* 방화벽: 사전에 정의된 규칙을 이용하여 트래픽 제어
+* VPN 게이트웨이: 공중망을 사설망 처럼 사용할 수 있도록 하는 장비, 패킷의 암호화, 인증, 변조 확인 등 기능 제공
+* 침입방지 시스템: 가변적인 공격 트래픽 차단, 탐지 가능 (IDS와 IPS 로 나누기도 한다)
+{: .notice}
+
+* **표준 IP ACL**
+* 출발지만 가지고 필터링, 제한적
+* 보통 목적지에 가까운 곳에 설정 (좋은 설정은 x , 방화벽으로는 잘 사용하지 않는다)
 {: .notice}
 
 ```
@@ -172,6 +187,8 @@ R2(config-if)#ip access-group 1 in
 
 * access-list 다음에 오는 1은 그룹 번호다
 * 여기서 0.0.0.0 은 와일드카드로 255.255.255.255 를 뜻한다.
+	* 서브넷 마스크는 반드시 연속된 1을 사용해야한다, 와일드 마스크는 연속될 필요가 없다
+	* 와일드 카드는 비연속적 주소도 묶을 수 있다 (0.0.252.255 하면 4의 배수만 뽑아낼수있다)
 * 이는 한 개의 주소를 가리키는 것이므로 1.1.23.3 과 1.1.30.3 만 허용한다는 뜻이 된다
 * 인터페이스 설정으로 들어가서 ip access-group과 함께 그룹 번호 in 을 치면 적용된다
 {: .notice}
@@ -295,11 +312,11 @@ R2(config)#int s 0/1
 R2(config-if)#ip access-group acl_internet_in in
 ```
 
-인바운드
+확장 ACL을 이용한 트래픽 제어
 {: .notice}
 ```
 R2(config)#ip access-list extended acl_s0/1_inbound
-R2(config-ext-nacl)#permit ospf host 1.1.23.3 any
+R2(config-ext-nacl)#permit ospf host 1.1.23.3 any //동적 라우팅 프로토콜 이용시 필수로 입력
 R2(config-ext-nacl)#permit tcp host 1.1.23.3 host 1.1.12.1 eq telnet
 R2(config-ext-nacl)#permit tcp host 1.1.23.3 host 1.1.12.1 eq 8
 R2(config-ext-nacl)#permit tcp host 1.1.23.3 host 1.1.12.1 eq 80
