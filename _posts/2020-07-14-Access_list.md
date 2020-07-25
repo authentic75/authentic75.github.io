@@ -328,13 +328,16 @@ R2(config-if)#ip access-group acl_s0/1_inbound in
 ```
 
 ---
-### 확장 Access List 
+### 새로운 토폴로지 설정 
 ---
 
 <figure class="half">
   <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/Access_list2.jpg" alt="">
   <figcaption>기본 토폴로지 설정</figcaption>
 </figure>
+
+R1~4까지 설정하고 OSPF로 라우팅 정보를 받도록 해보자
+{: .notice}
 
 ```
 R1#enable
@@ -421,23 +424,313 @@ O       1.1.23.0 [110/20] via 1.1.12.2, 00:03:24, FastEthernet0/0
 O       1.1.34.0 [110/30] via 1.1.12.2, 00:03:24, FastEthernet0/0
 ```
 
+---
+### 확장 Access List 
+---
+
+확장 Access List를 보기전 실험에 필요한 Ping에 대해서 보도록 하자.
+{: .notice}
+
+* Nomal Ping
+* #Ping 1.1.12.1 repeat 1
+{: .notice--info}
+
+* Extended Ping
+* CLI에 그냥 ping만 입력하면 옵션을 위한 입력을 받는데, 좀더 상세한 Ping 설정을 할 수 있다.
+{: .notice--info}
+
+```
+#ping
+>프로토콜 :
+>IP주소 : 1.1.12.1
+>Repeat Count: 1
+>Datagram 크기: 
+>timeout seconds: 
+>command: y 
+>Source address or interface
+>Type of service:
+>Set DF bit in IP header [no]:  MTU 관련 옵션
+>Validate reply data? [no]: 점검 할지 안할지
+>Data Pattern :
+>Loose, Strict, Record, Timestamp, Verbose: 
+				//여기서 record를 사용하면 default 9개 홉(경로)를 기억한다
+>Record route [9]: 기억할 경로(홉) 수
+```
+이러한 것들이 IP 헤더에 들어간다
+{: .notice--info}
+
+**Extended Ping**을 막기 위한 ACL들을 작성해보자
+{: .notice}
+```
+R2(config)#ip access-list extended option-control
+					//이름을 이용한 ACL
+R2(config-ext-nacl)#Deny ip any any option record-route
+					//Record-route 옵션이 들어간 것을 거부하겠다
+R2(config-ext-nacl)#Permit ip any any
+R2(config-ext-nacl)#Exit 
+R2(config)#Int e0/1
+R2(config-if)#Ip access-group option-control in
+```
+Ping 1.1.12.1 size 18024 로 보내면 ping이 잘 가지만 Extended ping을 설정해서 보내면 unreachable이 뜬다
+{: .notice}
+
+* **TTL**
+* #ip access-list extended ttl ? 을 이용하여 일정 이상 또는 이하의 TTL을 가지는 패킷을 막을 수 있다.
+* gt 와 lt 같은 옵션으로 범위가 지정 가능하다 
+{: .notice}
+
+* **ACL 로그**
+* ACL은 로그도 지원한다
+{: .notice}
+```
+#do show ip access-list option-control
+#ip access-list extended option-control
+#15 permit icmp any any echo log
+#do show ip access-list option-control
+
+R4#ping 1.1.12.1 repeat 10
+```
+
+---
+### 확장 Access List 예시
+---
+
+예시 1
+{: .notice--warning}
+```
+#ip access-list extended outside-acl-in
+#permit ospf host 1.1.23.3 any  //라우팅 테이블 유지를 위해 R3로부터 오는 ospf 패킷 허용
+#permit icmp host 1.1.34.4 host 1.1.12.1 echo// ping으로 R4로부터 패킷 오는 것 허용
+#exit
+
+#int e0/1
+#ip access-group outside-acl-in in
+```
+
+예시 2-1
+{: .notice--warning}
+
+```
+R1# conf t
+#ip domain-name cisco.com
+#crypto key generate rsa modulus 1024
+#line vty 0 4
+#login local   //계정 정보 기반 인증
+#transport in ssh telnet // 내부망에서 ssh telnet으로 오는 것 허용
+#exit
+#username admin password cisco
+#enable password cisco
+```
+
+```
+R2(config)#ip access-list extended option-control
+R2(config-ext-nacl)#Deny ip any any option record-route
+R2(config-ext-nacl)#Permit ip any any
+R2(config-ext-nacl)#Exit 
+R2# int fa 0/1
+R2(config-if)#Ip access-group option-control in
+#ip access-group option-control in
+#exit
+```
+Record-route 옵션을 가진 패킷을 제어한다 
+{: .notice}
+
+```
+R4# ping 1.1.12.1
+#telnet 1.1.12.1
+#ssh -l admin 1.1.12.1
+```
+일반 ping, telnet, ssh 에 대해서는 ACL이 설정된것이 없으므로 잘 실행된다
+{: .notice}
+
+```
+R2# ip access-list extended outside-acl-in
+#permit ospf host 1.1.23.3 any   //R3의 라우팅 정보허용
+#permit icmp any 1.1.12.0 0.0.0.255 echo // 목적지가 1.1.12.0 네트워크면 허용
+#exit
+
+#int fa 0/1
+#ip access-group outside-acl-in in
+```
+그렇다면 R3로 부터 나오는 ospf를 허용하고 1.1.12.0 으로 오는 ping에 대해서만 허용한다면
+{: .notice}
+
+```
+R4# ping 1.1.12.1
+#telnet 1.1.12.1  		//허용 안됨
+#ssh -l admin 1.1.12.1 	//허용 안됨
+
+R1# ping 1.1.23.3  		//허용 안됨 
+#ping 1.1.34.4  		//허용 안됨
+```
+
+허용했던 부분만 적용되고 나머지는 허용이 안된다
+{: .notice}
+
+예시 2-2
+{: .notice--warning}
+
+```
+R1          R2             R3             R4
+Fa0/0   fa0/0  fa0/1   fa0/0   fa0/1   fa0/0
+1.1.12.0           1.1.23.0         1.1.34.0
+```
+
+현재 방화벽은 R2의 fa 0/1 에서 동작하고 있다.  
+그렇다면 fa 0/1 로 들어오는 패킷에 대해서만 방화벽이 적용되어야 하는데,  
+R1에서 R4로 핑을 보내면 왜 막힐까?   
+{: .notice}
+
+사실은, Outbound 설정안해서 일단 R1에서 나가는 것은 통과한다.  
+그런데 R4에서 ICMP Request를 받았으니 ICMP Reply가 돌아오는데  
+R2의 fa 0/1 에서 적용한 ACL 외 암묵적으로 모든 패킷을 차단한다는 정책에 따라서 reply가 막히고  
+R4에게 unreachable 이 간다.
+{: .notice--danger}
+
+그래서,  
+R2# ip access-list outside-acl-in   
+#permit icmp any 1.1.12.0 0.0.0.255 echo-reply 를 따로 입력해줘야한다  
+{: .notice--danger}
 
 
+문제 1  
+문제를 내보겠다. R4에서만 R1으로 telnet과 ssh 접속이 가능하도록 설정해봐라 나머지는 거부 되도록 해야한다.
+{: .notice--warning}
+
+```
+//예시 참고
+Permit [protocol] Src_IP  [src_port] Dst_IP [Dst_port]
+		Tcp			host x.x.x.x			eq Num
+		Udp			any						gt Num
+		Icmp		Net_ID Wildbit			lt Num
+
+#ip access-list ftp-in  //ftp 
+#permit tcp host 1.1.12.0 host 1.1.23.0 eq 21
+#permit tcp host 1.1.12.0 host 1.1.23.0 eq 20
+```
+
+R2 에 설정한 acess-list을 일단 지우고 시작하자 
+{: .notice}
+
+```
+R2#show ip access-list
+Extended IP access list outside-acl-in
+    10 permit ospf host 1.1.23.3 any (280 matches)
+    20 permit icmp any 1.1.12.0 0.0.0.255 echo
+    30 permit tcp host 1.1.34.4 gt 1024 host 1.1.12.1 eq telnet
+    40 permit tcp host 1.1.34.5 gt 1024 host 1.1.12.1 eq 22
+R2#conf t
+R2(config)#no ip access-list extended outside-acl-in
+```
+
+자 이제 문제로 다시 돌아와서 ~  
+Protocol 번호는 6 (tcp)  
+Src IP 는 1.1.34.4  
+Dst IP는 1.1.12.1  
+  
+Src Po:1024~  
+Dst po: 23  
+{: .notice}
+
+우선 Telnet  
+{: .notice--danger}
+```
+R2(config-ext-nacl)#permit tcp host 1.1.34.4 gt 1024 host 1.1.12.1 eq 23
+```
+
+다음은 SSH
+{: .notice--danger}
+```  
+R2(config-ext-nacl)#permit tcp host 1.1.34.5 gt 1024 host 1.1.12.1 eq 22
+```
+
+문제 2 
+{: .notice--warning}
+
+R4에 다음과 같은 설정을 해주고 시작하자
+{: .notice}
+
+```
+R4#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R4(config)#line vty 0 4
+R4(config-line)#password cisco
+R4(config-line)#login
+R4(config-line)#transport in telnet
+R4(config-line)#end
+```
+
+R1에서 R4로 Telnet만 접속가능하도록 추가해봐라  
+R1 > R2 > R4  
+Src: 1.1.12.1   
+Dst: 1.1.34.4  
+Src_port: 1024 (gt)  
+Dst : 23  
+{: .notice--warning}
+```
+Permit tcp host 1.1.12.1 gt 1024 host 1.1.34.4 eq 23
+```
+
+R2 < R4에서 막힌다  
+Src 1.1.34.4  
+Dst 1.1.12.1  
+Src 23  
+Dst 1024   
+{: .notice--warning}
+```
+Permit tcp host 1.1.34.4 eq 23 host 1.1.12.1 gt 1024 해줘야한다
+```
+
+** ACL 설정에서 생각해야하는건 나가는 Packet이 아니라 들어오는 패킷이다**    
+** 예로, Telnet을 허용하려면 접속을 시도하는 곳에서 접속을 기다리는 곳으로 들어오는 패킷을 허용하면 된다**  
+{: .notice}
 
 
+문제 3  
+내부망(1.1.12.0/24)에서 외부망 어디든지(any, 0.0.0.0/0)으로   
+Ping (ICMP-Echo Request)이 가능하도록 설정하시오. 
+{: .notice--warning}
+
+```
+# permit icmp any 1.1.12.0 0.0.0.255 echo-reply
+```
+
+문제 4  
+조각이난 icmp는 못받게 하고 그러고 나서 나머지 echo request는 받아들인다  
+{: .notice--warning}
+
+```
+R2(config-ext-nacl)#do show ip access-list
+Extended IP access list acl_outside_in
+    10 permit ospf host 1.1.23.3 host 224.0.0.5 (211 matches)
+	35 permit icmp any 1.1.12.0 0.0.0.255 echo-reply
+    30 deny ip any 1.1.12.0 0.0.0.255 fragments (195 matches)
+    40 permit icmp any 1.1.12.0 0.0.0.255 echo (20 matches)
+```
+위와 같이 설정했더니 조각난 fragments는 인식을 하지 못했다. 왜냐하면 fragment된 ping을 살펴보면
+마지막 fragment에  정보가 포함된 헤더가 전송되는데 앞서 도착한 fragments들이 일반 echo-reply로 인식되어
+Block 되었기 때문이다.
+{: .notice--danger}
 
 
+```
+R2(config-ext-nacl)#do show ip access-list
+Extended IP access list acl_outside_in
+    10 permit ospf host 1.1.23.3 any (302 matches)
+    15 deny ip any 1.1.12.0 0.0.0.255 fragments (6 matches)
+    20 permit icmp any 1.1.12.0 0.0.0.255 echo-reply (2 matches)
+    40 permit icmp any 1.1.12.0 0.0.0.255 echo (3 matches)
+```
+따라서 위와 같이 순서를 바꿔줘서 fragments들이 도착한후 fragment 인지 확인하는 rule 부터 거치도록 해야한다.
+잘 필터링 되었다면 Time exeeded 에러가 뜰 것이다. 
+{: .notice--danger}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+문제 5  
+일단 다음과 같은 이름의 access-list를 만들고나서  
+R2(config-if)#ip access-list extended acl_outside_in2  
+1.	R3(1.1.23.3)    ospf  any(0.0.0.0/0) 허용  
+2.	Any(0.0.0.0/0)  icmp,type 0  1.1.12.0 허용  
+(내부망에서 ping을 요청한 후 다시 들어올 수 있도록 설정  
+3.	any(0.0.0.0)  http  1.1.12.3 허용  
+{: .notice--warning}
