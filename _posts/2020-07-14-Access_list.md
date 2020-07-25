@@ -19,7 +19,7 @@ read_time: false
 
 <figure class="half">
   <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/Access_list.jpg" alt="">
-  <figcaption>VLAN을 위한 기본 토폴로지 설정</figcaption>
+  <figcaption>기본 토폴로지 설정</figcaption>
 </figure> 
 
 라우터 설정
@@ -327,9 +327,99 @@ R2(config-ext-nacl)#interface s 0/1
 R2(config-if)#ip access-group acl_s0/1_inbound in
 ```
 
+---
+### 확장 Access List 
+---
 
+<figure class="half">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/Access_list2.jpg" alt="">
+  <figcaption>기본 토폴로지 설정</figcaption>
+</figure>
 
+```
+R1#enable
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#interface fa 0/0
+R1(config-if)#ip address 1.1.12.1 255.255.255.0
+R1(config-if)#no shut
+R1(config-if)#exit
+```
+```
+R2#enable
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#interface fa 0/0
+R2(config-if)#ip address 1.1.12.2 255.255.255.0
+R2(config-if)#no shut
+R2(config-if)#exit
+R2(config)#interface fa 0/1
+R2(config-if)#ip address 1.1.23.2 255.255.255.0
+R2(config-if)#no shut
+R2(config-if)#exit
+```
+```
+R3#enable
+R3#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R3(config)#interface fa 0/0
+R3(config-if)#ip address 1.1.23.3 255.255.255.0
+R3(config-if)#no shut
+R3(config-if)#exit
+R3(config)#interface fa 0/1
+R3(config-if)#ip address 1.1.34.3 255.255.255.0
+R3(config-if)#no shut
+R3(config-if)#exit
+```
+```
+R4#enable
+R4#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R4(config)#interface fa 0/0
+R4(config-if)#ip address 1.1.34.4 255.255.255.0
+R4(config-if)#no shut
+R4(config-if)#exit
+```
 
+``` 
+R1(config)#router ospf 1
+R1(config-router)#network 1.1.2.1 0.0.0.0 area 0
+R1(config-router)#
+```
+```
+R2(config-if)#router ospf 1
+R2(config-router)#network 1.1.12.2 0.0.0.0 area 0
+R2(config-router)#network 1.1.23.2 0.0.0.0 area 0
+R2(config-router)#
+```
+```
+R3(config)#router ospf 1
+R3(config-router)#network 1.1.23.3 0.0.0.0 area 0
+R3(config-router)#network 1.1.34.3 0.0.0.0 area 0
+R3(config-router)#
+```
+```
+R4(config)#router ospf 1
+R4(config-router)#network 1.1.34.4 0.0.0.0 area 0
+```
+```
+Routing Table
+R1#show ip route
+Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     1.0.0.0/24 is subnetted, 3 subnets
+C       1.1.12.0 is directly connected, FastEthernet0/0
+O       1.1.23.0 [110/20] via 1.1.12.2, 00:03:24, FastEthernet0/0
+O       1.1.34.0 [110/30] via 1.1.12.2, 00:03:24, FastEthernet0/0
+```
 
 
 
