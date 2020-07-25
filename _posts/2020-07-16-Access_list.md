@@ -1,10 +1,10 @@
 ---
-title: "Network: Access list"
+title: "Security: Access list"
 last_modified_at: 2020-07-16T20:20:02-05:00
 categories:
-  - Network
+  - Security
 tags:
-  - DHCP
+  - Access list
 toc: true 
 toc_label: "Table of Contents"
 toc_icon: "cog"
