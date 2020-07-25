@@ -1,6 +1,6 @@
 ---
 title: "Network: Access list"
-last_modified_at: 2020-07-14T20:20:02-05:00
+last_modified_at: 2020-07-16T20:20:02-05:00
 categories:
   - Network
 tags:
@@ -635,13 +635,13 @@ Dst po: 23
 우선 Telnet  
 {: .notice--danger}
 ```
-R2(config-ext-nacl)#permit tcp host 1.1.34.4 gt 1024 host 1.1.12.1 eq 23
+R2(config-ext-nacl)#permit tcp host 1.1.34.4 host 1.1.12.1 eq 23
 ```
 
 다음은 SSH
 {: .notice--danger}
 ```  
-R2(config-ext-nacl)#permit tcp host 1.1.34.5 gt 1024 host 1.1.12.1 eq 22
+R2(config-ext-nacl)#permit tcp host 1.1.34.5 host 1.1.12.1 eq 22
 ```
 
 문제 2 
@@ -726,11 +726,57 @@ Extended IP access list acl_outside_in
 {: .notice--danger}
 
 
-문제 5  
-일단 다음과 같은 이름의 access-list를 만들고나서  
-R2(config-if)#ip access-list extended acl_outside_in2  
+문제 5-1  
+일단 다음과 같은 이름의 access-list를 만들고나서   
+R2(config-if)#ip access-list extended acl_outside_in2   
 1.	R3(1.1.23.3)    ospf  any(0.0.0.0/0) 허용  
-2.	Any(0.0.0.0/0)  icmp,type 0  1.1.12.0 허용  
-(내부망에서 ping을 요청한 후 다시 들어올 수 있도록 설정  
-3.	any(0.0.0.0)  http  1.1.12.3 허용  
+2.	Any(0.0.0.0/0)  icmp,type 0  1.1.12.0 허용   
+(내부망에서 ping을 요청한 후 다시 들어올 수 있도록 설정    
+3.	any(0.0.0.0)  http  1.1.12.3 허용   
 {: .notice--warning}
+
+```
+permit ospf host 1.1.23.3 any
+permit icmp any 1.1.12.0 0.0.0.255 echo-reply
+permit tcp any host 1.1.12.3 eq 80
+```
+
+문제 5-2  
+4.	R4(1.1.34.4)  ssh  1.1.12.3 허용   
+5.	R4(1.1.34.4) telnet 1.1.12.3 허용   
+{: .notice--warning}
+```
+permit host 1.1.34.4 host 1.1.12.3 eq 22
+permit host 1.1.34.4 host 1.1.12.3 eq 23
+```
+
+문제6  
+Any ftp 1.1.12.3 허용   
+Control과 data 둘다 허용할 것    
+(active, passive)   
+{: .notice--warning}
+
+```
+R2(config-ext-nacl)#permit tcp any host 1.1.12.3 eq 21
+R2(config-ext-nacl)#permit tcp any host 1.1.12.3 eq 20
+R2(config-ext-nacl)#permit tcp any host 1.1.12.3 range 50000 51000
+```
+
+* ACTIVE
+	* 클라이언트가 gt 1024 로부터 서버의 21포트로 연결 요청을 한다 (서버로 들어오는 패킷)
+	* 서버의 21에서 클라이언트의 포트로 응답을 보낸다 
+	* 서버의 20번 포트에서 클라이언트의 gt 1024포트로 데이터를 전송  
+	* 클라이언트는 데이터에 대한 응답을 서버의 20번 포트에 보낸다 (서버로 들어오는 패킷)
+* PASSIVE
+	* 클라이언트에서 서버의 21번 포트로 연결요청 (들어오는 패킷)
+	* 서버의 21번 포트에서 클라이언트로 응답 
+	* 클라이언트의 gt 1024포트에서 서버의 gt 1024포트로 데이터 전송 (들어오는 패킷)
+	* 서버에서 클라이언트로 응답 
+* ACTIVE와 PASSIVE MODE에서 들어오는 포트를 보면 20, 21, gt 1024가 쓰이니 이 세 포트를 permit 해준다
+{: .notice--info}
+
+
+
+
+
+
