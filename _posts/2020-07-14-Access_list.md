@@ -592,6 +592,9 @@ R2# ip access-list outside-acl-in
 #permit icmp any 1.1.12.0 0.0.0.255 echo-reply 를 따로 입력해줘야한다  
 {: .notice--danger}
 
+---
+### Access List 문제
+---
 
 문제 1  
 문제를 내보겠다. R4에서만 R1으로 telnet과 ssh 접속이 가능하도록 설정해봐라 나머지는 거부 되도록 해야한다.
