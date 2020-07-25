@@ -626,12 +626,11 @@ R2#conf t
 R2(config)#no ip access-list extended outside-acl-in
 ```
 
-자 이제 문제로 다시 돌아와서 ~  
+자 이제 문제로 다시 돌아와서    
 Protocol 번호는 6 (tcp)  
 Src IP 는 1.1.34.4  
 Dst IP는 1.1.12.1  
-  
-Src Po:1024~  
+Src Po:1024  
 Dst po: 23  
 {: .notice}
 
@@ -684,8 +683,8 @@ Dst 1024
 Permit tcp host 1.1.34.4 eq 23 host 1.1.12.1 gt 1024 해줘야한다
 ```
 
-** ACL 설정에서 생각해야하는건 나가는 Packet이 아니라 들어오는 패킷이다**    
-** 예로, Telnet을 허용하려면 접속을 시도하는 곳에서 접속을 기다리는 곳으로 들어오는 패킷을 허용하면 된다**  
+**ACL 설정에서 생각해야하는건 나가는 Packet이 아니라 들어오는 패킷이다**    
+**예로, Telnet을 허용하려면 접속을 시도하는 곳에서 접속을 기다리는 곳으로 들어오는 패킷을 허용하면 된다**  
 {: .notice}
 
 
