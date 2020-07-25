@@ -733,10 +733,13 @@ Extended IP access list acl_outside_in
 일단 다음과 같은 이름의 access-list를 만들고나서   
 R2(config-if)#ip access-list extended acl_outside_in2  
 {: .notice--warning} 
+
 1.	R3(1.1.23.3)    ospf  any(0.0.0.0/0) 허용  
 2.	Any(0.0.0.0/0)  icmp,type 0  1.1.12.0 허용   
 (내부망에서 ping을 요청한 후 다시 들어올 수 있도록 설정    
 3.	any(0.0.0.0)  http  1.1.12.3 허용   
+4.	R4(1.1.34.4)  ssh  1.1.12.3 허용   
+5.	R4(1.1.34.4) telnet 1.1.12.3 허용   
 {: .notice--warning}
 
 ```
@@ -744,11 +747,6 @@ permit ospf host 1.1.23.3 any
 permit icmp any 1.1.12.0 0.0.0.255 echo-reply
 permit tcp any host 1.1.12.3 eq 80
 ```
-
-문제 5-2  
-4.	R4(1.1.34.4)  ssh  1.1.12.3 허용   
-5.	R4(1.1.34.4) telnet 1.1.12.3 허용   
-{: .notice--warning}
 ```
 permit host 1.1.34.4 host 1.1.12.3 eq 22
 permit host 1.1.34.4 host 1.1.12.3 eq 23
