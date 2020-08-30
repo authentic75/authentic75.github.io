@@ -119,6 +119,12 @@ Firewall mode: Transparent
  각각의 VLAN을 통해 브로드캐스트 도메인이 생성된다. 그리고 두 도메인은 서로 통신을 못한다.
 {: .notice}
 
+* NAT Mode: 방화벽이 NAT 서버 역할도 한다.
+* Route Mode
+* Transparent Mode: 방화벽이 자기 할일만 한다. 방화벽의 존재를 숨길 수 있다. 네트워크에 변화x
+IP가 없으니까 공격대상이 되기 어렵다. 하지만 IP가 없으니 Setting이 불편하다.
+{: .notice}
+
 ---
 ### 단일 컨텍스트와 다중 컨텍스트
 ---
@@ -182,10 +188,6 @@ Nameif로 인터페이스 이름(별명)을 지정해주는 동시에 보안 레
 nameif를 사용하여 gi 0/0와 gi 0/1 인터페이스를 설정해보자. 내부망은 inside로 외부망은 outside로 설정해준다.
 {: .notice}
 
-<figure class="align-center">
-  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/asa_basic.jpg" alt="">
-  <figcaption> </figcaption>
-</figure>
 
 ---
 ### 추가 설정 및 ping 테스트
@@ -319,9 +321,21 @@ R2(config)# ip route 10.0.0.0 255.0.0.0 1.1.20.10
 	* 외부에서 오는 패킷은 포트 번호 등 정보 확인 후 내부에서 시작된 패킷이면 자동으로 허용해준다.
 	* ICMP는 Stateful 하지 않다. ping을 이용하려면 따로 추가 설정을 해줘야한다.
 * 보안 레벨이 동일한 인터페이스 간에도 기본적으로 트래픽을 차단한다. 허용하려면 same-security-trffic 명령어를 이용한다.
+{: .notice--info}
+
+덧붙여서 방화벽은 크게 3가지로 나눈다.
 {: .notice}
 
-
+* 1세대 방화벽(패킷 필터링 방식)
+	* IP/Port 기준 3/4 계층 접근통제(ACL)
+* 2세대 방화벽(Stateful Inspection)
+	* IP/Port와 TCP/UDP 세션 기준
+	* 1~2세대 방화벽은 5,6,7 계층을 보지 않는다. 따라서 우회 공격 가능.
+* 3세대 방화벽(Deep Inspection)
+	* 5~7 계층도 본다.
+	* IDS 공격 탐지&경고, Rule 적용
+	* IPS 공격 탐지&차단
+{: .notice}
 
 
 
