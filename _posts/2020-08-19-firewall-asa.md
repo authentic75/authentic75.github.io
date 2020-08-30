@@ -123,7 +123,7 @@ Firewall mode: Transparent
 * Route Mode
 * Transparent Mode: 방화벽이 자기 할일만 한다. 방화벽의 존재를 숨길 수 있다. 네트워크에 변화x
 IP가 없으니까 공격대상이 되기 어렵다. 하지만 IP가 없으니 Setting이 불편하다.
-{: .notice}
+{: .notice--info}
 
 ---
 ### 단일 컨텍스트와 다중 컨텍스트
@@ -335,37 +335,159 @@ R2(config)# ip route 10.0.0.0 255.0.0.0 1.1.20.10
 	* 5~7 계층도 본다.
 	* IDS 공격 탐지&경고, Rule 적용
 	* IPS 공격 탐지&차단
+{: .notice--warning}
+
+---
+### http 테스트
+---
+
+http 접속 테스트를 위해서 ip domain-name을 할당하고 telent과 ssh 설정을 해둔뒤, ip http server를 활성화 해준다
 {: .notice}
 
+```
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#crypto key generate rsa modulus 1024
+% Please define a domain-name first.
+R2(config)#ip domain-name cisco.com
+R2(config)#crypto key generate rsa modulus 1024
+The name for the keys will be: R2.cisco.com
+
+% The key modulus size is 1024 bits
+% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
+```
+```
+R2(config)#
+*Mar  1 01:26:18.051: %SSH-5-ENABLED: SSH 1.99 has been enabled
+R2(config)#username admin password cisco
+R2(config)#line vty 0 4
+R2(config-line)#login local
+R2(config-line)#transport in ssh telnet
+R2(config-line)#end
+```
+```
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#ip http server
+```
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/asa_basic1.jpg" alt="">
+  <figcaption> </figcaption>
+</figure>
+
+윈도우에서 1.1.20.2로 접속하면 위와 같은 경고창이 뜬다. 설정을 조금 바꿔주자.
+{: .notice}
+
+```
+R2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R2(config)#no username admin password cisco
+R2(config)#username admin privilege 15  password cisco
+R2(config)#ip http authe local
+```
+
+* privilege 15가 최고 레벨을 뜻한다. 접속시 프롬프트에 #이 나타나는 것들.
+* User-EXEC Mode(1~9)은 접속시 > 가 나타난다.
+{: .notice}
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/asa_basic2.jpg" alt="">
+  <figcaption> </figcaption>
+</figure>
+
+접속 성공시 위와 같은 화면이 나타난다. cmd에서 1.1.20.2로 telnet을 테스트 하거나, putty를 이용하여
+간단하게 ssh를 테스트 해 볼 수도 있다.
+{: .notice}
+
+---
+### 방화벽 로그 확인
+---
+
+방화벽의 로깅 기능을 활성화 해보자.
+{: .notice}
+
+```
+FW1# conf t
+FW1(config)# logging enable
+FW1(config)# logging console 7
+FW1(config)# %ASA-5-111008: User 'enable_15' executed the 'logging console 7' command.
+%ASA-5-111010: User 'enable_15', running 'CLI' from IP 0.0.0.0, executed 'logging console 7'
+```
+
+그리고 R2에서 10.1.10.1 로 telnet 연결을 시도해보자
+{: .notice}
+
+```
+R2#telnet 10.1.10.1
+Trying 10.1.10.1 ...
+% Connection timed out; remote host not responding
+```
+
+그러면 아래와 같은 로그 메세지가 나타난다.
+{: .notice}
+
+```
+%ASA-2-106001: Inbound TCP connection denied from 1.1.20.2/64338 to 10.1.10.1/23 flags SYN  on interface outside
+%ASA-2-106001: Inbound TCP connection denied from 1.1.20.2/64338 to 10.1.10.1/23 flags SYN  on interface outside
+```
+
+R1에서 1.1.20.2 로 연결을 시도해보자
+{: .notice}
+
+```
+R1#telnet 1.1.20.2
+Trying 1.1.20.2 ... Open
 
 
+User Access Verification
+
+Username:
+```
+
+```
+%ASA-7-609001: Built local-host outside:1.1.20.2
+%ASA-6-302013: Built outbound TCP connection 26 for outside:1.1.20.2/23 (1.1.20.2/23) to inside:10.1.10.1/35383 (10.1.10.1/35383)
+
+%ASA-6-302014: Teardown TCP connection 26 for outside:1.1.20.2/23 to inside:10.1.10.1/35383 duration 0:00:42 bytes 194 TCP FINs
+%ASA-7-609002: Teardown local-host outside:1.1.20.2 duration 0:00:42
+```
 
 
+---
+### ICMP의 허용과 방화벽
+---
 
+이전에 언급했듯이 방화벽에서 TCP/UDP의 상태를 이용하여
+ 같은 곳에서 시작된 패킷이면 허용해주는 기능이 있다.(Inspection)
+그런데 ICMP의 경우 ICMP request를 보내고 난 후 ICMP reply를 받았을 때,
+ICMP reply가 반대 방향에서 시작되었다고 착각을 한다. 그래서 Inspection에서 제외가 된다.
+{: .notice}
 
+ICMP를 허용하는 작업을 해보자.
+{: .notice}
 
+```
+FW1(config)# policy-map global_policy
+FW1(config-pmap)# class ?
 
+mpf-policy-map mode commands/options:
+  WORD            class-map name
+  class-default   System default class matching otherwise unclassified packets
 
+configure mode commands/options:
+  WORD < 129 char  class-map name
+  type             Specifies the type of class-map
+FW1(config-pmap)# class inspection_default
+FW1(config-pmap-c)# inspect icmp
+FW1(config-pmap-c)# exit
+FW1(config-pmap)# exit
+FW1(config)#
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+policy-map global_policy에서 class inspection_default에 
+icmp에 대한 inspection을 추가해주면 된다.
+{: .notice}
 
 
 
