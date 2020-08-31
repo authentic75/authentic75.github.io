@@ -142,6 +142,7 @@ R1#telnet 1.1.20.2
 Trying 1.1.20.2 ...
 % Connection refused by remote host
 ```
+
 R1 에서 R2로 telnet 접속이 되다가 GLOBAL-ACL를 적용해주고 난 뒤에는 안되는 것을 볼 수 있다.
 {: .notice--warning}
 
@@ -158,6 +159,7 @@ access-list GLOBAL-ACL; 1 elements; name hash: 0xf07a8f76
 access-list GLOBAL-ACL line 1 extended deny tcp any any eq telnet (hitcnt=1) 0xbd7e27ee
 FW1(config)#
 ```
+
 access-list를 보면 GLOBAL-ACL이 잘 적용된 것을 볼 수 있다. hit count 수를 초기화하고 실험을 해보자
 {: .notice--warning}
 
@@ -178,8 +180,8 @@ access-list GLOBAL-ACL line 1 extended deny tcp any any eq telnet (hitcnt=0) 0xb
 
 그리고 나서 R1 에서 R2(1.1.20.2)로 Telnet 접속 시도 후 어느 정책의 hit count가 증가하는지 지켜 볼 것이다.
 {: .notice--warning}
-
-```console`FW1(config)# show access-list
+```console
+FW1(config)# show access-list
 access-list cached ACL log flows: total 0, denied 0 (deny-flow-max 4096)
             alert-interval 300
 access-list OUTSIDE-IN; 4 elements; name hash: 0x9ccc1a31
