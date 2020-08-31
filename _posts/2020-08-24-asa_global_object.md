@@ -385,7 +385,7 @@ FW1(config-protocol-object-group)# protocol-object tcp
 FW1(config-protocol-object-group)# protocol-object udp 
 ```
 
-**protocol-object <프로토콜 이름 혹은 프로토콜 ID>** 로 정책을 추가할 수 있다.
+protocol-object <프로토콜 이름 혹은 프로토콜 ID> 로 정책을 추가할 수 있다.
 {: .notice--warning}
 
 <figure class="align-center">
@@ -534,6 +534,7 @@ access-list acl_global extended permit object-group Web-Protocols any object-gro
 
 Telnet을 통해 접속할 서버주소 10.1.10.4~5를 network object로 묶는다.
 {: .notice}
+
 ```console
 FW1(config)# object-group network Telnet-Servers
 FW1(config-network-object-group)# network-object host 10.1.10.4
