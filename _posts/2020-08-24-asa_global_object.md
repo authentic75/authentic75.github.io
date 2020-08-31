@@ -22,5 +22,9 @@ read_time: false
   <figcaption> </figcaption>
 </figure>
 
+---
+### 글로벌 액세스 리스트
+---
 
+* 글로벌 액세스 리스트
 {: .notice}
