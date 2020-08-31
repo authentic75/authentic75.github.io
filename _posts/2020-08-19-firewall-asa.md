@@ -77,7 +77,7 @@ D:\GNS3\images
 ### ASA의 ip 할당
 ---
 
-```
+```console
 >enable
 #conf t
 #hostname FW1
@@ -102,7 +102,7 @@ show ip route는 show route 로 ip route 는 route 다.
 현재 동작 상태를 확인 하기 위해 show firewall을 입력해보자.
 {: .notice}
 
-```
+```console
 FW1# show firewall
 Firewall mode: Router
 FW1# conf t
@@ -146,7 +146,7 @@ asa 에서는 하나의 방화벽으로 복수개의 방화벽 처럼 동작하�
   <figcaption> </figcaption>
 </figure>
 
-```
+```console
 #R1
 conf t
 int f0/0
@@ -197,7 +197,7 @@ FW1에서 inside와 outside를 설정하고 ping을 해보자.
 {: .notice}
 
 
-```
+```console
 FW1(config-if)# int gi 0/0
 FW1(config-if)# nameif inside
 FW1(config-if)# ip add 10.1.10.10 255.255.255.0
@@ -209,7 +209,7 @@ Sending 5, 100-byte ICMP Echos to 10.1.10.1, timeout is 2 seconds:
 !!!!!
 Success rate is 100 percent (5/5), round-trip min/avg/max = 10/26/70 ms
 ```
-```
+```console
 FW1(config-if)# int gi 0/1
 FW1(config-if)# nameif outside
 FW1(config-if)# ip add 1.1.20.10 255.255.255.0
@@ -230,7 +230,7 @@ Success rate is 100 percent (5/5), round-trip min/avg/max = 10/20/30 ms
  asa 명령어는 보통의 경우 router 명령어에서 ip 라는 단어를 뺀 형태가 많지만 이 명령어는 예외다.
 {: .notice}
 
-```
+```console
 FW1# show int ip brief
 Interface                  IP-Address      OK? Method Status                Protocol
 GigabitEthernet0/0         10.1.10.10      YES manual up                    up
@@ -245,10 +245,11 @@ window10 컴퓨터의 주소를 잠시 10.10.10.10/24로 설정하고 cmd 창을
  10.10.10.1은 ping이 잘되지만 10.1.10.1은 안될 것이다.
 {: .notice}
 
-```
+```console
 >route ADD 10.0.0.0 MASK 255.0.0.0 10.10.10.1
 >route ADD 1.1.20.0 MASK 255.255.255.0 10.10.10.1
 ```
+
 위와 같이 라우팅 테이블을 추가해주면 longest match rule에 의해서 10.1.10.1에 도달 할 수 있다.
 하지만 그 건너인 10.1.10.10 에는 도달 할 수 없다. 오로지 직접 연결된 곳이나 라우팅 테이블에 추가된 부분만 닿을 수 있다.
 {: .notice}
@@ -256,7 +257,7 @@ window10 컴퓨터의 주소를 잠시 10.10.10.10/24로 설정하고 cmd 창을
 이러한 문제를 해결해주기 위해 모르는 주소로 부터 방화벽으로 패킷이 도달하면 1.1.20.2 로 보내도록 설정해준다.
 {: .notice}
 
-```
+```console
 FW1# conf t
 FW1(config)# route outside 0.0.0.0 0.0.0.0 1.1.20.2
 FW1(config)# show route
@@ -280,13 +281,14 @@ L        10.1.10.10 255.255.255.255 is directly connected, inside
 그리고 이어서 ospf 설정을 해준다.
 {: .notice}
 
-```
+```console
 FW1(config)# router ospf 1
 FW1(config-router)# network 10.1.10.0 255.255.255.0 area 0
 FW1(config-router)# default-information originate
 FW1(config-router)# end
 ```
-```
+
+```console
 R1(config)#router ospf 1
 R1(config-router)#network 10.10.10.0 0.0.0.255 area 0
 R1(config-router)#network 10.1.10.0 0.0.0.255 area 0
@@ -306,7 +308,7 @@ R1(config-router)#
 반대로 R2에서는 모르는 곳으로 부터 패킷을 받으면 1.1.20.10 으로 보내도록 설정해주자
 {: .notice}
 
-```
+```console
 R2# conf t
 R2(config)# ip route 10.0.0.0 255.0.0.0 1.1.20.10
 ```
@@ -344,7 +346,7 @@ R2(config)# ip route 10.0.0.0 255.0.0.0 1.1.20.10
 http 접속 테스트를 위해서 ip domain-name을 할당하고 telent과 ssh 설정을 해둔뒤, ip http server를 활성화 해준다
 {: .notice}
 
-```
+```console
 R2#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 R2(config)#crypto key generate rsa modulus 1024
@@ -356,7 +358,8 @@ The name for the keys will be: R2.cisco.com
 % The key modulus size is 1024 bits
 % Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
 ```
-```
+
+```console
 R2(config)#
 *Mar  1 01:26:18.051: %SSH-5-ENABLED: SSH 1.99 has been enabled
 R2(config)#username admin password cisco
@@ -365,7 +368,8 @@ R2(config-line)#login local
 R2(config-line)#transport in ssh telnet
 R2(config-line)#end
 ```
-```
+
+```console
 R2#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 R2(config)#ip http server
@@ -379,7 +383,7 @@ R2(config)#ip http server
 윈도우에서 1.1.20.2로 접속하면 위와 같은 경고창이 뜬다. 설정을 조금 바꿔주자.
 {: .notice}
 
-```
+```console
 R2#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 R2(config)#no username admin password cisco
@@ -407,7 +411,7 @@ R2(config)#ip http authe local
 방화벽의 로깅 기능을 활성화 해보자.
 {: .notice}
 
-```
+```console
 FW1# conf t
 FW1(config)# logging enable
 FW1(config)# logging console 7
@@ -418,7 +422,7 @@ FW1(config)# %ASA-5-111008: User 'enable_15' executed the 'logging console 7' co
 그리고 R2에서 10.1.10.1 로 telnet 연결을 시도해보자
 {: .notice}
 
-```
+```console
 R2#telnet 10.1.10.1
 Trying 10.1.10.1 ...
 % Connection timed out; remote host not responding
@@ -427,7 +431,7 @@ Trying 10.1.10.1 ...
 그러면 아래와 같은 로그 메세지가 나타난다.
 {: .notice}
 
-```
+```console
 %ASA-2-106001: Inbound TCP connection denied from 1.1.20.2/64338 to 10.1.10.1/23 flags SYN  on interface outside
 %ASA-2-106001: Inbound TCP connection denied from 1.1.20.2/64338 to 10.1.10.1/23 flags SYN  on interface outside
 ```
@@ -435,7 +439,7 @@ Trying 10.1.10.1 ...
 R1에서 1.1.20.2 로 연결을 시도해보자
 {: .notice}
 
-```
+```console
 R1#telnet 1.1.20.2
 Trying 1.1.20.2 ... Open
 
@@ -445,7 +449,7 @@ User Access Verification
 Username:
 ```
 
-```
+```console
 %ASA-7-609001: Built local-host outside:1.1.20.2
 %ASA-6-302013: Built outbound TCP connection 26 for outside:1.1.20.2/23 (1.1.20.2/23) to inside:10.1.10.1/35383 (10.1.10.1/35383)
 
@@ -467,7 +471,7 @@ ICMP reply가 반대 방향에서 시작되었다고 착각을 한다. 그래서
 ICMP를 허용하는 작업을 해보자.
 {: .notice}
 
-```
+```console
 FW1(config)# policy-map global_policy
 FW1(config-pmap)# class ?
 
