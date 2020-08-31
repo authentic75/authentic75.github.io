@@ -213,7 +213,8 @@ access-list GLOBAL-ACL; 1 elements; name hash: 0xf07a8f76
 access-list GLOBAL-ACL line 1 extended deny tcp any any eq telnet (hitcnt=1) 0xbd7e27ee
 ```
 
-(Access-list OUTSIDE-IN deny ip any any) 규칙이 기본인데. OUTSIDE-IN에 명시적으로 설정이 안되어있으면, GLOBAL-ACL 맨뒤에 가서 적용이 된다.  원래는 OUTSIDE 맨 뒤에서 동작하다가 GLOBAL 이 생성되는 경우 Deny에 any any에 의해 막힐 수 있으니 자동으로 GLOBAL 뒤로 가는 것이다.  
+(Access-list OUTSIDE-IN deny ip any any) 규칙이 기본인데. OUTSIDE-IN에 명시적으로 설정이 안되어있으면, GLOBAL-ACL 맨뒤에 가서 적용이 된다. 
+원래는 OUTSIDE 맨 뒤에서 동작하다가 GLOBAL 이 생성되는 경우 Deny에 any any에 의해 막힐 수 있으니 자동으로 GLOBAL 뒤로 가는 것이다.  
 {: .notice--warning}
 
 방화벽 설정을 다 지워주자.
@@ -358,31 +359,240 @@ object-group network Internal_Users
  network-object 10.1.10.0 255.255.255.0
  network-object 10.10.10.0 255.255.255.0
 ```
-아직 적용은 안 한 상태다.
 
+---
+#### Protocol 오브젝트 그룹
+---
 
+```console
+FW1(config)# object-group protocol Routing_Group
+FW1(config-protocol-object-group)# protocol-object ?
+
+protocol-object-group mode commands/options:
+  <0-255>  Enter protocol number (0 - 255)
+  ah
+  eigrp
+  esp
+  gre
+  icmp
+  icmp6
+  igmp
+  igrp
+  ip
+  ...
+  
+FW1(config-protocol-object-group)# protocol-object tcp
+FW1(config-protocol-object-group)# protocol-object udp 
+```
+
+**protocol-object <프로토콜 이름 혹은 프로토콜 ID>** 로 정책을 추가할 수 있다.
+{: .notice--warning}
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/asa_basic5.jpg" alt="">
+  <figcaption> </figcaption>
+</figure>
+
+여기서 말하는 프로토콜 ID란 IP 헤더에 있는 Type of Service를 말한다.
+{: .notice--warning}
+
+```console
+FW1(config)# show object-group
+object-group icmp-type Ping_Group
+ icmp-object echo-reply
+ icmp-object echo
+object-group network Internal_Users
+ network-object 10.1.10.0 255.255.255.0
+ network-object 10.10.10.0 255.255.255.0
+object-group protocol Routing_Group
+ protocol-object tcp
+ protocol-object udp
+```
+
+---
+#### Service 오브젝트 그룹
+---
+
+```console
+FW1(config)# object-group service My_Service
+FW1(config-service-object-group)# service-object tcp ?
+
+dual-service-object-group mode commands/options:
+  destination  Keyword to specify destination
+  source       Keyword to specify source
+
+FW1(config-service-object-group)# service-object tcp dest eq 80
+FW1(config-service-object-group)# service-object tcp dest eq 443
+FW1(config-service-object-group)# exit
+```
+
+service-object <프로토콜> <출발지/목적지> <포트번호> 형식으로 추가할 수 있다.
+{: .notice--warning}
+
+```console
+FW1(config)# show object-group
+object-group icmp-type Ping_Group
+ icmp-object echo-reply
+ icmp-object echo
+object-group network Internal_Users
+ network-object 10.1.10.0 255.255.255.0
+ network-object 10.10.10.0 255.255.255.0
+object-group protocol Routing_Group
+ protocol-object tcp
+ protocol-object udp
+object-group service My_Service
+ service-object tcp destination eq www
+ service-object tcp destination eq https
+```
+
+---
+### 오브젝트 그룹 실습1
+---
 
 <figure class="align-center">
   <img src="{{ site.url }}{{ site.baseurl }}/assets/images/Topology/asa_basic4.jpg" alt="">
   <figcaption> </figcaption>
 </figure>
 
+R1에 10.1.10.2~5 주소를 추가해주고 이를 통해 실습을 할 것이다.
+{: .notice}
+
+```console
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#int fa 0/1
+R1(config-if)#ip add 10.1.10.2 255.255.255.0 secondary
+R1(config-if)#ip add 10.1.10.3 255.255.255.0 secondary
+R1(config-if)#ip add 10.1.10.4 255.255.255.0 secondary
+R1(config-if)#ip add 10.1.10.5 255.255.255.0 secondary
+```
+
+잘 추가 되었는지 ping을 통해서 test 한다.
+{: .notice}
+
+```console
+FW1(config)# ping 10.1.10.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.1.10.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 20/28/40 ms
+FW1(config)# ping 10.1.10.3
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.1.10.3, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/20/40 ms
+FW1(config)# ping 10.1.10.4
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.1.10.4, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 10/24/50 ms
+FW1(config)# ping 10.1.10.5
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.1.10.5, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 10/24/30 ms
+FW1(config)#
+```
+
+* 다음과 같이 설정 할 것이다.
+* Web-Server 10.1.10.1
+* http, https 10.1.10.2
+* 6 10.1.10.3
+* telnet-Server 10.1.10.4
+* telnet 10.1.10.5
+* 2 10.1.10.5
+{: .notice--info}
+
+network object를 통해 10.1.10.1~3를 그룹으로 묶는다.
+{: .notice}
+
+```console
+FW1(config)# object-group network Web-Servers
+FW1(config-network-object-group)# network-object host 10.1.10.1
+FW1(config-network-object-group)# network-object host 10.1.10.2
+FW1(config-network-object-group)# network-object host 10.1.10.3
+FW1(config-network-object-group)# exit
+```
+
+service object로 80과 443 포트번호를 그룹으로 묶는다.
+{: .notice}
+
+```console
+FW1(config)# object-group service Web-Protocols
+FW1(config-service-object-group)# service-object tcp dest eq 80
+FW1(config-service-object-group)# service-object tcp dest eq 443
+FW1(config-service-object-group)# exit
+```
+
+생성한 object를 사용해서 확장 acl을 설정한다. object-group <오브젝트 이름> 을 이용하여 불러온다는 것을 기억하자.
+포트번호 80, 443에 접속하는 서비스이고 10.1.10.1~3 호스트에 접속하는 건에 대해서 허용해준다.
+{: .notice}
+
+```console
+access-list acl_global extended permit object-group Web-Protocols any object-group Web-Servers
+```
+
+Telnet을 통해 접속할 서버주소 10.1.10.4~5를 network object로 묶는다.
+{: .notice}
+```console
+FW1(config)# object-group network Telnet-Servers
+FW1(config-network-object-group)# network-object host 10.1.10.4
+FW1(config-network-object-group)# network-object host 10.1.10.5
+FW1(config-network-object-group)# exit
+```
+
+10.1.10.4~5에 23포트로 접속하는 건에 대해서 허용하고, global 옵션을 이용하여 global ACL에 적용해준다.
+{: .notice}
+
+```console
+access-list acl_global permit tcp any object-group Telnet-Servers eq 23
+access-group acl_global global
+```
+
+결과로 10.1.10.1~3 까지는 telnet을 통해 80 에 접속시 잘된다. 10.1.10.4~5는 그냥 telnet 접속시 잘된다.
+{: .notice}
+
+```console
+R2#telnet 10.1.10.1 80
+Trying 10.1.10.1, 80 ... Open
+exit()
+HTTP/1.1 400 Bad Request
+Date: Fri, 01 Mar 2002 04:22:30 GMT
+Server: cisco-IOS
+Accept-Ranges: none
+
+400 Bad Request
+
+R2#telnet 10.1.10.2 80
+Trying 10.1.10.2, 80 ... Open
+eixt
+HTTP/1.1 400 Bad Request
+Date: Fri, 01 Mar 2002 04:22:52 GMT
+Server: cisco-IOS
+Accept-Ranges: none
+
+400 Bad Request
+```
+
+```console
+R2#telnet 10.1.10.4
+Trying 10.1.10.4 ... Open
 
 
+User Access Verification
+
+Password:
+R1>exit
+
+R2#telnet 10.1.10.5
+Trying 10.1.10.5 ... Open
 
 
+User Access Verification
 
-
-
-
-
-
-
-
-
-
-
-
+Password:
+R1>exit
+```
 
 
 
