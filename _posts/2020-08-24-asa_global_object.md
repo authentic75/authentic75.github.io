@@ -1,5 +1,5 @@
 ---
-title: "Security: ASA 방화벽의 글로벌 액세스 리스트와 오브젝트 그룹"
+title: "Security: 글로벌 액세스 리스트와 오브젝트 그룹"
 last_modified_at: 2020-08-24T20:20:02-05:00
 categories:
   - Security
