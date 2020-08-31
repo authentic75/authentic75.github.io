@@ -213,8 +213,7 @@ access-list GLOBAL-ACL; 1 elements; name hash: 0xf07a8f76
 access-list GLOBAL-ACL line 1 extended deny tcp any any eq telnet (hitcnt=1) 0xbd7e27ee
 ```
 
-(Access-list OUTSIDE-IN deny ip any any) 규칙이 기본인데. OUTSIDE-IN에 명시적으로 설정이 안되어있으면, GLOBAL-ACL 맨뒤에 가서 적용이 된다.  
-원래는 OUTSIDE 맨 뒤에서 동작하다가 GLOBAL 이 생성되는 경우 Deny에 any any에 의해 막힐 수 있으니 자동으로 GLOBAL 뒤로 가는 것이다.  
+(Access-list OUTSIDE-IN deny ip any any) 규칙이 기본인데. OUTSIDE-IN에 명시적으로 설정이 안되어있으면, GLOBAL-ACL 맨뒤에 가서 적용이 된다.  원래는 OUTSIDE 맨 뒤에서 동작하다가 GLOBAL 이 생성되는 경우 Deny에 any any에 의해 막힐 수 있으니 자동으로 GLOBAL 뒤로 가는 것이다.  
 {: .notice--warning}
 
 방화벽 설정을 다 지워주자.
