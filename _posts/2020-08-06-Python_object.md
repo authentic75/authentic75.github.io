@@ -13,7 +13,7 @@ author_profile: true
 read_time: false 
 ---
 
-```
+```python
 #0806-1.py
 #파이썬은 객체지향 언어다.
 #P183
