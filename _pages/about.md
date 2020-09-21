@@ -23,11 +23,11 @@ gallery:
 {% include gallery caption="세상에 도전하고 싶은 일 하고싶은 일이 참 많습니다." %}
 
 * 2012 KNU CSE
-* 2013 NC waketech (미국)
-* 2015 Hochschule Ingolstadt (독일)
+* 2013 NC waketech ESL 수강 (미국)
+* 2015 Hochschule Ingolstadt International Summer School 수강(독일)
 * 2016 KNU CSE Master
 * 2018 국제학술대회 우수논문상 수상
 * 2018 Postech
-* 2019 Photronics(~2020)
-* 2020 Coming soon
+* 2019 Photronics (~2020)
+* 2020 한국정보기술원(KITRI) 모의해킹 수강 
 {: .notice}
