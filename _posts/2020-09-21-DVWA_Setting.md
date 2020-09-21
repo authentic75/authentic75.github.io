@@ -17,3 +17,34 @@ read_time: false
   <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/Setting1.jpg" alt="">
   <figcaption></figcaption>
 </figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/Setting2.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/Setting3.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/Setting4.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/Setting5.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/Setting6.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/Setting7.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
