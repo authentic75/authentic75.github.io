@@ -13,7 +13,7 @@ author_profile: true
 read_time: false 
 ---
 
-```
+```python
 #0814-1.py
 import re
 #정규표현식############################################
