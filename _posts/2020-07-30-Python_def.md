@@ -13,7 +13,7 @@ author_profile: true
 read_time: false 
 ---
 
-```
+```python
 #0730-1.py
 
 #문제1.########################################
