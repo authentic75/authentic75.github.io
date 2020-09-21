@@ -43,3 +43,52 @@ read_time: false
   <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection6.jpg" alt="">
   <figcaption></figcaption>
 </figure>
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection7.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection8.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection9.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection10.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection11.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection12.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection13.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection14.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection15.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/CommandInjection16.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
