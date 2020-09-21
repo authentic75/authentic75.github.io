@@ -12,7 +12,7 @@ toc_sticky: true
 author_profile: true 
 read_time: false 
 ---
-```
+```python
 #0813-1.py
 #리눅스를 켜보자  ~
 #리눅스에서 환경변수를 보는 명령어가 뭘까여 ~?
