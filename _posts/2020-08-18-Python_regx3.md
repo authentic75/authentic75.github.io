@@ -13,7 +13,7 @@ author_profile: true
 read_time: false 
 ---
 
-```
+```python
 # 파일명: 0818-1.py
 import re
 
