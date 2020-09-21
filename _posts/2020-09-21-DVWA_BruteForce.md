@@ -1,6 +1,6 @@
 ---
 title: "DVWA: Brute Force"
-last_modified_at: 2020-09-21T01:20:02-05:00
+last_modified_at: 2020-09-21T00:21:02-05:00
 categories:
   - Security
 tags:
