@@ -13,7 +13,7 @@ author_profile: true
 read_time: false 
 ---
 
-```
+```python
 # 0810-1.py
 ##########모듈에 대하여###############
 #import mod2
