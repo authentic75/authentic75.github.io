@@ -63,3 +63,61 @@ read_time: false
   <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce10.jpg" alt="">
   <figcaption></figcaption>
 </figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce11.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce12.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce13.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce14.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce15.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce16.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce17.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce18.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce19.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce20.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce21.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/DVWA/BruteForce22.jpg" alt="">
+  <figcaption></figcaption>
+</figure>
