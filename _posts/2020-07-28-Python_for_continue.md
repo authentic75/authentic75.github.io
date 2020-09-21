@@ -13,7 +13,7 @@ author_profile: true
 read_time: false 
 ---
 
-```
+```python
 #0728-1.py
 
 ##############list 를 이용한 for 문###################
