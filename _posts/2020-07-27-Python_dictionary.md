@@ -12,7 +12,7 @@ toc_sticky: true
 author_profile: true 
 read_time: false 
 ---
-```
+```python
 ##파일명: 0727-1.py
 
 
