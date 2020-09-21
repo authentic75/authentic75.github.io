@@ -13,7 +13,7 @@ author_profile: true
 read_time: false 
 ---
 
-```
+```python
 #0812-1.py
 #0811에는 시험을 봐서 코딩 수업이 없었음.
 #import datetime
