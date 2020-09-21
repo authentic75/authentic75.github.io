@@ -228,6 +228,124 @@ for month in range(1, 7):
     sales.append([month]+[sum])
 csvfile.writerows(sales)
 #######################################
+#0807-1.py
+
+#문제1. ###########################################################
+#주민등록번호와 관련된 함수: gender, birthday, age
+#뒷자리의 두번째 자리가  1256(1900년대) 3478(2000년대) 90(1800년대)
+#  13579 'M' , 24680 'F'
+
+#datetime.date.today()
+#datetime.date.today().year
+#datetime.date.today().month
+#today = datetime.date.today()
+#int(today.strftime("%Y%m%f"))
+
+#import datetime
+
+# def gender(ssn):
+    # if ssn[7] in ['1','3','5','7','9']:
+        # return 'M'
+    # elif ssn[7] in ['2','4','6','8','0']:
+        # return 'F'
+
+# def birthday(ssn):
+    # if ssn[7] in ['1','2','5','6']:
+        # year = "19"+ssn[0:2]
+    # elif ssn[7] in ['3','4','7','8']:
+        # year = "20"+ssn[0:2]
+    # else:
+        # year = "18"+ssn[0:2]   
+    # month = ssn[2:4]
+    # day = ssn[4:6]
+    # return [year, month, day]
+
+    
+# def age(ssn):
+    # today = int(datetime.date.today().strftime("%Y%m%d"))
+    # if ssn[7] in ['1','2','5','6']:
+        # birth = int("19"+ ssn[0:6])
+    # elif ssn[7] in ['3','4','7','8']:
+        # birth = int("20"+ ssn[0:6])
+    # elif ssn[7] in ['9','0']:
+        # birth = int("18"+ ssn[0:6])
+    # else:
+        # year = 0
+    # age = (today - birth)//10000
+    # return age
+
+    
+# ssn = input("주민등록번호:")
+# print("성별:",gender(ssn))
+# print("생일:",birthday(ssn))
+# print("만 나이:",age(ssn))
+#################################################################
+#문제2. 이러한 프로그램에는 문제가있다 ssn이 잘 못 입력 되었을 경우를 대비하기위해서
+#각각의 함수안에서 일일이 인자값으로 들어오는 ssn을 검사해야하는데, 이럴경우
+#데이터 중심인 Class를 이용한다면 에러가 날 일 이 없다. 한번 구현해보자.
+#
+#type('a')==type(str())을 이용하자
+
+#data[0:6].isdigit() and data[6] == "-" and data[7:14].isdigit()
+#not data[0:6].isdigit() or data[6]!="-" or not data[7:14].isdigit()
+
+#정규표현식
+#import re
+#regex = re.compile(r'\d\d\d\d\d\d-\d\d\d\d\d\d\d')
+import datetime
+
+class SSN:
+    def __init__(self, data):
+        if not isinstance(data, str):
+            raise ValueError("주민등록번호 양식이 아닙니다: {}".format(data))
+        elif len(data) != 14:
+            raise ValueError("14자리 길이의 문자열이 아닙니다: {}".format(data))
+        elif not(data[0:6].isdigit() and data[6] == "-" and data[7:14].isdigit()):
+            raise ValueError("주민등록번호 양식이 아닙니다: {}".format(data))
+        self.data = data 
+
+    def gender(self):
+        code = int(self.data[7])
+        if code in [1, 3, 5, 7, 9]:
+            g = 'M'
+        else:
+            g = 'F'
+        return g
+        
+    def birthday(self):   
+        code = int(self.data[7])
+        if code in [1, 2, 5, 6]:
+            year = 1900+int(self.data[0:2])
+        elif code in [3, 4, 7, 8]:
+            year = 2000+int(self.data[0:2])
+        else:
+            year = 1800+int(self.data[0:2])   
+        month = int(self.data[2:4])
+        day = int(self.data[4:6])
+        return datetime.date(year,month,day)
+
+    def age(self):
+        tday = int(datetime.date.today().strftime("%Y%m%d"))
+        bday = int(self.birthday().strftime("%Y%m%d"))
+        age = (tday-bday)//10000
+        return age
+
+a = SSN("930715-1133555")
+b = SSN("930807-2233555")
+c = SSN("930809-2233555")
+
+print(a.gender())
+print(b.gender())
+print(c.gender())
+
+print(a.birthday())
+print(b.birthday())
+print(c.birthday())
+
+print(a.age())
+print(b.age())
+print(c.age())
+
 ```
 
 
