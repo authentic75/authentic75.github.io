@@ -2,7 +2,7 @@
 title: "DVWA: 환경 구축"
 last_modified_at: 2020-09-20T00:26:02-05:00
 categories:
-  - Security
+  - DVWA
 tags:
   - DVWA
   - 웹해킹
