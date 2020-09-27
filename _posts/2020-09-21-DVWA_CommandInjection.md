@@ -2,7 +2,7 @@
 title: "DVWA: Command Injection"
 last_modified_at: 2020-09-21T00:22:02-05:00
 categories:
-  - Security
+  - DVWA
 tags:
   - DVWA
   - 웹해킹
