@@ -2,7 +2,7 @@
 title: "DVWA: File Inclusion"
 last_modified_at: 2020-09-21T00:24:02-05:00
 categories:
-  - Security
+  - DVWA
 tags:
   - DVWA
   - 웹해킹
