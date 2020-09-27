@@ -2,7 +2,7 @@
 title: "DVWA: Brute Force"
 last_modified_at: 2020-09-21T00:21:02-05:00
 categories:
-  - Security
+  - DVWA
 tags:
   - DVWA
   - 웹해킹
