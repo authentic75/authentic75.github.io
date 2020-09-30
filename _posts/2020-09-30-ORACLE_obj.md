@@ -1,6 +1,6 @@
 ---
 title: "ORACLE: 객체"
-last_modified_at: 2020-09-30T00:26:02-05:00
+last_modified_at: 2020-09-29T00:26:02-05:00
 categories:
   - Database
 tags:
