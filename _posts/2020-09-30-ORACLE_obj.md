@@ -5,7 +5,6 @@ categories:
   - Database
 tags:
   - Database
-  - 웹해킹
 toc: true 
 toc_label: "Table of Contents"
 toc_icon: "cog"
