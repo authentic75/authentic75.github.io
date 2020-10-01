@@ -149,9 +149,24 @@ END;
 Steven King - 기획부
 ```
 
+위 DML문을 아래와 같이 쓸수도 있다.
+{: .notice}
 
-
-
+```sql
+DECLARE
+ vs_emp_name employees.emp_name%TYPE;
+ vs_dep_name departments.department_name%TYPE;
+BEGIN
+ SELECT a.emp_name, b.department_name
+  INTO vs_emp_name, vs_dep_name
+  FROM employees a,
+	   departments b
+  WHERE a.department_id = b.department_id
+   AND a.employee_id = 100;
+   
+ DBMS_OUTPUT.PUT_LINE(vs_emp_name|| ' - ' || vs_dep_name);
+END;
+```
 
 
 
