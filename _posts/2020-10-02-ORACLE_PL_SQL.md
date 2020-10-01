@@ -168,7 +168,19 @@ BEGIN
 END;
 ```
 
+---
+### 그 외,
+---
 
+* PRAGMA: 전처리 과정
+	* PRAGMA AUTONOMOUS_TRANSACTION: 주 트랜잭션이나 다른 트랜잭션에 영향을 받지 않고 독립적으로 현재 블록 내부에서의 변경사항을 COMMIT이나 ROLLBACK 한다
+	* PRAGMA EXCEPTION_INIT(예외명, 예외번호): 컴파일러에 이 예외를 사용한다는 것을 알리는 역할을 한다
+	* PRAGMA RESTRICT_REFERECES(서브 프로그램명, 옵션): 패키지에 속한 서브 프로그램 옵션값에 따라 특정 동작을 제한한다
+	* PRAGMA SERIALLY_RESUABLE: 패키지 메모리 관리를 쉽게 할 목적으로 사용된다
+{: .notice}
 
+PL/SQL 프로그램 상에서 특정 부분에 이름을 부여할 수 있는데 이를 라벨이라 하고 <<라벨명>> 형태로 사용한다.
+라벨을 붙이면 GO TO문으로 특정 라벨로 이동할 수 있고 반목문에서 EXIT으로 해당 블록을 빠져나올 수 있도록 할 수도있다. 
+{: .notice}
 
 
