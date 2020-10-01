@@ -88,16 +88,66 @@ PL/SQL 처리가 정상적으로 완료되었습니다.
 ### PL/SQL 구성요소
 ---
 
+```
+변수명 데이터타입 := 초깃값;
+```
+```
+상수명 CONSTANT 데이터타입 := 상수값;
+```
+위와 같이 변수와 상수를 선언할 수 있고 연산자들은 아래와 같다.
+{: .notice}
+```
+연산자                설명
+------------------ ---------------
+**                 제곱연산자
++,-                양수, 음수 식별 연산자
+*,/                곱셈, 나눗셈
++,-,||             덧셈, 뺄셈, 문자열 연결 연산자
+=,<,>,<=,>=,<>,!=, 비교 연산자
+~=,^=,IS NULL,     비교 연산자
+LIKE, BETWEEN, IN  비교 연산자
+NOT                논리 연산자
+AND                논리 연산자
+OR                 논리 연산자
+```
+AND, OR, NOT 논리연산자도 사용할 수 있다.
+{: .notice}
 
+```sql
+DECLARE
+--한줄 주석
+ a INTEGER := 2**2*3**2;
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('a = ' || TO_CHAR(a));
+END;
+```
+```
+a = 36
+```
 
+---
+### DML 문
+---
 
+```sql
+DECLARE
+ vs_emp_name VARCHAR2(80);
+ vs_dep_name VARCHAR2(80);
+BEGIN
+ SELECT a.emp_name, b.department_name
+  INTO vs_emp_name, vs_dep_name
+  FROM employees a,
+	   departments b
+  WHERE a.department_id = b.department_id
+   AND a.employee_id = 100;
+   
+ DBMS_OUTPUT.PUT_LINE(vs_emp_name|| ' - ' || vs_dep_name);
+END;
+```
 
-
-
-
-
-
-
+```
+Steven King - 기획부
+```
 
 
 
