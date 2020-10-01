@@ -13,6 +13,10 @@ author_profile: true
 read_time: false 
 ---
 
+---
+### 서브 쿼리
+---
+
 서브쿼리 부터는 다시 타이핑하는 걸로... ㅋㅋㅋ 필기량이 너무나도 많다!!  
 서브쿼리는 SQL 문장 안에서 보조로 사용되는 또 다른 SELECT문 의미한다.  
 {: .notice}
