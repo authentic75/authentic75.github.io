@@ -54,8 +54,8 @@ WHERE (employee_id, job_id) IN ( SELECT employee_id, job_id
 ```sql
 EMPLOYEE_ID EMP_NAME 		JOB_ID
 ----------- --------------- ----------
-200			Jennifer Whalen	AD_ASST
-176			Jonathon Taylor	SA_REP
+200         Jennifer Whalen	AD_ASST
+176         Jonathon Taylor	SA_REP
 ```
 
 SELECT문 이외에도 아래와 같이 사용할 수 있다.
@@ -89,9 +89,9 @@ WHERE EXISTS( SELECT 1
 ```sql
 DEPARTMENT_ID DEPARTMENT_NAME
 ------------- ---------------
-20			  마케팅
-50			  배송부
-50			  IT
+20            마케팅
+50            배송부
+50            IT
 ...
 ```
 
@@ -140,7 +140,7 @@ WHERE a.department_id IN ( SELECT department_id
 상위 부서 번호가 90인 부서에 한해서(WHERE 서브쿼리) 모든 사원의 급여를 평균 급여로 SET 한다.(메인쿼리)  
 {: .notice}
 
-이를 MERGE문으로 고치면 훨씬 간단해진다.
+이를 MERGE문으로 고치면 훨씬 간단해진다. 오라클의 UPDATE문에서는 WHERE 테이블=테이블; 같은 조인을 사용할수가 없기 때문이다.
 {: .notice}
 
 ```sql
@@ -160,6 +160,8 @@ WHEN MATCHED THEN
 ### 인라인 뷰
 ---
 
+FROM에서 사용하는 서브쿼리를 인라인 뷰라고 한다. 면접에서 인라인 뷰이야기가 나온적이 있는데 순간 기억이 안나서 당황했던적이 있다. 이제 확실히 기억하고 있다. 
+{: .notice}
 
 
 
