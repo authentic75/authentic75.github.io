@@ -49,7 +49,7 @@ COUNT(*)
 SELECT employee_id, emp_name, job_id
 FROM employees
 WHERE (employee_id, job_id) IN ( SELECT employee_id, job_id
-								FROM job_history);
+                                 FROM job_history);
 ```
 ```sql
 EMPLOYEE_ID EMP_NAME 		JOB_ID
@@ -64,12 +64,12 @@ SELECT문 이외에도 아래와 같이 사용할 수 있다.
 ```sql
 UPDATE employees
 SET salary = ( SELECT AVG(salary)
-				FROM employees);
+               FROM employees);
 ```
 ```sql
 DELETE employees
 WHERE salary >= ( SELECT AVG(salary)
-				  FROM employees);
+                  FROM employees);
 ```
 
 ---
@@ -83,8 +83,8 @@ WHERE salary >= ( SELECT AVG(salary)
 SELECT a.department_id, a.department_name
 FROM departments a
 WHERE EXISTS( SELECT 1
-			  FROM job_history b
-			  WHERE a.department_id = b.department_id );
+              FROM job_history b
+              WHERE a.department_id = b.department_id );
 ```
 ```sql
 DEPARTMENT_ID DEPARTMENT_NAME
@@ -111,10 +111,10 @@ FROM job_history a;
 SELECT a.department_id, a.department_name
 FROM departments a
 WHERE EXISTS ( SELECT 1
-			   FROM employees b
-			   WHERE a.department_id = b.department_id
-			   AND b.salary > ( SELECT AVG(salary)
-								FROM employees )
+               FROM employees b
+               WHERE a.department_id = b.department_id
+               AND b.salary > ( SELECT AVG(salary)
+                                FROM employees )
 			  );
 ```
 
@@ -124,16 +124,16 @@ WHERE EXISTS ( SELECT 1
 ```sql
 UPDATE employees a
 SET a.salary = ( SELECT salary
-				 FROM ( SELECT b.department_id, AVG(c.salary) as sal
-						FROM departments b,
-							 employees c
-						WHERE b.parent_id = 90
-						AND b.department_id = c.department_id
-						GROUP BY b.department_id) d
-				 WHERE a.department_id = d.department_id)
+                 FROM ( SELECT b.department_id, AVG(c.salary) as sal
+                        FROM departments b,
+                             employees c
+                        WHERE b.parent_id = 90
+                        AND b.department_id = c.department_id
+                        GROUP BY b.department_id) d
+                 WHERE a.department_id = d.department_id)
 WHERE a.department_id IN ( SELECT department_id
-						   FROM departments
-						   WHERE parent_id = 90 );
+                           FROM departments
+                           WHERE parent_id = 90 );
 ```
 
 상위 부서가 90번인 정보들을 부서별로 그룹화하고 부서별 평균치 연봉을 계산하고(SET 서브쿼리)  
@@ -146,14 +146,14 @@ WHERE a.department_id IN ( SELECT department_id
 ```sql
 MERGE INTO employees a
 USING ( SELECT b.department_id, AVG(c.salary) as sal 
-		FROM departments b,
-			 employees c
-		WHERE b.parent_id = 90
-		AND b.department_id = c.department_id
-		GROUP BY b.department_id ) d
-	ON( a.department_id = d.department_id )
+        FROM departments b,
+             employees c
+        WHERE b.parent_id = 90
+        AND b.department_id = c.department_id
+        GROUP BY b.department_id ) d
+     ON( a.department_id = d.department_id )
 WHEN MATCHED THEN
-	UPDATE SET a.salary = d.sal;
+     UPDATE SET a.salary = d.sal;
 ```
 
 ---
@@ -164,7 +164,9 @@ FROM에서 사용하는 서브쿼리를 인라인 뷰라고 한다. 면접에서
 {: .notice}
 
 
-
+```sql
+SELECT
+```
 
 
 
