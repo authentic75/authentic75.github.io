@@ -1,5 +1,5 @@
 ---
-title: "ORACLE: 서브쿼리"
+title: "ORACLE: 계층형 쿼리"
 last_modified_at: 2020-10-02T00:26:02-05:00
 categories:
   - Database
@@ -12,3 +12,4 @@ toc_sticky: true
 author_profile: true 
 read_time: false 
 ---
+
