@@ -165,10 +165,20 @@ FROM에서 사용하는 서브쿼리를 인라인 뷰라고 한다. 면접에서
 
 
 ```sql
-SELECT
+SELECT a.employee_id, a.emp_name, b.department_id, b.department_name
+FROM   employees a,
+       departments b,
+	   ( SELECT AVG(c.salary) AS avg_salary
+	     FROM departments b,
+		      employees c
+         WHERE b.parent_id = 90
+		 AND b.department_id = c.department_id) d
+WHERE a.department_id = b.department_id
+AND a.salary > d.avg_salary;
 ```
 
-
+복잡한 쿼리는 다음에 혼자 연습을 더 해봐야겠다.
+{: .notice}
 
 
 
