@@ -37,3 +37,67 @@ BEGIN
  예외처리부]
 END [함수이름];
 ```
+
+mod를 실행하는 함수를 작성해보자
+{: .notice--info}
+
+```sql
+CREATE OR REPLACE FUNCTION my_mod(num1 NUMBER, num2 NUMBER)
+ RETURN NUMBER
+IS
+ vn_remainder NUMBER := 0;
+ vn_quotient  NUMBER := 0;
+BEGIN
+ vn_quotient := FLOOR(num1/num2);
+ vn_remainder := num1 - (num2*vn_quotient);
+ 
+ RETURN vn_remainder;
+END;
+```
+
+작성한 함수를 호출해보자
+{: .notice--info}
+
+```sql
+SELECT my_mod(14, 3)
+ FROM DUAL;
+```
+
+---
+### 프로시저
+---
+
+함수는 특정 연산을 수행한 뒤 결과 값을 반환하지만 프로시저는 특정한 로직을 처리하기만 하고 결과 값을 반환하지는 않는 서브 프로그램입니다.
+{: .notice--info}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
