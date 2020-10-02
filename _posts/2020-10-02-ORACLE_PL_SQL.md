@@ -169,6 +169,239 @@ END;
 ```
 
 ---
+### PL/SQL 제어문
+---
+
+PL/SQL도 조건문, 반복문 같은 순차적 제어문이 있다.
+{: .notice}
+
+---
+#### IF 문
+---
+
+```sql
+DECLARE
+ vn_num1 NUMBER := 1;
+ vn_num2 NUMBER := 2;
+BEGIN
+ IF vn_num1 > vn_num2 THEN
+  DBMS_OUTPUT.PUT_LINE(vn_num1 || '이 큰 수');
+ ELSEIF vn_num2 > vn_num1
+  DBMS_OUTPUT.PUT_LINE(vn_num2 || '이 큰 수');
+ ELSE
+  DBMS_OUTPUT.PUT_LINE(vn_num1|| '와' || vn_num2 || '이 같은 수');
+ END IF;
+END;
+```
+```sql
+2이 큰수
+```
+
+```sql
+DECLARE
+ vn_salary NUMBERER := 0;
+ vn_department_it NUMBER := 0;
+ vn_commission NUMBER := 0;
+BEGIN
+ vn_department_id := ROUND(DBMS_RANDOM.VALUE (10, 120), -1);
+ 
+  SELECT salary, commission_pct
+  INTO vn_salary, vn_commission
+  FROM employees
+  WHERE department_id = vn_department_id
+  AND ROWNUM = 1;
+ 
+DBMS_OUTPUT.PUT_LINE(vn_salary);
+
+ IF vn_commission>0 THEN
+  IF vn_commission> 0.15 THEN
+   DBMS_OUTPUT.PUT_LINE(vn_salary * vn_commission);
+  END IF;
+ ELSE
+  DBMS_OUTPUT.PUT_LINE(vn_salary);
+ END IF;
+END;
+```
+
+10~120 까지 10의 배수를 랜덤으로 불러와서(부서 번호) 직원 한명의 정보를 가져온다. 그리고 연봉을 출력하고 커미션이 0 보다 크고 0.15보다 작으면 연봉을 한번더 출력,
+만약 0.15보다 커미션이 크면 연봉과 커미션을 곱한 값을 출력한다. 
+{: .notice}
+
+---
+#### CASE 문
+---
+
+```sql
+DECLARE
+ vn_salary NUMBER := 0;
+ vn_department_id NUMBER := 0;
+BEGIN
+ vn_department_id := ROUND(DBMS_RANDOM.VALUE (10,120), -1);
+ 
+  SELECT salary
+  INTO vn_salary
+  FROM employees
+  WHERE department_id = vn_department_id
+  AND ROWNUM = 1;
+ 
+ DBMS_OUTPUT.PUT_LINE(vn_salary);
+ 
+ CASE WHEN vn_salary BETWEEN 1 AND 3000 THEN
+           DBMS_OUTPUT.PUT_LINE('낮음');
+      WHEN vn_salary BETWEEN 3001 AND 6000 THEN
+           DBMS_OUTPUT.PUT_LINE('중간');
+      WHEN vn_salary BETWEEN 6001 AND 10000 THEN
+           DBMS_OUTPUT.PUT_LINE('높음');
+      ELSE
+           DBMS_OUTPUT.PUT_LINE('최상위');		   
+ END CASE;
+END;
+```
+
+연봉이 출력되고 연봉 액수에 따라서 낮음 ~ 최상위 까지 출력된다.
+{: .notice}
+
+---
+#### LOOP 문
+---
+
+```sql
+DECLARE
+ vn_base_num NUMBER := 3;
+ vn_cnt      NUMBER := 1;
+BEGIN
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(vn_base_num || '*' || vn_cnt || '= ' || vn_base_num * vn_cnt);
+  vn_cnt := vn_cnt + 1;
+  EXIT WHEN vn_cnt > 9;
+ END LOOP;
+END; 
+```
+
+구구단 3단이 출력된다.
+{: .notice}
+
+---
+#### WHILE 문
+---
+
+```sql
+DECLARE
+ vn_base_num NUMBER := 3;
+ vn_cnt      NUMBER := 1;
+BEGIN
+ WHILE vn_cnt <=9
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(vn_base_num || '*' || vn_cnt || '= ' || vn_base_num * vn_cnt);
+  vn_cnt := vn_cnt + 1;
+ END LOOP;
+END; 
+```
+
+구구단 3단이 출력된다.
+{: .notice}
+
+---
+#### FOR 문
+---
+
+```sql
+DECLARE
+ vn_base_num NUMBER := 3;
+BEGIN
+ FOR i IN 1...9
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(vn_base_num || '*' || i || '= ' || vn_base_num * i);
+ END LOOP;
+END; 
+```
+
+구구단 3단이 출력된다.
+{: .notice}
+
+```sql
+DECLARE
+ vn_base_num NUMBER := 3;
+BEGIN
+ FOR i IN REVERSE 1...9
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(vn_base_num || '*' || i || '= ' || vn_base_num * i);
+ END LOOP;
+END; 
+```
+
+구구단 3단이 거꾸로 출력된다.
+{: .notice}
+
+---
+#### CONTINUE 문
+---
+```sql
+DECLARE
+ vn_base_num NUMBER := 3;
+BEGIN
+ FOR i IN 1...9
+ LOOP
+  CONTINUE WHEN i=5;
+  DBMS_OUTPUT.PUT_LINE(vn_base_num || '*' || i || '= ' || vn_base_num * i);
+ END LOOP;
+END; 
+```
+
+CONTINUE문으로 인해 i가 5인 경우는 넘어가게된다.
+{: .notice}
+
+---
+#### GOTO 문
+---
+
+```sql
+DECLARE
+ vn_base_num NUMBER := 3;
+BEGIN
+ <<third>>
+ FOR i IN 1...9
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(vn_base_num || '*' || i || '= ' || vn_base_num * i);
+  IF i = 3 THEN
+   GOTO fourth;
+  END IF;
+ END LOOP;
+ 
+ <<fourth>>
+ vn_base_num := 4;
+ FOR i IN 1...9
+ LOOP
+  DBMS_OUTPUT.PUT_LINE(vn_base_num || '*' || i || '= ' || vn_base_num * i);
+ END LOOP; 
+END; 
+```
+
+i가 3일때 까지만 구구단을 수행하고 4단으로 넘어간다.
+{: .notice}
+
+---
+#### NULL 문
+---
+
+```sql
+DECLARE
+ vn_num1 NUMBER := 1;
+ vn_num2 NUMBER := 2;
+BEGIN
+ IF vn_num1 > vn_num2 THEN
+  DBMS_OUTPUT.PUT_LINE(vn_num1 || '이 큰 수');
+ ELSEIF vn_num2 > vn_num1
+  DBMS_OUTPUT.PUT_LINE(vn_num2 || '이 큰 수');
+ ELSE NULL;
+ END IF;
+END;
+```
+
+ELSE NULL을 이용하여 아무것도 수행하지 않는다.
+{: .notice}
+
+---
 ### 그 외,
 ---
 
