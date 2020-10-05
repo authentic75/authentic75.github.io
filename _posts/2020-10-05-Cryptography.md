@@ -291,7 +291,7 @@ Enc(i) = (k1*i+k2) mod 26
 ENC = 0 #ENC와 DEC Mode를 나타내기 위해 전역변수로 표시
 DEC = 1
 
-def makeDisk(k1,k2): #알파벳 하나를 입력받는다.
+def makeDisk(k1,k2): #두개의 키를 입력받는다.
     enc_disk = {}
     dec_disk = {}
     
