@@ -92,9 +92,42 @@ A710%w8(7c5**%;720%))%97w6;4%?;7)?*)46*8,75*#795*7c5**%;706@87w6;4%?;70%@8.
 A flower cannot blossom without sunshine, and man cannot live without love.
 ```
 
+---
+#### 파일 입출력을 이용해보자
+---
 
+```python
+if __name__ == '__main__': #__main__ 부터 실행하도록 다음과 같이 명시해줄 수 있다.
+#파이썬의  경우 C나 C++과 다르게 파일마다 __main__이 존재 할 수 있다.
+    h = open('plain.txt', 'rt')
+    plaintext = h.read()
+    h.close()
+    
+    encbook, decbook = makeCodebook() #encbook과 decbook를 생성한다.
+    ciphertext = encrypt(plaintext, encbook) #encrypt 함수를 이용해 평문을 암호문으로 변환한다.
+    
+    h = open('encryption.txt', 'wt+')
+    h.write(ciphertext)
+    h.close()
+```
 
+```
+I hope that a study of very long sentences will arm you with 
+strategies that are almost as diverse as the sentences themselves, 
+such as: starting each clause with the same word, tilting with dependent
+clauses toward a revelation at the end, padding with parentheticals,
+showing great latitude toward standard punctuation, rabbit-trailing away from
+the initial subject, encapsulating an entire life, and lastly, as this sentence is, 
+celebrating the list.
+```
 
-
+```
+I74%=87;45;757);?#:7%17@8(:70%*37)8*;8*c8)7w60075(97:%?7w6;47);(5;8368)7;45;
+75(87509%);75)7#6@8()875)7;487)8*;8*c8)7;489)80@8),7)?c475):7);5(;6*3785c47c05?)
+87w6;47;487)5987w%(#,7;60;6*37w6;47#8=8*#8*;7c05?)8)7;%w5(#757(8@805;6%*75;7;487
+8*#,7=5##6*37w6;47=5(8*;48;6c50),7)4%w6*373(85;705;6;?#87;%w5(#7);5*#5(#7=?*c;?5
+;6%*,7(5226;-;(5606*375w5:71(%97;4876*6;6507)?2j8c;,78*c5=)?05;6*375*78*;6(870618,
+75*#705);0:,75)7;46)7)8*;8*c876),7c8082(5;6*37;48706);.
+```
 
 
