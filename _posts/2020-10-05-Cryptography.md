@@ -279,7 +279,67 @@ keytable = map(lambda x:(chr(x+65), x), range(26))
 카이사르 암호는 26개의 키를 가지고 반드시 암호문은 해독할 수 있다. 따라서 변형으로 암호키의 개수를 늘린것이 아핀 암호방법이다. 아핀 암호는 k1과 k2를 사용한다.
 {: .notice}
 
+알아둬야한 점은 k1에는 26과 서로소인 수만 올 수 있다. {1,3,5,7,9,11,15,17,19,21,23,25}  
+시저 암호의 키 개수가 26개면 12배 많은 경우의 수를 가진 셈이다. 즉 312가지를 시도하면 무조건 풀 수 있다.
+{: .notice}
+
 ```
-Enc(i) = (k1*i*k2) mod 26
+Enc(i) = (k1*i+k2) mod 26
 ```
 
+```
+ENC = 0 #ENC와 DEC Mode를 나타내기 위해 전역변수로 표시
+DEC = 1
+
+def makeDisk(k1,k2): #알파벳 하나를 입력받는다.
+    enc_disk = {}
+    dec_disk = {}
+    
+    for i in range(26):
+        enc_i = (k1*i+k2)%26 #입력받은 두개의 키값을 이용해 아스키코드를 구한다
+        enc_ascii = enc_i + 65 #암호화에 이용할 알파벳을 대문자로 바꾼다
+        enc_disk[chr(i+65)] = chr(enc_ascii) #(평문 알파벳:암호화될 알파벳) 형태로 디스크 생성
+        dec_disk[chr(enc_ascii)] = chr(i+65) #복호화 디스크 생성 (암호화된 알파벳: 평문 알파벳) 
+
+    return enc_disk, dec_disk
+
+
+def affine(msg, key1, key2, mode): #메세지와 키를 입력받고 암호화할지 복호화 할지 mode를 통해 정한다
+    ret = '' #결과가 저장될 빈 문자열
+
+    msg = msg.upper() #내용을 대문자로 변환 
+    enc_disk, dec_disk = makeDisk(key1, key2) #disk 생성
+
+    if mode is ENC: #암호화 모드일 경우 disk에 암호화 디스크를 넣어준다
+        disk = enc_disk
+    if mode is DEC: #복호화 모드일 경우 disk에 복호화 디스크를 넣어준다
+        disk = dec_disk
+    
+    for c in msg:
+        if c in disk: #msg에 있는 문자를 순서대로 disk와 대조하여 변환한 결과를 ret에 저장해준다. 
+            ret += disk[c]
+        else: #만약 없으면 그대로 저장한다.
+            ret += c
+    
+    return ret
+
+
+def main():
+    k1, k2 = 3, 5
+    msg = 'You will never know untill you try.' #평문
+
+    print('Original:\t%s' %msg.upper()) #스트링포맷을 사용하여 문자열 출력(대문자로)
+    ciphertext = affine(msg, k1, k2, ENC) #암호화한 결과를 저장
+    print('Affine Cipher: \t%s' %ciphertext) #암호화한 결과 출력 
+    deciphertext = affine(ciphertext, k1, k2, DEC) #복호화한 결과 저장 
+    print('Deciphered: \t%s' %deciphertext)#복호화한 결과 출력
+    
+if __name__=='__main__':
+    main()
+```
+
+```
+Original:       YOU WILL NEVER KNOW UNTILL YOU TRY.
+Affine Cipher:  ZVN TDMM SRQRE JSVT NSKDMM ZVN KEZ.
+Deciphered:     YOU WILL NEVER KNOW UNTILL YOU TRY.
+```
