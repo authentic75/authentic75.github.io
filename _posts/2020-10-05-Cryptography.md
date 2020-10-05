@@ -40,16 +40,17 @@ read_time: false
 {: .notice}
 
 ---
-### 암호 도구를 구현해보자
+### 르그랑의 키드 암호문
 ---
 
-이제 기본 용어를 익혔으니 바로 파이썬을 통해 암호 도구를 구현해보자. 구현할 기능을 다음과 같다.
+르그랑의 키드 암호문은 고전 암호로 너무 간단하여 지금은 사용하지 않는 알고리즘이라고 한다.  
+파이썬을 통해 암호 도구를 구현해보자. 구현할 기능을 다음과 같다.  
 {: .notice}
 
 * 암호화 기능: 알파벳으로 이루어진 문장을 입력 받으면 모든 문자를 코드북을 이용하여 암호화한다. 단 코드북에 존재하지 않는 문자는 그대로 출력한다.
 * 복호화 기능: 암호화한 문장을 입력 받으면 코드북을 이용해 복호화 한다. 단 코드북에 존재하지 않을 시 그대로 출력한다.
 * 이와 같은 방식은 매우 취약하다. 노출되는 문자를 기반으로 어느정도 내용을 유추할 수 있기 때문이다.
-{: .notice}
+{: .notice--info}
 
 ```python
 def makeCodebook(): #사전형 Data로 decbook을 정의한다. 멤버는 암호문자:평문문자
@@ -99,14 +100,14 @@ A flower cannot blossom without sunshine, and man cannot live without love.
 ```python
 if __name__ == '__main__': #__main__ 부터 실행하도록 다음과 같이 명시해줄 수 있다.
 #파이썬의  경우 C나 C++과 다르게 파일마다 __main__이 존재 할 수 있다.
-    h = open('plain.txt', 'rt')
+    h = open('plain.txt', 'rt')#파일을 읽는다.
     plaintext = h.read()
     h.close()
     
     encbook, decbook = makeCodebook() #encbook과 decbook를 생성한다.
     ciphertext = encrypt(plaintext, encbook) #encrypt 함수를 이용해 평문을 암호문으로 변환한다.
     
-    h = open('encryption.txt', 'wt+')
+    h = open('encryption.txt', 'wt+')#파일을 생성한 후 쓰기모드로 연다.
     h.write(ciphertext)
     h.close()
 ```
