@@ -1,5 +1,5 @@
 ---
-title: "Cryptography: 암호란 무엇일까?"
+title: "Cryptography: 암호란 무엇일까?(키드암호와 시저암호)"
 last_modified_at: 2020-09-21T00:26:02-05:00
 categories:
   - Cryptography
@@ -40,9 +40,10 @@ read_time: false
 {: .notice}
 
 ---
-### 르그랑의 키드 암호문
+### 르그랑의 키드 암호
 ---
 
+르그랑은 미국의 한 소설에 등장하는 인물로 암호를 해독하여 보물을 찾아냈다고 한다.  
 르그랑의 키드 암호문은 고전 암호로 너무 간단하여 지금은 사용하지 않는 알고리즘이라고 한다.  
 파이썬을 통해 암호 도구를 구현해보자. 구현할 기능을 다음과 같다.  
 {: .notice}
@@ -130,5 +131,103 @@ I74%=87;45;757);?#:7%17@8(:70%*37)8*;8*c8)7w60075(97:%?7w6;47);(5;8368)7;45;
 ;6%*,7(5226;-;(5606*375w5:71(%97;4876*6;6507)?2j8c;,78*c5=)?05;6*375*78*;6(870618,
 75*#705);0:,75)7;46)7)8*;8*c876),7c8082(5;6*37;48706);.
 ```
+
+---
+### 카이사르의 시저 암호
+---
+
+로마황제 율리우스 카이사르가 가족이나 친분이 있는 사람에게 편지를 쓸때 사용했던 암호문에서 유래했다고 한다.  
+알파벳을 일정한 수만큼 뒤에 있는 알파벳으로 변환하는 방식으로 암호 디스크를 이용한다.  
+암호디스크는 레옴 바리스타 알베르티라는 건축가가 만든 것으로 알파벳과 0~9 숫자도 포함하고 있다.  
+{: .notice}
+
+문자 인덱스를 i라고 하고 암호화에 사용하는 일정한 수를 k라고 한다면 카이사르의 암호문은 다음 식을 만족한다.
+{: .notice}
+```
+Enc(i) = (i+k) mod 26
+```
+
+이를 참조하여 암호화 도구를 작성해보자
+{: .notice}
+
+```python
+ENC = 0 #ENC와 DEC Mode를 나타내기 위해 전역변수로 표시
+DEC = 1
+
+def makeDisk(key): #알파벳 하나를 입력받는다.
+    keytable = map(lambda x:(chr(x+65), x), range(26))
+    #람다 함수에서 x는 0~25 까지의 숫자를 의미하고 chr을 통해 0~25 + 65 인 아스키 값을 계산한다 (A~Z)
+    #결과로 ('A', 0), ('B', 1) ... 같은 튜플들이 리스트로 생성된다.
+    key2index = {}
+
+    for t in keytable:
+        alphabet, index = t[0], t[1] #튜플의 내용이 각각 알파벳과 인덱스로 들어간다.
+        key2index[alphabet] = index #그리고 튜플의 내용을 기준으로 사전형 자료를 만든다.
+
+    if key in key2index: #매개변수로 받은 Key가 사전형 자료에 있는지 확인하고
+        k = key2index[key] #인덱스를 구한다.
+    else:
+        return None, None #만약 입력받은 Key가 없는 경우 None을 리턴하고 종료한다.
+
+    enc_disk = {}
+    dec_disk = {}
+
+    for i in range(26):
+        enc_i = (i+k)%26 #입력받은 키값의 인덱스와 알파벳을 더한다
+        enc_ascii = enc_i + 65 #암호화에 이용할 알파벳을 대문자로 바꾼다
+        enc_disk[chr(i+65)] = chr(enc_ascii) #(평문 알파벳:암호화될 알파벳) 형태로 디스크 생성
+        dec_disk[chr(enc_ascii)] = chr(i+65) #복호화 디스크 생성 (암호화된 알파벳: 평문 알파벳) 
+
+    return enc_disk, dec_disk
+
+
+def caesar(msg, key, mode): #메세지와 키를 입력받고 암호화할지 복호화 할지 mode를 통해 정한다
+    ret = '' #결과가 저장될 빈 문자열
+    
+    msg = msg.upper() #내용을 대문자로 변환 
+    enc_disk, dec_disk = makeDisk(key) #disk 생성
+    
+    if enc_disk is None: #결과가 None이면 빈문자열을 출력한다
+        return ret
+        
+    if mode is ENC: #암호화 모드일 경우 disk에 암호화 디스크를 넣어준다
+        disk = enc_disk
+    if mode is DEC: #복호화 모드일 경우 disk에 복호화 디스크를 넣어준다
+        disk = dec_disk
+    
+    for c in msg:
+        if c in disk: #msg에 있는 문자를 순서대로 disk와 대조하여 변환한 결과를 ret에 저장해준다. 
+            ret += disk[c]
+        else: #만약 없으면 그대로 저장한다.
+            ret += c
+    
+    return ret
+
+def main():
+    plaintext = 'You will never know untill you try.' #평문
+    key = 'F' #암호문 생성에 사용할 키 값을 입력해준다.
+    
+    print('Original:\t%s' %plaintext.upper()) #스트링포맷을 사용하여 문자열 출력(대문자로)
+    ciphertext = caesar(plaintext, key, ENC) #암호화한 결과를 저장
+    print('Caesar Cipher: \t%s' %ciphertext) #암호화한 결과 출력 
+    deciphertext = caesar(ciphertext, key, DEC) #복호화한 결과 저장 
+    print('Deciphered: \t%s' %deciphertext)#복호화한 결과 출력
+    
+if __name__=='__main__':
+    main()
+```
+
+```
+Original:       YOU WILL NEVER KNOW UNTILL YOU TRY.
+Caesar Cipher:  DTZ BNQQ SJAJW PSTB ZSYNQQ DTZ YWD.
+Deciphered:     YOU WILL NEVER KNOW UNTILL YOU TRY.
+```
+
+
+
+
+
+
+
 
 
