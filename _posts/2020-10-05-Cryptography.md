@@ -223,11 +223,51 @@ Caesar Cipher:  DTZ BNQQ SJAJW PSTB ZSYNQQ DTZ YWD.
 Deciphered:     YOU WILL NEVER KNOW UNTILL YOU TRY.
 ```
 
+---
+#### lambda와 map 함수
+---
 
+이번 암호 도구를 작성하면서 lambda 함수를 필자는 처음 보았다. lambda 함수는 함수이름 없이 한줄로 구성하는 함수를 뜻하는데 아래와 같은 형태로 사용한다.
+{: .notice}
 
+```
+lambda 인자, 인자: 식
+```
 
+```
+>>> f = lambda x: x+x
+>>> f(2)
+4
+>>> f(3)
+6
+```
 
+map 함수의 경우 반복가능한 자료형을 입력받아서 반복동작 하는 함수라고 보면 되겠다.
+{: .notice}
 
+```
+map(함수, 반복가능한 자료)
+```
+간단한 예를 들자면, 
+{: .notice}
 
+```
+results = map(lambda x: x+x, [0,1,2,3])
+print(list(results))
+```
+리스트의 각 멤버를 람다의 인자로 받아서 실행한다. 그럼 결과는 아래와 같이 된다.
+{: .notice}
 
+```
+[0,2,4,6]
+```
 
+그럼 다시 아래 부분을 살펴보자.
+{: .notice}
+
+```
+keytable = map(lambda x:(chr(x+65), x), range(26))
+```
+
+0~25의 숫자를 인자로 (아스키 코드를 계산한 후 대문자 알파벳으로 나타냄, 숫자) 와 같은 튜플로 만들어 내는 것이다.
+{: .notice}
