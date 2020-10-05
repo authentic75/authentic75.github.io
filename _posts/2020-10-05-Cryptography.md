@@ -51,10 +51,46 @@ read_time: false
 * 이와 같은 방식은 매우 취약하다. 노출되는 문자를 기반으로 어느정도 내용을 유추할 수 있기 때문이다.
 {: .notice}
 
+```python
+def makeCodebook(): #사전형 Data로 decbook을 정의한다. 멤버는 암호문자:평문문자
+    decbook = {'5':'a', '2':'b', '#':'d',  '8':'e',  '1':'f', '3':'g', \
+          '4':'h',  '6':'i', '0':'l', '9':'m', '*':'n', \
+          '%':'o', '=':'p', '(':'r', ')':'s', ';':'t', '?':'u', \
+           '@':'v',  ':':'y',  '7':' '}
+    encbook = {}
+    for k in decbook: #decbook와는 반대로 평문문자:암호문 문자 로 저장한다.
+        val = decbook[k]
+        encbook[val] = k
+   
+    return encbook, decbook
 
+def encrypt(msg, encbook):
+    for c in msg: #for문을 통해 한 문자씩 불러와 코드북을 참고하여 문자열 내 모든 해당 문자를 치환한다.
+        if c in encbook:
+            msg = msg.replace(c, encbook[c])
+    return msg
 
+def decrypt(msg, decbook):
+    for c in msg: #for문을 통해 한 문자씩 불러와 코드북을 참고하여 문자열 내 모든 해당 문자를 치환한다.
+        if c in decbook:
+            msg = msg.replace(c, decbook[c])
+    return msg
 
+if __name__ == '__main__': #__main__ 부터 실행하도록 다음과 같이 명시해줄 수 있다.
+#파이썬의  경우 C나 C++과 다르게 파일마다 __main__이 존재 할 수 있다.
+    plaintext = 'A flower cannot blossom without sunshine, and man cannot live without love.'
+    encbook, decbook = makeCodebook() #encbook과 decbook를 생성한다.
+    ciphertext = encrypt(plaintext, encbook) #encrypt 함수를 이용해 평문을 암호문으로 변환한다.
+    print(ciphertext)
+    
+    deciphertext = decrypt(ciphertext, decbook) #decrypt 함수를 이용해 암호문을 평문으로 변환한다.
+    print(deciphertext)
+```
 
+```
+A710%w8(7c5**%;720%))%97w6;4%?;7)?*)46*8,75*#795*7c5**%;706@87w6;4%?;70%@8.
+A flower cannot blossom without sunshine, and man cannot live without love.
+```
 
 
 
