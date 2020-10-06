@@ -6,6 +6,7 @@ categories:
 tags:
   - 암호학
   - 파이썬
+  - 암호와 해킹 1판
 toc: true 
 toc_label: "Table of Contents"
 toc_icon: "cog"
@@ -17,6 +18,17 @@ read_time: false
 ---
 ### 전치 암호
 ---
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/내부보안/Crypto1.JPG" alt="">
+  <figcaption></figcaption>
+</figure>
+
+<figure class="align-center">
+  <img src="{{ site.url }}{{ site.baseurl }}/assets/images/내부보안/Crypto2.JPG" alt="">
+  <figcaption></figcaption>
+</figure>
+
 
 ```python
 ENC = 0
