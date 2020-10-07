@@ -30,7 +30,7 @@ read_time: false
 </figure>
 
 ---
-### 메세지 암호화 구현하기
+### 메세지 암호화 구현하기 (DES3)
 ---
 
 ```
@@ -96,5 +96,78 @@ if __name__== '__main__':
 ```
 ORIGINAL:       Step by step goes a long way
 CIPHERED:       b'\xfa\x06\x84*K\xbf\xd7\xc8u\x9a\x9d\x87\xee\x01\x97\x90N\xfc\x83sB\x94\xd2s\xb7s\x9c\xde:\xb2`d'
-DECIPHERED:     b'Step by step goes a long way0000'
+DECIPHERED:     b'Step by step goes a long way0000' #나중에 추가된 0의 길이를 따로 저장해두고 잘라내도 되겠다.
+```
+
+---
+### 메세지 암호화 구현하기 (AES)
+---
+
+```python
+from Crypto.Cipher import AES #AES를 import 해준다.
+from Crypto.Hash import SHA256 as SHA #SHA256을 통해 3DES의 암호키와 초기화 벡터를 만든다.
+
+class myAES():
+    def __init__(self, keytext, ivtext):
+        hash = SHA.new()
+        hash.update(keytext.encode('utf-8'))
+        key = hash.digest()
+        self.key = key[:16]
+        
+        hash.update(ivtext.encode('utf-8'))
+        iv = hash.digest()
+        self.iv = iv[:16]
+        
+    def makeEnabled(slef, plaintext):
+        fillersize = 0
+        textsize = len(plaintext)
+        if textsize%16 !=0:
+            fillersize = 16-textsize%16
+            
+        filler = '0'*fillersize
+        header = '%d' %(fillersize)
+        gap = 16-len(header)
+        header += '#'*gap
+        
+        return header+plaintext+filler
+
+    def enc(self, plaintext):
+        plaintext = self.makeEnabled(plaintext)
+        aes = AES.new(self.key, AES.MODE_CBC, self.iv)
+        encmsg = aes.encrypt(plaintext.encode())
+        return encmsg
+       
+    def dec(self, ciphertext):
+        aes = AES.new(self.key, AES.MODE_CBC, self.iv)
+        decmsg = aes.decrypt(ciphertext)
+        
+        header = decmsg[:16].decode()
+        fillersize = int(header.split('#')[0])
+        if fillersize !=0:
+            decmsg = decmsg[16:-fillersize]
+        else:
+            decmsg = decmsg[16:]
+        return decmsg
+
+def main():
+    keytext = 'mint'
+    ivtext = '1234'
+    msg = 'Step by step goes a long way'
+    
+    myCipher = myAES(keytext, ivtext)
+    ciphered = myCipher.enc(msg)
+    deciphered = myCipher.dec(ciphered)
+    
+    print('ORIGINAL: \t%s' %msg)
+    print('CIPHERED: \t%s' %ciphered)
+    print('DECIPHERED: \t%s' %deciphered)
+    
+if __name__== '__main__':
+    main()
+```
+
+```
+ORIGINAL:       Step by step goes a long way
+CIPHERED:       b"\x99o\xae\xa2\xb6\x88~w\x1f\x87A\xaf\xb3hX\x1c\xd8\x0fEI\x00z\xdbv\x17\xbeshR\xc1\x85\xb9\xfb\xd4\x12\xd6\xb48'9\xc82\x9e\xc6Kg\xe4\xca"
+DECIPHERED:     b'Step by step goes a long way'
 ```
