@@ -171,3 +171,88 @@ ORIGINAL:       Step by step goes a long way
 CIPHERED:       b"\x99o\xae\xa2\xb6\x88~w\x1f\x87A\xaf\xb3hX\x1c\xd8\x0fEI\x00z\xdbv\x17\xbeshR\xc1\x85\xb9\xfb\xd4\x12\xd6\xb48'9\xc82\x9e\xc6Kg\xe4\xca"
 DECIPHERED:     b'Step by step goes a long way'
 ```
+
+---
+### 메세지 암호화 구현하기 (스트림 암호 ARC4)
+---
+
+```python
+from Crypto.Cipher import ARC4 #ARC4를 import 해준다. ARC4란 Alleged RC4를 의미한다.
+from Crypto.Hash import SHA256 as SHA #SHA256을 통해 3DES의 암호키와 초기화 벡터를 만든다.
+
+#스트림 암호는 보통 8비트 단위로 암호화를 수행하므로 암호 블록 크기는 1바이트다.
+#운영 모드의 경우 ECB모드만 사용가능하여 초기화 벡터는 필요없다는 것이 특징이다.
+#즉, 암호화 키만 정의되면 1문자 이상의 임의의 메세지에 대해 암호화, 복호화가 가능하다.
+
+class myARC4():
+    def __init__(self, keytext):
+        self.key = keytext.encode()
+        
+    def enc(self, plaintext):
+        arc4 = ARC4.new(self.key)
+        encmsg = arc4.encrypt(plaintext.encode())
+        return encmsg
+        
+    def dec(self, ciphertext):
+        arc4 = ARC4.new(self.key)
+        decmsg = arc4.decrypt(ciphertext)
+        return decmsg
+    
+def main():
+    keytext = 'mintmint'
+    msg = 'Step by step goes a long way'
+    
+    myCipher = myARC4(keytext)
+    ciphered = myCipher.enc(msg)
+    deciphered = myCipher.dec(ciphered)
+    
+    print('ORIGINAL: \t%s' %msg)
+    print('CIPHERED: \t%s' %ciphered)
+    print('DECIPHERED: \t%s' %deciphered)
+      
+if __name__== '__main__':
+    main()
+```
+
+```
+ORIGINAL:       Step by step goes a long way
+CIPHERED:       b'\xbeX\xda\xe1=\t\x9aXP\\\xca\xed\xae\xe3\xc6\x0c\x14h\xba\x98\x9fu\x9c$i\xa9\xdb\xc4'
+DECIPHERED:     b'Step by step goes a long way'
+```
+
+---
+### 데이터 무결성 검증 수행
+---
+
+```python
+from Crypto.Hash import SHA256 as SHA
+SIZE = 1024*256
+
+def getFileHash(filename):
+    hash = SHA.new()
+    h = open(filename, 'rb')
+    content = h.read(SIZE)
+    while content:
+        hash.update(content)
+        hashval = hash.digest()
+        content = h.read(SIZE)
+    h.close()
+    return hashval
+  
+def hashCheck(file1, file2):
+    hashval1 = getFileHash(file1)
+    hashval2 = getFileHash(file2)
+    if hashval1 == hashval2:
+        print('Two Files are Same')
+    else:
+        print('Two Files are Different')
+        
+def main():
+    file1 = 'file1.txt'
+    file2 = 'file2.txt'
+    hashCheck(file1, file2)
+    
+if __name__ == '__main__':
+    main()
+```
+
