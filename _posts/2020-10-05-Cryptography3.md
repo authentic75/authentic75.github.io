@@ -67,7 +67,15 @@ class myDES(): #클래스를 생성해준다
         des3 = DES3.new(self.key, DES3.MODE_CBC, self.iv) # 암호키, 운영모드, 초기화벡터를 받아서 DES3 객체를 생성한다.
         decmsg = des3.decrypt(ciphertext)  #des3 객체를 이용하여 ciphertext를 복호화 한다.
         return decmsg
-        
+		
+def make8String(msg):   #암호화할 문자열 바이트가 8의 배수가 아니어도 길이를 맞춰준다.
+    msglen = len(msg)
+    filler = ''
+    if msglen%8 != 0:
+        filler = '0'*(8 - msglen%8)
+    msg+=filler
+    return msg
+	
 def main():
     keytext = 'mint'
     ivtext = '1234'
@@ -86,7 +94,7 @@ if __name__== '__main__':
 ```
 
 ```
-ORIGINAL:       python35python35
-CIPHERED:       b'\x1a\x8d8b\xa1\x9e\xcd~\xe1\x91\x0c"z\xbdm\x8d'
-DECIPHERED:     b'python35python35'
+ORIGINAL:       Step by step goes a long way
+CIPHERED:       b'\xfa\x06\x84*K\xbf\xd7\xc8u\x9a\x9d\x87\xee\x01\x97\x90N\xfc\x83sB\x94\xd2s\xb7s\x9c\xde:\xb2`d'
+DECIPHERED:     b'Step by step goes a long way0000'
 ```
