@@ -233,8 +233,8 @@ def getFileHash(filename):
     h = open(filename, 'rb')
     content = h.read(SIZE)
     while content:
-        hash.update(content)
-        hashval = hash.digest()
+        hash.update(content) #sha를 통해서 파일 내용을 불러와 hash 값을 계산한다.
+        hashval = hash.digest() #hash 값을 추출
         content = h.read(SIZE)
     h.close()
     return hashval
@@ -242,7 +242,7 @@ def getFileHash(filename):
 def hashCheck(file1, file2):
     hashval1 = getFileHash(file1)
     hashval2 = getFileHash(file2)
-    if hashval1 == hashval2:
+    if hashval1 == hashval2:	#두개 파일의 해쉬값을 불러와서 비교해본다. 
         print('Two Files are Same')
     else:
         print('Two Files are Different')
@@ -256,3 +256,9 @@ if __name__ == '__main__':
     main()
 ```
 
+```
+Two Files are Same
+```
+```
+Two Files are Different
+```
