@@ -226,7 +226,7 @@ DECIPHERED:     b'Step by step goes a long way'
 
 ```python
 from Crypto.Hash import SHA256 as SHA
-SIZE = 1024*256
+SIZE = 1024*256 #256kb 단위로 나누어서 해쉬 값을 구하는 것이 좋다. (컴퓨터 메모리가 크다면 상관없을 지라도...)
 
 def getFileHash(filename):
     hash = SHA.new()
