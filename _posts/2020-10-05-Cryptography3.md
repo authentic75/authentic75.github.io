@@ -39,28 +39,33 @@ pip install pycryptodome
 ```
 
 ```python
-from Crypto.Cipher import DES3
-from Crypto.Hash import SHA256 as SHA
+from Crypto.Cipher import DES3 #3DES를 import 해준다.
+from Crypto.Hash import SHA256 as SHA #SHA256을 통해 3DES의 암호키와 초기화 벡터를 만든다.
 
-class myDES():
-    def __init__(self, keytext, ivtext):
-        hash = SHA.new()
-        hash.update(keytext.encode('utf-8'))
-        key = hash.digest()
-        self.key = key[:24]
+class myDES(): #클래스를 생성해준다
+    def __init__(self, keytext, ivtext): #클래스 생성자 
+    #키를 생성하기위한 텍스트로 keytext와 초기화 벡터를 생성하기위한 텍스트로 ivtext를 받는다.
+    #keytext가 16바이트 길이라면 3DES가 지원하는 키 크기 이므로 바로 암호키로 활용할수도 있다.
+    #하지만 키길이가 무엇이든간에 자동으로 3DES가 지원하는 길이로 변환된다면 더 편할 것이다.
+    #이때, 사용하는것이 SHA 다.
+        hash = SHA.new() #SHA 객체를 만들어 hash에 할당한다.
+        hash.update(keytext.encode('utf-8')) #keytext를 받아 해시값을 갱신한다. 파이썬은 유니코드를 이용하기 때문에 utf-8로 변환해준다.
+        key = hash.digest() #hash 값을 추출하여 key 값에 할당해준다.
+        self.key = key[:24] #SHA256이 생성하는 키 크기는 32바이트(256비트) 크기다.
+        #하지만 Crypto에서 지원하는 3DES 키크기는 16바이트 아니면 24바이트 크기 이므로 슬라이싱 해준다.
         
-        hash.update(ivtext.encode('utf-8'))
-        iv = hash.digest()
-        self.iv = iv[:8]
+        hash.update(ivtext.encode('utf-8')) #마찬가지로 초기화 벡터에 사용할 키를 만들어준다.
+        iv = hash.digest() #hash 값을 추출하여 iv 값에 할당해준다.
+        self.iv = iv[:8] # 이 소스코드는 CBC 방식으로 암호화를 해줄 것이다. DES3 에서 지원하는 암호화블록 크기는 64비트 이므로 iv 크기도 64비트가 되어야한다.
         
     def enc(self, plaintext):
-        des3 = DES3.new(self.key, DES3.MODE_CBC, self.iv)
-        encmsg = des3.encrypt(plaintext.encode())
+        des3 = DES3.new(self.key, DES3.MODE_CBC, self.iv) # 암호키, 운영모드, 초기화벡터를 받아서 DES3 객체를 생성한다. 
+        encmsg = des3.encrypt(plaintext.encode()) #des3 객체를 이용하여 plaintext를 암호화 한다.
         return encmsg
         
     def dec(self, ciphertext):
-        des3 = DES3.new(self.key, DES3.MODE_CBC, self.iv)
-        decmsg = des3.decrypt(ciphertext)
+        des3 = DES3.new(self.key, DES3.MODE_CBC, self.iv) # 암호키, 운영모드, 초기화벡터를 받아서 DES3 객체를 생성한다.
+        decmsg = des3.decrypt(ciphertext)  #des3 객체를 이용하여 ciphertext를 복호화 한다.
         return decmsg
         
 def main():
