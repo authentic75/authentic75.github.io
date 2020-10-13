@@ -18,7 +18,7 @@ read_time: false
 `이 게시물은 화이트해커를 위한 암호와 해킹 1판을 참고하여 작성하였습니다.`
 
 ---
-### 스니핑
+### 스니핑을 구현해보자
 ---
 
 네트워크 소켓은 클라이언트나 서버 프로그램을 구현하기 위한 가장 핵심적인 모듈이다.  
@@ -31,6 +31,10 @@ read_time: false
 * UDP 소켓
 * Raw 소켓: 라우터나 네트워크 장비에서 활용되는 네트워크 소켓
 {: .notice}
+
+---
+#### 단순 패킷 수신
+---
 
 ```python
 from socket import *
@@ -70,6 +74,9 @@ x01\xe0\x00\x00\xfb\x14\xe9\x14\xe9\x00$\x1c}\x00\x00\x00\
 x00\x00\x01\x00\x00\x00\x00\x00\x00\x04wpad\x05local\
 x00\x00\x01\x00\x01', ('192.168.3.1', 0))
 ```
+---
+#### 헤더 수신
+---
 
 ip 헤더만 뽑아보자
 {: .notice}
@@ -125,6 +132,10 @@ SNIFFED [6] b'E\x00\x008\x8a\x04\x00\x00\x01\x11\x8b\x0c\xc0\xa8\x03\x01\xe0\x00
 SNIFFED [7] b'E\x00\x00N\xf8=\x00\x00\x80\x11\x00\x00\xc0\xa8\x03\x01\xc0\xa8\x03\xff'
 SNIFFED [8] b'E\x00\x00N\xf8=\x00\x00\x80\x11\xba\x10\xc0\xa8\x03\x01\xc0\xa8\x03\xff'
 ```
+
+---
+#### 헤더로 부터 정보를 얻어보자
+---
 
 ```python
 from socket import *
