@@ -33,11 +33,11 @@ read_time: false
 ```python
 def findPass(passhash, dictfile):  
     salt = passhash[3:5]    #passhash의 3,4번째 문자가 salt
-    with open(dictfile, 'r') as dfile:        #with ~ as를 사용하면 자동으로 close 됨
+    with open(dictfile, 'r') as dfile:        #with ~ as를 사용하면 자동으로 close
         for word in dfile.readlines():
             word = word.strip('\n')
-            cryptwd = ccrypt.crypt(word, salt) #패스워드 해시를 계산
-            if cryptwd == passhash[3:]: #3번째부터 패스워드 해시			
+            cryptwd = ccrypt.crypt(word, salt) #딕셔너리를 읽어들여 단어의 해시를 계산
+            if cryptwd == passhash[3:]: #패스워드 해쉬와 딕셔너리 해쉬 비교			
                 return word
     return ''  #일치하는 단어가 없으면 빈 문자열을 리턴
 	
