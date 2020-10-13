@@ -32,16 +32,16 @@ def caesar(msg, key):
     msg = msg.upper() 	 #암호문을 대문자로 변환
     disk = makeDisk(key) #디스크 생성
     for c in msg:		 #디스크와 msg 한글자씩 비교
-        if c in disk:	 #
-            ret += disk[c]
+        if c in disk:		
+            ret += disk[c]  #디스크에 해당 글자가 있으면 ret에 복호화된값 입력
         else:
-            ret += c
+            ret += c		#글자가 없으면 암호문 글자 그대로 입력
     return ret
 
 def attack(msg):
-    for key in range(1, 26):
-        decmsg = caesar(msg, key)
-        print('SHIFT[%d]: %s' %(key, decmsg))
+    for key in range(1, 26):	#A~Z의 경우의 수 모두 시도
+        decmsg = caesar(msg, key) #복호화된 값
+        print('SHIFT[%d]: %s' %(key, decmsg)) #출력
 
 if __name__ == '__main__':
     msg = 'UGAMKZMBSMGQAVCUJMZBPZMMNQDMWVMBPZMM'
