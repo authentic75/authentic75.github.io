@@ -1,6 +1,6 @@
 ---
 title: "Cryptography: 암호문 단독 공격, 알려진 평문 공격"
-last_modified_at: 2020-10-05T00:26:02-05:00
+last_modified_at: 2020-10-13T00:26:02-05:00
 categories:
   - Cryptography
 tags:
