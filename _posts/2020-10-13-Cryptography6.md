@@ -89,7 +89,7 @@ Found Password: ID [samsjang] Password [python]
 ---
 
 
-```
+```python
 import zipfile  
 from threading import Thread  
   
@@ -112,4 +112,8 @@ if __name__ == '__main__':
         passwd = line.strip('\n')  
         t = Thread(target = crackzip, args = (zfile, passwd.encode('utf-8')))  
         t.start()  
+```
+
+```
+zip file extracted successfully!! PASS = [apple]
 ```
