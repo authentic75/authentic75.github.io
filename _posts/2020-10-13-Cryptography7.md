@@ -583,8 +583,8 @@ def showpacket(packet):
     if proto in protocols:
         print('PROTOCOL: %s: %s -> %s' %(protocols[proto], src_ip, dst_ip))
 
-def main(filter):
-    sniff(filter=filter, prn=showpacket, count=1)
+def main(filter): #랜카드가 여러개라 iface로 사용할 인터페이스 지정
+    sniff(filter=filter, prn=showpacket, count=1, iface="Killer E2500 Gigabit Ethernet Controller")
     
 if __name__ == '__main__':
     filter = 'ip'
@@ -592,5 +592,25 @@ if __name__ == '__main__':
 ```
 
 ```
-PROTOCOL: UDP: 62.62.62.100 -> 62.62.62.255
+PROTOCOL: TCP: 192.168.0.69 -> 210.89.160.53
+```
+
+---
+### 메세지 가로채기
+---
+
+```python
+from scapy.all import*  
+  
+def showPacket(packet):  
+    data = '%s' %(paket[TCP].payload)  
+    if 'user' in data.lower() or 'pass' in data.lower():  
+        print ('+++[%s]: %s' %(packet[IP].dst, data))  
+  
+def sniffing(filter):  
+    sniff(filter = filter, prn = showPacket, iface="Killer E2500 Gigabit Ethernet Controller", count = 0, store = 0)  
+  
+if __name__ == '__main__':  
+    filter = 'tcp port 25 or tcp port 110 or tcp port 143 or tcp port 80'  
+    sniffing(filter)  
 ```
