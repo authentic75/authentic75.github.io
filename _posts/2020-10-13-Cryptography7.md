@@ -359,3 +359,33 @@ START SNIFFINT at for ICMP [192.168.0.17]
 192.168.0.17 -> 172.217.31.174: ICMP: Type[8], Code[0]
 172.217.31.174 -> 192.168.0.17: ICMP: Type[0], Code[0]
 ```
+
+---
+### 호스트 스캐너
+---
+
+```
+cd C:\Users\authe\AppData\Local\Programs\Python\Python38\Scripts
+pip install netaddr
+```
+
+```python
+from socket import *
+from netaddr import IPNetwork, IPAddress
+
+def sendMsg(subnet, msg):
+    sock = socket(AF_INET, SOCK_DGRAM)   #UDP 소켓 생성
+    for ip in IPNetwork(subnet):   
+        try:
+            print('SENDING MESSAGE to [%s]' %ip)
+            sock.sendto(msg.encode('utf-8'), ('%s' %ip, 9000)) #서브넷의 모든 IP에 대해 9000번포트로 메시지 전송
+                                                                      #유니코드 메시지는 오류 발생하므로UTF-8로 인코딩
+        except Exception as e:
+            print(e)
+
+def main():
+    #host = gethostbyname(gethostname())
+    subnet = '192.168.0.17/24'
+    msg = 'KNOCK!KNOCK!'
+    sendMsg(subnet, msg)
+```
