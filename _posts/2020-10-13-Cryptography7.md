@@ -408,7 +408,7 @@ SENDING MESSAGE to [192.168.0.5]
 왜인지 모르겠지만 글씨가 깨지고 에러가 난다. 다음에 해보자.
 {: .notice}
 
-```
+```python
 import os
 from socket import *
 from netaddr import IPNetwork, IPAddress
@@ -432,7 +432,7 @@ if __name__ == '__main__':
     main()
 ```
 
-```
+```python
 from socket import *
 import os
 import struct
@@ -521,7 +521,7 @@ C:\Users\authe\AppData\Local\Programs\Python\Python38\Scripts\scapy-master\scapy
 C:\Users\authe\AppData\Local\Programs\Python\Python38\Scripts\scapy-master\scapy-master>python setup.py install
 ```
 
-```
+```python
 from scapy.all import *
 
 def showpacket(packet):
@@ -534,23 +534,63 @@ if __name__ == '__main__':
     filter = 'ip'
     main(filter)
 ```
+```
+###[ Ethernet ]###
+  dst       = 70:5d:cc:39:0c:7c
+  src       = 7c:d3:0a:81:cb:1a
+  type      = IPv4
+###[ IP ]###
+     version   = 4
+     ihl       = 5
+     tos       = 0xb8
+     len       = 138
+     id        = 37413
+     flags     = DF
+     frag      = 0
+     ttl       = 128
+     proto     = tcp
+     chksum    = 0x0
+     src       = 192.168.0.69
+     dst       = 113.29.138.230
+     \options   \
+###[ TCP ]###
+        sport     = 22338
+        dport     = https
+        seq       = 2258849478
+        ack       = 1873317550
+        dataofs   = 5
+        reserved  = 0
+        flags     = PA
+        window    = 1024
+        chksum    = 0x8b3e
+        urgptr    = 0
+        options   = []
+###[ Raw ]###
+           load      = '^\x00\x00\x00\xca\x0c\xc1\xe2\xaf\xe9\xcd\x1f\x1c{\xcf+\xfa\x13\xaa\xf5\xc4\xba\xed72!\x10\x05\xebfZ\xdb\x88\\}\x12,\xa5\x1c\xac~\xd8oT\x12\x8e!\xab\x94\x1b\x12\xe3\x9d\x06\x9e\xf2%\xf4\x00\x16+\xe3jL-\xf1M->\x0c\x19H\x9b\x8aA\x97\xd1\xe6\xce\x83\xbf\xf8%s"\x1f\xdf\x9bYc\xc9\x95\x85\xfbx\xff\x9b\x05'
+```
+
+```python
+from scapy.all import *
+import logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+
+protocols = {1:'ICMP', 6:'TCP', 17:'UDP'}
+
+def showpacket(packet):
+    src_ip = packet[0][1].src
+    dst_ip = packet[0][1].dst
+    proto = packet[0][1].proto
+    if proto in protocols:
+        print('PROTOCOL: %s: %s -> %s' %(protocols[proto], src_ip, dst_ip))
+
+def main(filter):
+    sniff(filter=filter, prn=showpacket, count=1)
+    
+if __name__ == '__main__':
+    filter = 'ip'
+    main(filter)
+```
 
 ```
-# from scapy.all import *
-
-# protocols = {1:'ICMP', 6:'TCP', 17:'UDP'}
-
-# def showpacket(packet):
-    # src_ip = packet[0][1].src
-    # dst_ip = packet[0][1].dst
-    # proto = packet[0][1].proto
-    # if proto in protocols:
-        # print('PROTOCOL: %s: %s -> %s' %(protocols[proto], src_ip, dst_ip))
-
-# def main(filter):
-    # sniff(filter=filter, prn=showpacket, count=1)
-    
-# if __name__ == '__main__':
-    # filter = 'ip'
-    # main(filter)
+PROTOCOL: UDP: 62.62.62.100 -> 62.62.62.255
 ```
