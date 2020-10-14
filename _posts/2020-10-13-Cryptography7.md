@@ -379,7 +379,7 @@ def sendMsg(subnet, msg):
         try:
             print('SENDING MESSAGE to [%s]' %ip)
             sock.sendto(msg.encode('utf-8'), ('%s' %ip, 9000)) #서브넷의 모든 IP에 대해 9000번포트로 메시지 전송
-                                                                      #유니코드 메시지는 오류 발생하므로UTF-8로 인코딩
+                                                               #유니코드 메시지는 오류 발생하므로 UTF-8로 인코딩
         except Exception as e:
             print(e)
 
@@ -388,4 +388,15 @@ def main():
     subnet = '192.168.0.17/24'
     msg = 'KNOCK!KNOCK!'
     sendMsg(subnet, msg)
+```
+
+```
+**공유기의 경우 원하는 결과가 안나올 수 도 있음
+SENDING MESSAGE to [192.168.0.0]
+SENDING MESSAGE to [192.168.0.1]
+SENDING MESSAGE to [192.168.0.2]
+SENDING MESSAGE to [192.168.0.3]
+SENDING MESSAGE to [192.168.0.4]
+SENDING MESSAGE to [192.168.0.5]
+...
 ```
