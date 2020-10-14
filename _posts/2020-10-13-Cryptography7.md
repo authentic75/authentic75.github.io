@@ -400,3 +400,157 @@ SENDING MESSAGE to [192.168.0.4]
 SENDING MESSAGE to [192.168.0.5]
 ...
 ```
+
+---
+#### ping을 이용한 호스트 스캐너
+---
+
+왜인지 모르겠지만 글씨가 깨지고 에러가 난다. 다음에 해보자.
+{: .notice}
+
+```
+import os
+from socket import *
+from netaddr import IPNetwork, IPAddress
+from threading import Thread
+
+def sendPing(ip):
+    try:
+        ret = os.system('ping -n 1 %s'%ip)
+    except Exception as e:
+        print(e)
+    
+def main():
+    #host = gethostbyname(gethostname())
+    #subnet = host + '/24'
+    subnet = '192.168.0.17/24'
+    for ip in IPNetwork(subnet):
+        t = Thread(target=sendPing, args=(ip,))  #서브넷 ip 개수만큼 스레드를 구동하여 처리속도를 높임
+        t.start()
+    
+if __name__ == '__main__':
+    main()
+```
+
+```
+from socket import *
+import os
+import struct
+
+def parse_ipheader(data):
+    ipheader = struct.unpack('!BBHHHBBH4s4s', data[:20])
+    return ipheader
+    
+def getProtocol(ipheader):
+    protocols = {1:'ICMP', 6:'TCP', 17:'UDP'}
+    proto = ipheader[6]
+    if proto in protocols:
+        return protocols[proto]
+    else:
+        return 'OTHERS'
+        
+def getIP(ipheader):
+    src_ip = inet_ntoa(ipheader[8])
+    dst_ip = inet_ntoa(ipheader[9])
+    return (src_ip, dst_ip)
+    
+def getIPHedaerLen(ipheader):
+    ipheaderlen = ipheader[0] & 0x0F
+    ipheaderlen *= 4
+    return ipheaderlen
+    
+def getTypeCode(icmp):
+    icmpheader = struct.unpack('!BB', icmp[:2])
+    icmp_type = icmpheader[0]
+    icmp_code = icmpheader[1]
+    return (icmp_type, icmp_code)
+    
+def recvData(sock):
+    data = ''
+    try:
+        data = sock.recvfrom(65565)
+    except timeout:
+        data = ''
+    return data[0]
+    
+def sniffing(host):
+    if os.name == 'nt':
+        sock_protocol = IPPROTO_IP
+    else:
+        sock_protocol = IPPROTO_ICMP
+    sniffer = socket(AF_INET, SOCK_RAW, sock_protocol)
+    sniffer.bind(('192.168.0.17', 0)) #IP 주소 입력 해주자
+    sniffer.setsockopt(IPPROTO_IP, IP_HDRINCL, 1)
+    if os.name == 'nt':
+        sniffer.ioctl(SIO_RCVALL, RCVALL_ON)
+    count = 1
+    try:
+        while True:
+            data = recvData(sniffer)
+            ipheader = parse_ipheader(data[:20])
+            ipheaderlen = getIPHedaerLen(ipheader)
+            protocol = getProtocol(ipheader)
+            src_ip, dst_ip = getIP(ipheader)
+            if protocol == 'ICMP':
+                offset = ipheaderlen
+                icmp_type, icmp_code = getTypeCode(data[offset:]) #IP헤더 바로 다음부터 ICMP헤더 시작
+                if icmp_type ==0:
+					print('HOST ALIVE: %s' %src_ip)
+					
+    except KeyboardInterrupt:
+        if os.name == 'nt':
+            sniffer.ioctl(SIO_RCVALL, RCVALL_OFF)
+                                
+def main():
+    host = gethostbyname(gethostname())
+    print('START SNIFFINT at for ICMP [%s]' %'192.168.0.17')
+    sniffing(host)
+if __name__ == '__main__':
+    main()
+```
+
+---
+### Scapy 모듈을 사용해보자
+---
+
+```
+C:\Users\authe>cd C:\Users\authe\AppData\Local\Programs\Python\Python38\Scripts
+C:\Users\authe\AppData\Local\Programs\Python\Python38\Scripts>cd scapy-master
+C:\Users\authe\AppData\Local\Programs\Python\Python38\Scripts\scapy-master>cd scapy-master
+C:\Users\authe\AppData\Local\Programs\Python\Python38\Scripts\scapy-master\scapy-master>python setup.py build
+C:\Users\authe\AppData\Local\Programs\Python\Python38\Scripts\scapy-master\scapy-master>python setup.py install
+```
+
+```
+from scapy.all import *
+
+def showpacket(packet):
+    print(packet.show())
+    
+def main(filter):
+    sniff(filter=filter, prn=showpacket, count=1)
+    
+if __name__ == '__main__':
+    filter = 'ip'
+    main(filter)
+```
+
+```
+# from scapy.all import *
+
+# protocols = {1:'ICMP', 6:'TCP', 17:'UDP'}
+
+# def showpacket(packet):
+    # src_ip = packet[0][1].src
+    # dst_ip = packet[0][1].dst
+    # proto = packet[0][1].proto
+    # if proto in protocols:
+        # print('PROTOCOL: %s: %s -> %s' %(protocols[proto], src_ip, dst_ip))
+
+# def main(filter):
+    # sniff(filter=filter, prn=showpacket, count=1)
+    
+# if __name__ == '__main__':
+    # filter = 'ip'
+    # main(filter)
+```
