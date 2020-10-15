@@ -130,5 +130,12 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination <공격
 ### IP 스푸핑으로 피싱 사이트 유도하기
 ---
 
+* **IP 스푸핑을 통해 수행되는 공격**
+* Syn Flooding 공격
+* 커넥션 가로채기
+* 순서제어번호 추측 공격
+* 접속 끊기 공격
+{: .notice}
 
+IP 주소를 위조하여 Ping을 보내보자.
 {: .notice}
