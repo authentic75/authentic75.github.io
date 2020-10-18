@@ -126,41 +126,54 @@ Connection:
 
 | 응답 헤더 | 설명 |  
 | --------- | ---------------------------------- |   
-| Accept-Ranges | 부분 콘턴츠 범위를 지웒나는 단위(보통 바이트) |  
-| Age | 리소스 객체가 프록시 캐시에 머물고 있던 시간(초) |  
-| Cache-Control | 서버가 전송한 내용을 클라이언트가 캐시할 시간(초) |  
-| Connection | 현재 연결에 대한 제어 옵션 |  
-| Content-Encoding | 응답 데이터 인코딩 타입 |  
-| Content-Length | 응답 데이터 크기(바이트) |  
-| Content-Range | 전송한 데이터가 부분일 경우 전체에서 차지하는 범위 |  
-| Content-Type | 전송한 데이터의 MIME 타입 |  
-| Date | 응답 메세지가 생성된 날짜와 시간 |  
-| Etag | 특정 리소스의 ID, 보통 해시 값으로 지정 |  
-| Expire | 응답 데이터의 만료 시간 (날짜, 시간) |  
-| Location | 리다이렉션 할 위치 |  
-| Server | 웹 서버 이름 |  
-| Set-Cookie | HTTP 쿠키 |  
-| WWW-Authenticate | 요청 데이터에 접근하기 위한 인증 방법 |   
+| Accept-Ranges | 부분 콘턴츠 범위를 지웒나는 단위(보통 바이트) |   
+| Age | 리소스 객체가 프록시 캐시에 머물고 있던 시간(초) |    
+| Cache-Control | 서버가 전송한 내용을 클라이언트가 캐시할 시간(초) |   
+| Connection | 현재 연결에 대한 제어 옵션 |    
+| Content-Encoding | 응답 데이터 인코딩 타입 |   
+| Content-Length | 응답 데이터 크기(바이트) |   
+| Content-Range | 전송한 데이터가 부분일 경우 전체에서 차지하는 범위 |   
+| Content-Type | 전송한 데이터의 MIME 타입 |   
+| Date | 응답 메세지가 생성된 날짜와 시간 |   
+| Etag | 특정 리소스의 ID, 보통 해시 값으로 지정 |   
+| Expire | 응답 데이터의 만료 시간 (날짜, 시간) |   
+| Location | 리다이렉션 할 위치 |   
+| Server | 웹 서버 이름 |   
+| Set-Cookie | HTTP 쿠키 |   
+| WWW-Authenticate | 요청 데이터에 접근하기 위한 인증 방법 |    
 
 주요 상태 코드
 {: .notice--info}
 
-| Code | 설명 |    
-| --------- | ---------------------------------- |    
-| 200(OK) | HTTP 요청에 대한 응답 성공 |  
-| 301(Moved Permanently) | 앞으로는 지금 응답한 URI로 계속 요청해야 함 |    
-| 304(Not Modified) | HTTP 요청에 If-Modified-Since 헤더가 지정된 경우, 리소스가 수정되지 않았음을 알려줌 |    
+| Code | 설명 |     
+| --------- | ---------------------------------- |     
+| 200(OK) | HTTP 요청에 대한 응답 성공 |   
+| 301(Moved Permanently) | 앞으로는 지금 응답한 URI로 계속 요청해야 함 |     
+| 304(Not Modified) | HTTP 요청에 If-Modified-Since 헤더가 지정된 경우, 리소스가 수정되지 않았음을 알려줌 |     
 | 307(Temporarily Redirect) | 응답한 URI로 임시 요청함 |    
-| 400(Bad Request) | HTTP 요청이 잘못됨 |  
-| 401(Unauthorized) | 인증이 되지 않음. WWW-Authenticate 헤더로 방법을 알려줌 |  
-| 403(Forbidden) | 요청한 리소스에 접근 권한 없음 |  
-| 404(Not Found) | 요청한 리소스가 존재하지 않음 |  
-| 405(Method Not Allowed) | 허용되지 않은 메소드를 사용했음 |  
-| 500(Internal Server Error) | 서버 내부 요류로 인한 응답 실패 |  
+| 400(Bad Request) | HTTP 요청이 잘못됨 |   
+| 401(Unauthorized) | 인증이 되지 않음. WWW-Authenticate 헤더로 방법을 알려줌 |   
+| 403(Forbidden) | 요청한 리소스에 접근 권한 없음 |   
+| 404(Not Found) | 요청한 리소스가 존재하지 않음 |   
+| 405(Method Not Allowed) | 허용되지 않은 메소드를 사용했음 |   
+| 500(Internal Server Error) | 서버 내부 요류로 인한 응답 실패 |   
  
+---
+### 쿠키 조작하기
+---
 
+---
+#### 쿠키 스니퍼
+---
 
+---
+#### 쿠키 스푸핑
+---
 
+---
+### 웹 링크 크롤러 
+---
 
-
-
+---
+### 서버 스캔
+---
