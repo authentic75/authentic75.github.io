@@ -185,7 +185,7 @@ if __name__ == '__main__':
 #### 쿠키 스푸핑
 ---
 
-```
+```python
 from urllib.reqeust import urlopen, Request
 user_agent = 'Mozilla/5.0 ~~~ '
 cookie = '~~~~~'  #조작하려는 쿠키 문자열
