@@ -55,10 +55,65 @@ Host:www.site.com(CRLF)(CRLF)
 {: .notice}
 
 ```
-#HTTP 요청
+#HTTP 응답
 HTTP-Version Status-Code Reason-Phrase(CRLF)
 HTTP-Headers(CRLF)(CRLF)
 
 Body
 ```
+
+콜론을 통해 헤더와 값을 구분한다.
+{: .notice}
+
+```
+#응답 메세지 예시
+HTTP/1.1 200 OK
+Date:
+Server:
+Last-Modified:
+ETag:
+Content-Type:
+Content-Length:
+Accept-Ranges:
+Connection:
+
+<html>
+...
+
+</html>
+```
+
+---
+### HTTP/1.1 스펙의 일부를 살펴보자
+---
+
+| 메소드 | 설명 |  
+| ---- | ----------------------------- |  
+| GET | 지정된 리소스 요청 |
+| POST | 웹 서버에 저장하거나 업데이트 할 데이터를 전송 |
+| HEAD | 응답 헤더만 전송 요청 |
+| PUT | 지정된 리소스를 생성하거나 업데이트 |
+| DELETE | 지정된 리소스를 삭제 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
