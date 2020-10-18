@@ -209,6 +209,171 @@ if __name__=='__main__':
 ### 웹 링크 크롤러 
 ---
 
+```python
+from urllib.request import urlopen, Request
+import re
+import sys
+
+user_agent='Mozilla/0.5\(compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0)like Gecko'
+href_links = []
+
+def getLinks(doc, home, parent):
+    global href_links
+    href_pattern = [r'href=\S+"',r'href=\S+ ', r'href=\S+\'']
+    tmp_urls = []
+    
+    for n in range(len(href_pattern)):
+        tmp_urls += re.findall(href_pattern[n], doc, re.I)
+        
+    for url in tmp_urls:
+        url = url.strip()
+        url = url.replace('\'', '"')
+        if url[-1] is ' ' or url.find('"') is -1:
+            url = url.split('=')[1]
+        else:
+            url = url.split('"')[1]
+        if len(url) is 0:
+            continue
+           
+        if url.find('http://') is -1:
+            if url[0] == '/':
+                url = home + url
+            elif url[:2] == './':
+                url = 'http://' + parent + url[1:]
+            else:
+                url = 'http://' + parent + '/' + url
+                
+        if url in href_links:
+            continue
+         
+        if '.html' not in url:
+            href_links.append(url)
+            continue
+            
+        runCrawler(home, url)
+        
+def readHtml(url):
+    try:
+        req = Request(url)
+        req.add_header('User-Agent', user_agent)
+        h = urlopen(req)
+        doc = h.read()
+        h.close()
+    except Exception as e:
+        print('ERROR: %s' %url)
+        print(e)
+        return None
+    return doc.decode()
+   
+def runCrawler(home, url):
+    global href_links
+    href_links.append(url)
+    print('GETTING ALL LINKS in [%s]' %url)
+    try:
+        doc = readHtml(url)
+        if doc is None:
+            return
+            
+        tmp = url.split('/')
+        parent = '/'.join(tmp[2:-1])
+        getLinks(doc, home, parent)
+    except KeyboardInterrupt:
+        print('Terminated by USER..Saving Crawled Links')
+        finalize()
+        sys.exit(0)
+    return
+    
+def finalize():
+    with open('crawled_links.txt', 'w+') as f:
+        for href_link in href_links:
+            f.write(href_link+'\n')
+    print('+++ CRAWLED TOTAL href_links: [%s]' %len(href_links))
+    
+def main():
+    targeturl = 'http://www.bickbang.com'
+    home = 'http://' + targeturl.split('/')[2]
+    print('+++ WEB LINK CRAWLER START > [%s]' %targeturl)
+    runCrawler(home, targeturl)
+    finalize()
+    
+if __name__=='__main__':
+    main()
+```
+
 ---
 ### 서버 스캔
 ---
+
+```python
+from urllib.request import urlopen, Request, URLError, quote
+from queue import Queue
+from threading import Thread
+
+user_agent='Mozilla/0.5 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko'
+
+def webScanner(q, targethost, exts):
+    while no q.empty():
+        scanlist = []
+        toscan = q.get()
+        if '.' in toscan: #FILE
+            scanlist.append('%s' toscan)
+            for ext in exts:
+                scanlist.append('%s%s' %(toscan, ext))
+        else: #DIR
+            scanlist.append('%s/' %toscan)
+            
+        for toscan in scanlist:
+            url = '%s/%s' %(targethost, quote(toscan))
+            try:
+                req = Request(url)
+                req.add_header('User-Agent', user_agent)
+                res = urlopen(req)
+                if len(res.read()):
+                    print('[%d]: %s' %(res.code, url))
+                res.close()
+            except URLError as e:
+                pass
+                
+def main ():
+    targethost = 'http://172.21.70.227'
+    wordlist = './all.txt'
+    exts = ['-', '-1', '.back', '.bak', '.old', '.orig', '_backup']
+    q = Queue()
+    
+    with open(wordlist, 'rt') as f:
+        words = f.readlines()
+        
+   for word in words:
+    word = word.rstrip()
+    q.put(word)
+    
+    print('+++[%s] SCANNING START..' %targethost)
+    for i in range(50):
+        t = Thread(target = webScanner, args=(q, targethost, exts))
+        t.start()
+        
+ if __name__ == '__main__':
+    main()
+```
+
+---
+### 웹 인증 크래킹
+---
+
+사용자의 권한을 체크하는 보편적인 방법은 사용자 아이디와 패스워드를 통한 인증이다. 하지만 웹사이트마다 인증을 위해 적용되는 기술적 방법이나 보안 수준은 다양하다.
+{: .notice}
+
+웹 기본 인증: 가장 단순한 형태의 인증 방식, 웹 브라우저가 웹 서버로 제한된 리소스를 요청하면, 웹 서버는 WWW-Authenticate 헤더에 인증 방식을 지정하고 401 Unauthorized 오류 코드로 응답한다.
+401 응답을 받은 웹 브라우저는 사용자에게 팝업 창을 띄워 사용자 아이디와 패스워드를 입력하게 하고 사용자의 아이디와 패스워드를 Base64로 인코딩하여 Authorization 헤더에 담아 웹 서버로 전송한다.
+웹 서버는 웹 브라우저로부터 전달 받은 사용자 아이디와 패스워드를 이용해 인증을 수행하고 성공하면 200 응답 코드와 함께 요청한 리소스를 제공한다.
+{: .notice}
+
+웹 다이제스트 인증: 웹 기본 인증과 프로세스는 비슷하나 웹 브라우저에서 구성하는 Authorization 헤더에 담길 내용을 사용자 아이디와 패스워드를 MD5 해시 값으로 변환하여 전송한다.
+Authorization의 값이 MD5 해시 값으로 되어 있기 때문에 디코딩은 원천적으로 불가능하지만 이 해시 값 자체를 가로채서 그대로 재활용하면 문제가 될 수 있다.
+{: .notice}
+
+폼 기반 인증: 웹페이지에 사용자 아이디와 패스워드를 입력 할 수 있는 양식에 아이디 패스워드를 입력하고 로그인 버튼을 눌러서 웹 서버로 인증 정보를 전달하는 형태다.
+HTML의 form 태그와 input 태그를 이용하여 양식을 만들고 구현 한다. 데이터를 입력하면 HTTP나 HTTPS의 Get 또는 Post 메소드를 이용해 웹 서버로 인증을 요청하게 된다.
+{: .notice}
+{: .notice}
+{: .notice}
