@@ -19,7 +19,7 @@ read_time: false
 ---
 ### 구분자로 나누어서 리스트로 만들기
 ---
-```
+```python
 mystring = "The quick brown fox" 
 mylist = mystring.split(' ') 
 print(mylist) 
@@ -29,12 +29,12 @@ print(mylist)
 ---
 ### 리스트로 문자열 만들기
 ---
-```
+```python
 >>> a = ['abc', 'def', 'ghi']
 >>> print(''.join(a))
 abcdefghi
 ```
-```
+```python
 #숫자인 경우
 >>> a = [1,2,2,3]
 >>> print(''.join(map(str,a)))
@@ -44,7 +44,7 @@ abcdefghi
 ---
 ### 가장 빈번하게 등장한 요소 찾기
 ---
-```
+```python
 >>> from collections import Counter
 >>> cnt = Counter(a)
 >>> print(cnt.most_common(3))
@@ -53,7 +53,7 @@ abcdefghi
 [(1, 5)]
 >>>
 ```
-```
+```python
 test = [1,2,3,4,2,2,3,1,4,4,4] 
 print(max(set(test), key=test.count))
 #4
@@ -63,7 +63,7 @@ print(max(set(test), key=test.count))
 ### 리스트의 단순 복사, 얕은 복사
 ---
 
-```
+```python
 # 단순복사
 >>> a = [1, 2, [3, 4]]
 >>> b = a
@@ -75,7 +75,7 @@ print(max(set(test), key=test.count))
 >>> a
 [10, 2, [3, 4]] #b의 내용을 바꾸는 순간 a도 바뀐다
 ```
-```
+```python
 # 얕은 복사 - 1
 >>> a = [1, 2, [3, 4]]
 >>> b = a[:]
@@ -85,7 +85,7 @@ print(max(set(test), key=test.count))
 >>> a
 [1, 2, [3, 4]] #a의 내용 그대로
 ```
-```
+```python
 # 얕은 복사 - 2
 >>> a = [1, 2, [3, 4]]
 >>> b = a.copy()
@@ -99,7 +99,7 @@ print(max(set(test), key=test.count))
 ### 리스트를 컴마로 구분한 문자열로 만들기
 ---
 
-```
+```python
 >>> li = [1,2,3,4]
 >>> ','.join(str(i) for i in li)
 '1,2,3,4'
@@ -110,7 +110,7 @@ print(max(set(test), key=test.count))
 ---
 ### 리스트의 가장 작은, 가장 큰 값의 index 얻기
 ---
-```
+```python
 # 가장 작은 값의 index
 >>> li = [10,20,30,40]
 >>> def min_index(li):
@@ -128,12 +128,12 @@ print(max(set(test), key=test.count))
 ---
 ### 리스트에서 중복 값 제거하기
 ---
-```
+```python
 >>> li = [1,2,3,1,2,3,4]
 >>> list(set(li))
 [1, 2, 3, 4]
 ```
-```
+```python
 >>> from collections import OrderedDict
 >>> list(OrderedDict.fromkeys(li).keys())
 [1, 2, 3, 4]
@@ -145,19 +145,19 @@ print(max(set(test), key=test.count))
 ### 문자열, 리스트 거꾸로 출력하기
 ---
 
-```
+```python
 >>> a = 'abcdefghijklmnopqrstuvwxyz'
 >>> print(a[::-1])
 zyxwvutsrqponmlkjihgfedcba
 ```
-```
+```python
 >>> num = 123456789
 >>> print(int(str(num)[::-1]))
 987654321
 >>>
 ```
 
-```
+```python
 >>> for char in reversed(a):
 ...     print(char)
 ...
@@ -170,7 +170,7 @@ u
 t
 <<생략>>
 ```
-```
+```python
 >>> a = [1,3,3,5,7]
 >>> a[::-1]
 [7, 5, 3, 3, 1]
@@ -179,7 +179,7 @@ t
 ---
 ### 문자열 맨 앞글자 대문자로 바꾸기
 ---
-```
+```python
 mystring = "10 awesome python tricks" 
 print(mystring.title()) 
 '10 Awesome Python Tricks'
@@ -188,7 +188,7 @@ print(mystring.title())
 ---
 ### format 함수
 ---
-```
+```python
 >>> print("{:*<20}".format("Mint"))
 Mint****************
 >>> print("{:*^20}".format("Mint"))
@@ -199,7 +199,7 @@ Mint****************
 ---
 ### 문자열 구성 파악하기 
 ---
-```
+```python
 isalnum( ): 문자열이 알파벳 또는 숫자로만 구성되어 있는지 확인
 isalpha( ): 문자열이 알파벳으로만 구성되어 있는지 확인
 isidentifier( ): 문자열이 식별자로 사용할 수 있는 것인지 확인
@@ -217,7 +217,7 @@ isupper( ): 문자열이 대문자로만 구성되어 있는지 확인
 ### 단어의 순서 상관 없이 비교하기
 ---
 
-```
+```python
 >>> from collections import Counter
 >>> str1 = 'bake'
 >>> str2 = 'kabe'
@@ -231,7 +231,7 @@ True
 ---
 ### 딕셔너리 요소 얻기
 ---
-```
+```python
 >>> dic = {'a': 1, 'b':2}
 >>> dic.get('a')
 1
@@ -242,7 +242,7 @@ True
 ---
 ### 값으로 딕셔너리 정렬하기
 ---
-```
+```python
 # 값으로 정렬하기 - 1 
 >>> dic = {'a': 4, 'b':3, 'c':2, 'd':1}
 >>> print(sorted(dic))
@@ -252,13 +252,13 @@ True
 >>> print(sorted(dic.items(), key=lambda x:x[1]))
 [('d', 1), ('c', 2), ('b', 3), ('a', 4)]
 ```
-```
+```python
 # 값으로 정렬하기 - 2
 >>> from operator import itemgetter
 >>> sorted(dic.items(), key=itemgetter(1))
 [('d', 1), ('c', 2), ('b', 3), ('a', 4)]
 ```
-```
+```python
 # 값으로 정렬하기 - 3
 >>> sorted(dic, key=dic.get)
 ['d', 'c', 'b', 'a']
@@ -267,7 +267,7 @@ True
 ---
 ### 딕셔너리 합치기
 ---
-```
+```python
 >>> dic1 = {'a':1}
 >>> dic2 = {'b':2}
 >>> {**dic1, **dic2}
@@ -283,7 +283,7 @@ dic2 = {'a':2}
 ---
 ### 변수 값 swap
 ---
-```
+```python
 >>> a, b = 1, 10
 >>> print(a,b)
 1 10
@@ -295,7 +295,7 @@ dic2 = {'a':2}
 ---
 ### 람다 함수
 ---
-```
+```python
 >>> g = lambda x: x**2
 >>> print(g(8))
 64
@@ -309,7 +309,7 @@ dic2 = {'a':2}
 ---
 ### 연쇄 비교
 ---
-```
+```python
 >>> a = 10
 >>> 5 < a < 50
 True
@@ -319,7 +319,7 @@ True
 ---
 ### 연쇄 함수 호출
 ---
-```
+```python
 >>> def product(a, b):
 ...     return a * b
 
@@ -336,24 +336,24 @@ True
 ---
 ### 삼항 조건 연산자
 ---
-```
+```python
 con = True
 if con:
 	x = 1
 else:
 	x = 0
 ```
-```
+```python
 x = 1 if con else 0
 ```
-```
+```python
 x = "Success!" if (y == 2) else "Failed!"
 ```
 
 ---
 ### 여러 값을 반환하는 함수
 ---
-```
+```python
 def test():
    a = 1
    b = 2
@@ -364,7 +364,7 @@ v1, v2 = test()
 ---
 ### 언더스코어 사용하기
 ---
-```
+```python
 // ex1
 a, b, _ = (1,2,3)
 // ex2
@@ -374,7 +374,7 @@ for _ in range(5):
 ---
 ### 2차원행렬의 전치행렬 구하기(행과 열 바꾸기)
 ---
-```
+```python
 >>> array2d = [[1,2], [3,4], [5,6]]
 >>> transposed = list(zip(*array2d))
 >>> transposed
@@ -384,7 +384,7 @@ for _ in range(5):
 ---
 ### For와 Else (For문이 다 돌아간 경우 실행)
 ---
-```
+```python
 >>> for ele in [1,2,3,4]:
 ...     if ele > 4:
 ...         break
@@ -401,7 +401,7 @@ for _ in range(5):
 ---
 ### enumerate()
 ---
-```
+```python
 a = ['a','b','c']
 for idx, data in enumerate(a): print(idx, data)
 // 0 a
@@ -411,7 +411,7 @@ for idx, data in enumerate(a): print(idx, data)
 ---
 ### zip()
 ---
-```
+```python
 a = [1,2,3]
 b = [4,5,6]
 >>> for i,j in zip(a,b): print(i,j)
@@ -422,7 +422,7 @@ b = [4,5,6]
 ---
 ### map()
 ---
-```
+```python
 def upper(s): 
 return s.upper() 
 
@@ -434,7 +434,7 @@ list_of_ints = list(map(int, "1234567")))
 print(list_of_ints) 
 # [1, 2, 3, 4, 5, 6, 7]
 ```
-```
+```python
 >>> a = [1,2,3,4]
 >>> b = [17,12,11,10]
 >>> list(map(lambda x,y: x+y, a,b))
@@ -443,7 +443,7 @@ print(list_of_ints)
 ---
 ### filter()
 ---
-```
+```python
 >>> foo = [2, 18, 9, 22, 17, 24, 8, 12, 27]
 >>> list( filter(lambda x: x % 3 == 0, foo) )
 [18, 9, 24, 12, 27]
@@ -452,7 +452,7 @@ print(list_of_ints)
 ---
 ### dir()로 객체가 가진 변수와 메소드 보는 법
 ---
-```
+```python
 >>> dir(datetime)
 ['__add__', '__class__', '__delattr__', '__dir__', ... ,"tzinfo", ...]
 ```
@@ -460,7 +460,7 @@ print(list_of_ints)
 ---
 ### find(), rfind()
 ---
-```
+```python
 output_a = '안녕안녕하세요'.find('안녕') # 왼쪽에서부터 찾음
 print(output_a)
 
@@ -473,23 +473,19 @@ print(output_b)
 ---
 ### chr(), ord()
 ---
-```
+```python
 print chr(65)
 #A
-
 print chr(100)
 #d
-
 print chr(126)
 #~
 ```
-```
+```python
 print ord('A')
 #65
-
 print ord('d')
 #100
-
 print ord('~')
 #126
 ```
