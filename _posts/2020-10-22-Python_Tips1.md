@@ -12,16 +12,18 @@ toc_sticky: true
 author_profile: true 
 read_time: false 
 ---
+
 ---
-### 변수 값 swap
+## 리스트
+---
+---
+### 구분자로 나누어서 리스트로 만들기
 ---
 ```
->>> a, b = 1, 10
->>> print(a,b)
-1 10
->>> a,b = b, a
->>> print(a,b)
-10 1
+mystring = "The quick brown fox" 
+mylist = mystring.split(' ') 
+print(mylist) 
+# ['The', 'quick', 'brown', 'fox']
 ```
 
 ---
@@ -55,92 +57,6 @@ abcdefghi
 test = [1,2,3,4,2,2,3,1,4,4,4] 
 print(max(set(test), key=test.count))
 #4
-```
-
----
-### 단어의 순서 상관 없이 비교하기
----
-
-```
->>> from collections import Counter
->>> str1 = 'bake'
->>> str2 = 'kabe'
->>> Counter(str1)
-Counter({'b': 1, 'a': 1, 'k': 1, 'e': 1})
->>> Counter(str1) == Counter(str2)
-True
->>>
-```
-
----
-### 문자열, 리스트 거꾸로 출력하기
----
-
-```
->>> a = 'abcdefghijklmnopqrstuvwxyz'
->>> print(a[::-1])
-zyxwvutsrqponmlkjihgfedcba
-```
-```
->>> num = 123456789
->>> print(int(str(num)[::-1]))
-987654321
->>>
-```
-```
->>> for char in reversed(a):
-...     print(char)
-...
-z
-y
-x
-w
-v
-u
-t
-<<생략>>
-```
-```
->>> a = [1,3,3,5,7]
->>> a[::-1]
-[7, 5, 3, 3, 1]
->>>
-```
----
-### 2차원행렬의 전치행렬 구하기(행과 열 바꾸기)
----
-```
->>> array2d = [[1,2], [3,4], [5,6]]
->>> transposed = list(zip(*array2d))
->>> transposed
-[(1, 3, 5), (2, 4, 6)]
-```
----
-### 연쇄 비교
----
-```
->>> a = 10
->>> 5 < a < 50
-True
->>> 10 == a <= 10
-True
-```
----
-### 연쇄 함수 호출
----
-```
->>> def product(a, b):
-...     return a * b
-
->>> def add(a, b):
-...     return a + b
-
->>> i = True
->>> (product if i else add)(5, 7)
-35
->>> i = False
->>> (product if i else add)(5, 7)
-12
 ```
 
 ---
@@ -178,6 +94,138 @@ True
 [10, 2, [3, 4]]
 >>> a
 [1, 2, [3, 4]] #a의 내용 그대로
+```
+---
+### 리스트를 컴마로 구분한 문자열로 만들기
+---
+
+```
+>>> li = [1,2,3,4]
+>>> ','.join(str(i) for i in li)
+'1,2,3,4'
+>>> li = [1,'two',3,'four']
+>>> ','.join(str(i) for i in li)
+'1,two,3,four'
+```
+---
+### 리스트의 가장 작은, 가장 큰 값의 index 얻기
+---
+```
+# 가장 작은 값의 index
+>>> li = [10,20,30,40]
+>>> def min_index(li):
+...     return min(range(len(li)), key=li.__getitem__)
+...
+>>> min_index(li)
+0
+# 가장 큰 값의 index
+>>> def max_index(li):
+...     return max(range(len(li)), key=li.__getitem__)
+...
+>>> max_index(li)
+3
+```
+---
+### 리스트에서 중복 값 제거하기
+---
+```
+>>> li = [1,2,3,1,2,3,4]
+>>> list(set(li))
+[1, 2, 3, 4]
+```
+```
+>>> from collections import OrderedDict
+>>> list(OrderedDict.fromkeys(li).keys())
+[1, 2, 3, 4]
+```
+---
+## 문자열
+---
+---
+### 문자열, 리스트 거꾸로 출력하기
+---
+
+```
+>>> a = 'abcdefghijklmnopqrstuvwxyz'
+>>> print(a[::-1])
+zyxwvutsrqponmlkjihgfedcba
+```
+```
+>>> num = 123456789
+>>> print(int(str(num)[::-1]))
+987654321
+>>>
+```
+
+```
+>>> for char in reversed(a):
+...     print(char)
+...
+z
+y
+x
+w
+v
+u
+t
+<<생략>>
+```
+```
+>>> a = [1,3,3,5,7]
+>>> a[::-1]
+[7, 5, 3, 3, 1]
+>>>
+```
+---
+### 문자열 맨 앞글자 대문자로 바꾸기
+---
+```
+mystring = "10 awesome python tricks" 
+print(mystring.title()) 
+'10 Awesome Python Tricks'
+```
+
+---
+### format 함수
+---
+```
+>>> print("{:*<20}".format("Mint"))
+Mint****************
+>>> print("{:*^20}".format("Mint"))
+********Mint********
+>>> print("{:*>20}".format("Mint"))
+****************Mint
+```
+---
+### 문자열 구성 파악하기 
+---
+```
+isalnum( ): 문자열이 알파벳 또는 숫자로만 구성되어 있는지 확인
+isalpha( ): 문자열이 알파벳으로만 구성되어 있는지 확인
+isidentifier( ): 문자열이 식별자로 사용할 수 있는 것인지 확인
+isdecimal( ): 문자열이 정수 형태인지 확인
+isdigit( ): 문자열이 숫자로 인식될 수 있는 것인지 확인
+isspace( ): 문자열이 공백으로만 구성되어 있는지 확인
+islower( ): 문자열이 소문자로만 구성되어 있는지 확인
+isupper( ): 문자열이 대문자로만 구성되어 있는지 확인
+```
+
+---
+## 딕셔너리
+---
+---
+### 단어의 순서 상관 없이 비교하기
+---
+
+```
+>>> from collections import Counter
+>>> str1 = 'bake'
+>>> str2 = 'kabe'
+>>> Counter(str1)
+Counter({'b': 1, 'a': 1, 'k': 1, 'e': 1})
+>>> Counter(str1) == Counter(str2)
+True
+>>>
 ```
 
 ---
@@ -217,32 +265,6 @@ True
 ```
 
 ---
-### For와 Else (For문이 다 돌아간 경우 실행)
----
-```
->>> for ele in [1,2,3,4]:
-...     if ele > 4:
-...         break
-...
-...
-... else:
-...     print('5 이상인 숫자 없음')
-```
-
----
-### 리스트를 컴마로 구분한 문자열로 만들기
----
-
-```
->>> li = [1,2,3,4]
->>> ','.join(str(i) for i in li)
-'1,2,3,4'
->>> li = [1,'two',3,'four']
->>> ','.join(str(i) for i in li)
-'1,two,3,four'
-```
-
----
 ### 딕셔너리 합치기
 ---
 ```
@@ -255,37 +277,61 @@ dic2 = {'a':2}
 >>> {***dic1, **dic2}
 {'a': 2}
 ```
+---
+## 연산, 함수
+---
+---
+### 변수 값 swap
+---
+```
+>>> a, b = 1, 10
+>>> print(a,b)
+1 10
+>>> a,b = b, a
+>>> print(a,b)
+10 1
+```
 
 ---
-### 리스트의 가장 작은, 가장 큰 값의 index 얻기
+### 람다 함수
 ---
 ```
-# 가장 작은 값의 index
->>> li = [10,20,30,40]
->>> def min_index(li):
-...     return min(range(len(li)), key=li.__getitem__)
-...
->>> min_index(li)
-0
-# 가장 큰 값의 index
->>> def max_index(li):
-...     return max(range(len(li)), key=li.__getitem__)
-...
->>> max_index(li)
-3
+>>> g = lambda x: x**2
+>>> print(g(8))
+64
+>>>
+>>> f = lambda x, y: x + y
+>>> print(f(4, 4))
+8
+>>>
 ```
+
 ---
-### 리스트에서 중복 값 제거하기
+### 연쇄 비교
 ---
 ```
->>> li = [1,2,3,1,2,3,4]
->>> list(set(li))
-[1, 2, 3, 4]
+>>> a = 10
+>>> 5 < a < 50
+True
+>>> 10 == a <= 10
+True
 ```
+---
+### 연쇄 함수 호출
+---
 ```
->>> from collections import OrderedDict
->>> list(OrderedDict.fromkeys(li).keys())
-[1, 2, 3, 4]
+>>> def product(a, b):
+...     return a * b
+
+>>> def add(a, b):
+...     return a + b
+
+>>> i = True
+>>> (product if i else add)(5, 7)
+35
+>>> i = False
+>>> (product if i else add)(5, 7)
+12
 ```
 ---
 ### 삼항 조건 연산자
@@ -303,6 +349,55 @@ x = 1 if con else 0
 ```
 x = "Success!" if (y == 2) else "Failed!"
 ```
+
+---
+### 여러 값을 반환하는 함수
+---
+```
+def test():
+   a = 1
+   b = 2
+   return a, b
+
+v1, v2 = test()
+```
+---
+### 언더스코어 사용하기
+---
+```
+// ex1
+a, b, _ = (1,2,3)
+// ex2
+for _ in range(5):
+```
+
+---
+### 2차원행렬의 전치행렬 구하기(행과 열 바꾸기)
+---
+```
+>>> array2d = [[1,2], [3,4], [5,6]]
+>>> transposed = list(zip(*array2d))
+>>> transposed
+[(1, 3, 5), (2, 4, 6)]
+```
+
+---
+### For와 Else (For문이 다 돌아간 경우 실행)
+---
+```
+>>> for ele in [1,2,3,4]:
+...     if ele > 4:
+...         break
+...
+...
+... else:
+...     print('5 이상인 숫자 없음')
+```
+
+---
+## 그 외, 함수들
+---
+
 ---
 ### enumerate()
 ---
@@ -353,26 +448,7 @@ print(list_of_ints)
 >>> list( filter(lambda x: x % 3 == 0, foo) )
 [18, 9, 24, 12, 27]
 ```
----
-### 여러 값을 반환하는 함수
----
-```
-def test():
-   a = 1
-   b = 2
-   return a, b
 
-v1, v2 = test()
-```
----
-### 언더스코어 사용하기
----
-```
-// ex1
-a, b, _ = (1,2,3)
-// ex2
-for _ in range(5):
-```
 ---
 ### dir()로 객체가 가진 변수와 메소드 보는 법
 ---
@@ -380,47 +456,7 @@ for _ in range(5):
 >>> dir(datetime)
 ['__add__', '__class__', '__delattr__', '__dir__', ... ,"tzinfo", ...]
 ```
----
-### 문자열 맨 앞글자 대문자로 바꾸기
----
-```
-mystring = "10 awesome python tricks" 
-print(mystring.title()) 
-'10 Awesome Python Tricks'
-```
----
-### 구분자로 나누어서 리스트로 만들기
----
-```
-mystring = "The quick brown fox" 
-mylist = mystring.split(' ') 
-print(mylist) 
-# ['The', 'quick', 'brown', 'fox']
-```
----
-### format 함수
----
-```
->>> print("{:*<20}".format("Mint"))
-Mint****************
->>> print("{:*^20}".format("Mint"))
-********Mint********
->>> print("{:*>20}".format("Mint"))
-****************Mint
-```
----
-### 문자열 구성 파악하기 
----
-```
-isalnum( ): 문자열이 알파벳 또는 숫자로만 구성되어 있는지 확인
-isalpha( ): 문자열이 알파벳으로만 구성되어 있는지 확인
-isidentifier( ): 문자열이 식별자로 사용할 수 있는 것인지 확인
-isdecimal( ): 문자열이 정수 형태인지 확인
-isdigit( ): 문자열이 숫자로 인식될 수 있는 것인지 확인
-isspace( ): 문자열이 공백으로만 구성되어 있는지 확인
-islower( ): 문자열이 소문자로만 구성되어 있는지 확인
-isupper( ): 문자열이 대문자로만 구성되어 있는지 확인
-```
+
 ---
 ### find(), rfind()
 ---
@@ -457,19 +493,7 @@ print ord('d')
 print ord('~')
 #126
 ```
----
-### 람다 함수
----
-```
->>> g = lambda x: x**2
->>> print(g(8))
-64
->>>
->>> f = lambda x, y: x + y
->>> print(f(4, 4))
-8
->>>
-```
+
 
 
 
